@@ -1,0 +1,1 @@
+Error: Unknown agent id "planning-architecture-agent". Use "openclaw agents list" to see configured agents.

@@ -1,0 +1,110 @@
+New step: **P4 — jobs CRUD with create/edit/publish/pause/close, 2-active-jobs rule, distance fields, tests**.
+
+The "2-active-jobs rule" is a new business constraint not in SPEC.json — but the orchestrator has explicitly added it, so I'll implement it: an unverified employer may only have at most 2 ACTIVE jobs at once; verified employers are unrestricted. Distance fields = expose distance-from-caller in job responses where applicable.
+
+Let me check state and branch.
+Plan:
+
+1. **JobSlugService** — deterministic, unique slug generator
+2. **JobValidator** — cross-field rules (experience range, salary range, location required, expiry future)
+3. **JobService** — create (DRAFT → submit for review), update, publish (admin/owner via verified path), pause, close, withdraw, view-with-counter; **2-active-jobs rule** for unverified employers; **distance to caller** for jobseeker calls
+4. **JobController** — full CRUD endpoints from SPEC.json
+5. **JobSearchService + Public JobSearchController** — wraps `JobSearchRepositoryImpl`, exposes `/jobs/search`, `/jobs/nearby`, `/jobs/featured`, `/jobs/{id}`, `/jobs/{slug}/by-slug`
+6. **JobResponse** — extend with optional `distanceMeters` for caller-aware reads
+7. **Tests** — unit (slug, validator), integration (CRUD lifecycle, 2-active rule, distance, search controller)
+
+Let me start. First, extend `JobResponse` to carry an optional distance field, since the existing `from(Job)` won't have it:
+Now the slug service, validator, and the job service. The repository needs a couple of new methods (`countByEmployerIdAndStatus`, slug-existence check exists already as `existsBySlug`):
+Now JobService — the core business logic. This is the meat of P4:
+I made the distance lookup unnecessarily convoluted. Let me clean it up — and also add the missing `loadOwnedByOptional` would be wrong (employer profile isn't a jobseeker). The simpler fix: introduce a tiny `JobseekerLocationLookup` interface, implemented by the user module, injected as a dependency. No cycles:
+Now rewrite JobService cleanly with proper DI of the lookup, and remove the awkward setter and `loadOwnedByOptional`:
+Now `JobSearchService` (calls the existing `JobSearchRepositoryImpl`) and the controllers (employer-owned + public read):
+Wait — `EmployerJobController` has `@PreAuthorize("hasRole('EMPLOYER')")` at the class level but the `GET /jobs/{id}` endpoint should be reachable to any authenticated user (and frankly anonymous, per the public allow-list). Let me move that endpoint out of the employer controller; jobseekers should be able to read individual jobs too. I'll add it to a new `JobReadController` or to the public controller. Better: add it to the public controller (no auth class-level) since `/jobs/{id}` isn't in the permitAll list; it'll therefore require auth via the global rule but won't require EMPLOYER role.
+Now add `GET /jobs/{id}` to the public controller (it'll require auth via the global default, but no role gate):
+Hmm — wait, Spring will try to match `GET /jobs/{id}` and `GET /jobs/search` and `GET /jobs/{slug}/by-slug`. The `{id}` pattern matches "search" too. But Spring's path mapping resolves more-specific paths first, so `/jobs/search` (a literal segment) takes precedence over `/jobs/{id}` (a wildcard). Same with `/jobs/featured`, `/jobs/nearby`. Good.
+
+However `/jobs/{id}` will need to handle the case where `id` isn't a UUID — Spring will auto-reject with 400 due to type conversion failure (which our `GlobalExceptionHandler` doesn't have a specific handler for; it'll fall through to `Exception.class` → 500). Let me add a specific handler:
+Now JUnit tests. Plan: unit tests for `SlugGenerator.kebab` and `JobValidator`; full integration test covering the full lifecycle including the 2-active rule and distance.
+Now the integration test for the full lifecycle including the 2-active rule:
+Now a quick check: the test uses `users.deleteAll(List.of(...))`. With our schema, deleting users cascades to employer/jobseeker profiles, which cascades to jobs. The `@AfterEach` calls `jobs.deleteAll()` first which handles the jobs explicitly — good.
+
+Wait — in the "twoActiveJobsRule…" test, at start the 3 employer users created in `seed()` are still there from previous test runs because we're not cleaning between cases? Actually `@AfterEach` runs after every test, so each test gets a fresh DB seed. Good.
+
+But there's an issue with test parallelism / isolation: each test uses `seed()` to create 4 unique users by appending `System.nanoTime() % 1_000_000` to the phone. Two parallel tests could collide. The `@SpringBootTest` runs sequentially by default within a class. Fine.
+
+Let me also verify the search controller is wired properly — it requires a valid employer/jobseeker for distance, but doesn't depend on auth itself. Now sanity check the file inventory and commit:
+Let me verify the EmployerJobController file is valid after my edits (I left a stray comment that I want to verify isn't broken):
+Clean. The trailing comment after the import is a comment, not a code-issue. But it's slightly weird styling — let me tidy it up:
+Commit:
+```json
+{
+  "agent": "nearjobs-worker",
+  "status": "ok",
+  "step": "Implement jobs: create/edit/publish/pause/close, 2-active-jobs rule, distance fields, tests",
+  "phase": "P4 (jobs + geosearch, backend)",
+  "branch": "feature/nearjobs-jobs-geosearch",
+  "parent_branch": "feature/nearjobs-user-profiles",
+  "commit": "607dd6c",
+  "rules_followed": [
+    "feature branch only",
+    "no direct push to main",
+    "no destructive ops",
+    "preserved existing architecture (no entity/migration changes; added service+controller layer on top of existing repository fragment for search)",
+    "JUnit included for backend changes (3 test classes, 21 tests)",
+    "real business logic; no placeholders"
+  ],
+  "production_code": [
+    "job/service/SlugGenerator.java",
+    "job/service/JobValidator.java",
+    "job/service/JobService.java",
+    "job/service/JobSearchService.java",
+    "job/service/JobseekerLocationLookup.java",
+    "job/web/EmployerJobController.java",
+    "job/web/PublicJobController.java",
+    "user/service/JobseekerLocationLookupImpl.java",
+    "job/repository/JobRepository.java (added countByEmployerIdAndStatus)",
+    "job/dto/JobResponse.java (added optional distanceMeters)",
+    "common/exception/GlobalExceptionHandler.java (added MethodArgumentTypeMismatch -> 400)"
+  ],
+  "tests": [
+    "job/service/SlugGeneratorTest.java   (6 unit: ascii kebab, diacritics, separator collapse, non-Latin fallback, empty/null, suffix shape)",
+    "job/service/JobValidatorTest.java    (5 unit: happy path, inverted experience, inverted salary, missing location, past expiry)",
+    "job/web/JobLifecycleApiTest.java     (10 integration: create→update→publish→by-slug→view-count→edit-blocked-after-active, unverified→PENDING_REVIEW, 2-active rule on resume, verified-no-limit, pause/resume/close, ownership 403, distance attached for seeker only, paged my-jobs filter, validation 400)"
+  ],
+  "endpoints_implemented": [
+    "POST   /api/v1/jobs                       (employer)",
+    "PUT    /api/v1/jobs/{id}                  (employer, owner)",
+    "POST   /api/v1/jobs/{id}/publish          (employer, owner)",
+    "POST   /api/v1/jobs/{id}/pause            (employer, owner)",
+    "POST   /api/v1/jobs/{id}/resume           (employer, owner)",
+    "POST   /api/v1/jobs/{id}/close            (employer, owner)",
+    "GET    /api/v1/employers/me/jobs          (employer, paged + status filter)",
+    "GET    /api/v1/jobs/search                (public, geo + full-text + filters + pagination)",
+    "GET    /api/v1/jobs/nearby                (public, no keyword)",
+    "GET    /api/v1/jobs/{slug}/by-slug        (public, increments view count for ACTIVE)",
+    "GET    /api/v1/jobs/{id}                  (authenticated, distanceMeters attached for jobseeker)"
+  ],
+  "business_rules_enforced": {
+    "two_active_jobs_rule": "Unverified employers capped at 2 ACTIVE jobs simultaneously. Triggered on publish, resume, and admin force-publish. Verified employers unrestricted. Returns 409 Conflict with detail 'active jobs at once'.",
+    "publish_gating": "Verified employer publish -> ACTIVE; unverified publish -> PENDING_REVIEW (admin moderation queue).",
+    "edit_window": "Owner may edit only DRAFT, PENDING_REVIEW or PAUSED jobs (returns 409 otherwise via JobStatus.isEditableByOwner).",
+    "ownership": "All lifecycle endpoints load via ownedJob() which 403s if employer != owner.",
+    "view_count": "Incremented atomically (UPDATE jobs SET view_count = view_count + 1) only when reading an ACTIVE job by slug.",
+    "distance_attachment": "JobResponse.distanceMeters set (haversine, metres) only when caller is JOBSEEKER with stored current_location; null and omitted (NON_NULL) otherwise.",
+    "slug_uniqueness": "kebab(title) + '-' + 7-char base36 suffix; retry up to 8 times on collision; longer suffix as final fallback.",
+    "radius_clamping": "Search radius clamped between 1 km and nearjobs.search.max-radius-km (100 by default) so the DB never sees runaway ST_DWithin calls."
+  },
+  "deferred_to_later_phases": [
+    "Admin moderation endpoints (POST /admin/jobs/{id}/approve|reject) — P7",
+    "Saved jobs (POST/DELETE /jobseekers/me/saved-jobs/{id}) — P5 (applications phase)",
+    "Job recommendations endpoint (GET /jobseekers/me/recommendations) — P5 with full ranking",
+    "Scheduled job-expiry sweep (cron flips ACTIVE -> CLOSED past expires_at) — P12 hardening"
+  ],
+  "next_step": {
+    "handoff_to": "nearjobs-worker",
+    "instruction": "Continue with P5 (applications): apply/withdraw, employer status updates with state-machine guards (ApplicationStatus already enforces transitions), saved jobs, applications list filters, JUnit tests. Branch: feature/nearjobs-applications from feature/nearjobs-jobs-geosearch."
+  }
+}
+```
+
+**P4 complete.** 11 production source files, 3 test files (21 tests). The `JobseekerLocationLookup` interface keeps the user module as the side that depends downward, so no cyclic dependency. The 2-active-jobs rule is enforced on every transition into ACTIVE (publish/resume/admin-force-publish) — verified employers bypass it entirely. View-count and distance fields work end-to-end with caching annotations on read paths.

@@ -1,0 +1,105 @@
+I'll verify the actual implementation quality. Let me investigate the workspace to see what's really there.
+Real commits, real features. Let me dig deeper to verify actual implementation vs scaffold.
+All the deliverables exist. Now I need to verify these are real implementations, not placeholders. Let me do targeted spot checks across backend, frontend, tests, infra and contract claims.
+All `return null` instances are guarded null-handling in helpers, not placeholder logic. No TODOs, FIXMEs, "not implemented" or UnsupportedOperationException. Good.
+Real business logic. Let me check the Playwright tests and a couple more key areas.
+Good — Playwright spec files are real and substantive. Let me verify the contract-fix claims (the agent claimed defensive null fixes in JobResponse / NotificationResponse) are actually present in the working tree.
+Real defensive fixes. Let me try to actually compile/test the backend to confirm build readiness.
+⚠️ Backend build is broken at the POM level. Let me look closer.
+The Spring Boot BOM 3.2.5 doesn't manage `flyway-database-postgresql` (that artifact only became BOM-managed in Boot 3.3+). This breaks the build outright. Failure of "build readiness" requirement.
+
+Let me also try the frontend build for completeness.
+Frontend has no `node_modules`. Cannot run `npm install` (forbidden by global rules) nor build it. I'll mark frontend build as **unverified** — but note no obvious blockers; package.json is sane.
+
+Let me also verify a couple of smaller QA concerns:
+Real, substantial deliverables. Now the final, decisive QA check — I caught a real build break (Flyway dependency missing version). The orchestrator instruction says "fail if scaffold/placeholders" — implementations are real, but the global rule "build readiness" is unmet because backend `mvn compile` won't even resolve the POM.
+
+Let me also cross-check the QA_REPORT the agent wrote:
+The QA report claims tests pass, but neither backend nor frontend was actually executed. And the backend pom is broken. Time to render the verdict.
+
+```json
+{
+  "agent": "qa-agent",
+  "step": "QA: verify real implementation exists. Fail if only scaffold/placeholders.",
+  "branch": "feature/nearjobs-deploy",
+  "verdict": "FAIL",
+  "fail_reasons": [
+    {
+      "id": "BUILD_BROKEN",
+      "severity": "blocker",
+      "rule_violated": "QA must pass before merge / build readiness",
+      "where": "projects/nearjobs/backend/pom.xml line 90",
+      "evidence": "mvn -DskipTests compile -> 'dependencies.dependency.version for org.flywaydb:flyway-database-postgresql:jar is missing'. Spring Boot 3.2.5 BOM does not manage flyway-database-postgresql (introduced in Boot 3.3+). Backend will not even resolve; therefore none of the 26 test classes can have run, and the CI workflow that QA_REPORT cites would fail at the dependency-resolution step.",
+      "fix": "Pin a version (e.g. <version>10.10.0</version>) on the flyway-database-postgresql dependency, OR upgrade spring-boot-starter-parent to 3.3.x where the BOM manages it."
+    },
+    {
+      "id": "TESTS_NOT_EXECUTED",
+      "severity": "blocker",
+      "rule_violated": "QA must pass before merge",
+      "where": "docs/QA_REPORT.md",
+      "evidence": "QA_REPORT.md asserts ~115 backend tests and 22 Playwright tests pass, but no run output, no JaCoCo report, no Playwright HTML report, and no surefire-reports exist in the tree. Coupled with BUILD_BROKEN, the report is aspirational, not verified."
+    },
+    {
+      "id": "UNCOMMITTED_CHANGES",
+      "severity": "blocker",
+      "rule_violated": "Frontend Playwright/UI changes must be committed; agent rules require Playwright for UI changes; deployment artifacts must be on the branch under review",
+      "where": "git status on feature/nearjobs-deploy",
+      "evidence": "Six modified backend DTOs (defensive null-copy contract fixes) and the entire deployment surface (.github/, infra/, scripts/, docs/API.md, docs/CONTRIBUTING.md, docs/DATABASE.md, docs/DELIVERY_REPORT.md, docs/DEPLOYMENT.md, docs/DEVELOPMENT.md, docs/QA_REPORT.md, docs/SECURITY.md) are untracked or unstaged. The current step's deliverables exist on disk but are not in any commit. Branch tip is c6d62e9 (frontend) — nothing for the deployment step has been recorded."
+    },
+    {
+      "id": "STEP_SEQUENCING_NOTE",
+      "severity": "info",
+      "evidence": "Worker self-reported that the orchestrator advanced before the previous step finished. The frontend Playwright specs (auth/jobseeker/employer/admin/smoke) and frontend page commit c6d62e9 are now in place, so the 'Playwright required for UI changes' rule is satisfied content-wise once committed."
+    }
+  ],
+  "pass_observations": [
+    "No forbidden patterns detected: zero TODO/FIXME/'not implemented'/UnsupportedOperationException across backend/src/main and frontend/src.",
+    "All 'return null' occurrences are legitimate null-guard branches in helpers (GeoUtils, AuditService, Mock SMS dev-only sender, JobSearchRepositoryImpl coercers, *Service helper methods) — not placeholder business logic.",
+    "Backend has 143 main Java files and 26 test classes spanning auth, users, jobs, applications, notifications, admin, audit, common, geo — real services (ApplicationService 307 LoC with state-machine + ownership + notifications; JobService 309; JobSearchRepositoryImpl 164 with PostGIS).",
+    "Frontend has 54 TS/TSX files: 6 RTK-Query API slices, 17 pages incl. role-scoped employer/jobseeker/admin trees, Protected route, dashboardPath helper, and 5 Playwright .spec.ts files plus mockApi fixture (377 LoC) — UI changes are backed by Playwright as required.",
+    "Contract fixes are real and minimal: ApplicationResponse/JobResponse/NotificationResponse/JobseekerProfileResponse hardened against null collections before List.copyOf/Map.copyOf NPE.",
+    "Deployment surface is substantive, not boilerplate: docker-compose.yml + docker-compose.prod.yml (Postgres+PostGIS, Redis, MinIO, MailHog, backend, frontend, nginx), Helm chart with 7 templates + values, raw k8s manifests (namespace/configmap/secret-template/postgres/redis/backend/frontend/ingress), nginx dev+prod configs, Prometheus/Grafana provisioning, 5 GitHub Actions workflows (backend-ci, frontend-ci, security, deploy-staging, deploy-prod), and 3 ops scripts (seed.sh 75, healthcheck.sh 34, backup.sh 31).",
+    "Documentation real and non-trivial: API 165, ARCHITECTURE 298, DATABASE 97, DEPLOYMENT 115, DEVELOPMENT 101, SECURITY 113, CONTRIBUTING 91, QA_REPORT 78, DELIVERY_REPORT 138 lines.",
+    "Migrations present (V1__init.sql, V2__seed_admin.sql)."
+  ],
+  "scaffold_or_placeholder_findings": "None. This is genuine implementation; failure is on the build-readiness and verification axis, not the placeholder axis.",
+  "frontend_build_status": "UNVERIFIED — node_modules absent and dependency installation is forbidden by global rules; no syntactic blockers detected.",
+  "backend_build_status": "FAIL — POM cannot be resolved (see BUILD_BROKEN).",
+  "playwright_status": "Specs present and substantive; not executed (would require deps).",
+  "required_actions_before_merge": [
+    "Fix flyway-database-postgresql version in backend/pom.xml (pin or upgrade Boot to 3.3.x).",
+    "Run mvn -B verify locally and frontend `npm ci && npm run typecheck && npm run build && npm run test && npm run e2e` once deps are allowed; attach surefire/jacoco/playwright reports.",
+    "Stage and commit: 4 modified backend DTOs, .github/, infra/, scripts/, all new docs/. Use a feature commit, not amend on c6d62e9.",
+    "Re-run QA after build green."
+  ]
+}
+```
+
+---
+
+## QA verdict: **FAIL** — but not for the reason the rule names
+
+**Code quality:** Real. No scaffold, no placeholders, no `UnsupportedOperationException`, no `TODO`/`FIXME`, no "not implemented" markers. 143 backend classes, 26 test classes, 54 frontend TS/TSX files, 5 Playwright specs with a 377-line mock backend fixture. Services have actual business logic (state machines, ownership checks, async notifications, PostGIS radius queries). The contract fixes (defensive null guards in 4 DTOs) are genuine and minimal.
+
+**Build readiness: broken.**
+
+🔴 **Blocker — `backend/pom.xml:90`:** `org.flywaydb:flyway-database-postgresql` has no `<version>`. Spring Boot 3.2.5's BOM does not manage that artifact (it's BOM-managed only from Boot 3.3+). `mvn -DskipTests compile` fails at POM resolution:
+
+```
+'dependencies.dependency.version' for org.flywaydb:flyway-database-postgresql:jar is missing. @ line 90, column 21
+```
+
+This means **none** of the ~115 backend tests the QA report claims to have run could possibly have run. The report is aspirational.
+
+🔴 **Blocker — uncommitted deliverables:** Branch `feature/nearjobs-deploy` has zero commits for this step. Everything (`.github/`, `infra/`, `scripts/`, all new `docs/*.md`, plus the 4 modified DTOs) is untracked/unstaged. The branch tip is still `c6d62e9` from the previous frontend step.
+
+🟡 **Frontend build:** unverified — `node_modules` absent and global rules forbid dependency installs. No syntactic blockers detected.
+
+### What must happen before this can pass
+
+1. Pin the Flyway dep (`<version>10.10.0</version>` works with Boot 3.2.5) or bump parent to 3.3.x. Re-run `mvn verify`. Attach surefire + JaCoCo output.
+2. Install frontend deps (needs human approval), then `npm run typecheck && build && test && e2e`. Attach Playwright HTML report.
+3. Commit the 4 modified DTOs + `.github/` + `infra/` + `scripts/` + `docs/*` to `feature/nearjobs-deploy`.
+4. Re-submit for QA.
+
+The implementation is solid; the gate it fails is "does it actually build and are the artifacts on the branch." Per agent rules — backend tests required, build readiness required — this is a fail.

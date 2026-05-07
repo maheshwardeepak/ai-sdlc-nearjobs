@@ -1,0 +1,34 @@
+New step: **implement backend core (entities, enums, repositories, DTOs, ApiResponse, exceptions, migrations)**. The previous step laid the scaffold; this step implements P1+early-P2 domain layer for every entity in SPEC.json so subsequent agents can build services/controllers on top.
+Good — still on `feature/nearjobs-foundation`. Let me commit the scaffold first so the new layer goes on top of a known-good baseline, then create the new branch for the core domain layer.
+Now I'll implement the full domain layer. This is a substantial body of code — JPA entities, enums, repositories, DTOs, and tests for all 12 entities. Let me lay it out systematically.
+
+**Plan:**
+1. Enums (10 types) — Java enums matching the SQL enums
+2. Geo helper (PostGIS Point factory)
+3. Entities: User, JobseekerProfile, EmployerProfile, Job, Application, SavedJob, Notification, OtpToken, RefreshToken, Report, AuditLog
+4. Repositories with non-trivial query methods (geo search, full-text, status filters)
+5. DTOs for each domain (request + response)
+6. Common ApiResponse envelope, ApiError, additional exceptions
+7. JUnit tests for repositories (Testcontainers-Postgres with PostGIS) + entity validation tests
+
+Let me start with enums:
+Now the geo helper, then entities. I'll define a geo utility, GeoPoint DTO, and entities. These are real, fully-mapped JPA entities (not stubs).
+For mapping native enums and JSONB to JPA, I need converters. I'll use `EnumType.STRING` (works because JDBC will cast text→enum via PostgreSQL's text-to-enum cast), plus a JSONB converter and a String[] converter:
+Now the entities. Starting with User (the central one):
+Wait — `JdbcTypeCode(SqlTypes.NAMED_ENUM)` will require the Postgres dialect at runtime. For tests we declared an H2 fallback, which would break. Let me reconsider — the simplest, most portable option is to map enums as plain strings (`@Column(columnDefinition = "varchar")`) and add a Flyway migration that loosens the enum columns to varchar with check constraints. Actually, simpler: keep PostgreSQL enums in production, but use `EnumType.STRING` without `NAMED_ENUM` — Hibernate sends as string and Postgres casts implicitly when the column type is declared with `columnDefinition`. Let me verify and adjust: using `EnumType.STRING` writes a string parameter. With `columnDefinition = "user_role"`, Hibernate needs to know how to bind it. The standard pattern that works on both PG enums and varchar is:
+
+- Drop `JdbcTypeCode(SqlTypes.NAMED_ENUM)` (Hibernate 6 auto-casts via `::user_role` if needed... not reliable)
+- Or change the SQL columns from PG enum types → `varchar` with CHECK constraints (portable, works with H2-PG-mode for tests)
+
+Cleaner, safer: change schema to use `VARCHAR` with `CHECK` constraints. Let me update V1 (still pre-commit so safe) and remove `NAMED_ENUM` references.
+Now update the User entity to remove `JdbcTypeCode` references — plain `EnumType.STRING` works perfectly with VARCHAR:
+Now `JsonbConverter` — Hibernate will pass the converted String as JDBC `VARCHAR`, and PostgreSQL will refuse to insert into a `jsonb` column without an explicit cast. Let me fix this with a proper Hibernate JDBC type binding. I'll switch to using `@JdbcTypeCode(SqlTypes.JSON)` (Hibernate 6 has built-in JSON support which auto-deserializes via Jackson):
+Now fix User.java to use the proper Hibernate 6 approach:
+Note on TEXT[] arrays: Hibernate 6 supports `@JdbcTypeCode(SqlTypes.ARRAY)` for List/Set fields. I'll use that. Now the remaining entities:
+Now repositories. Each gets useful, real query methods (not stubs) — including geosearch and full-text on the Job repo via native queries.
+Now DTOs and the ApiResponse envelope. I'll keep DTOs concise but real (records with validation):
+Now DTOs for the major domains:
+Now JUnit tests for the new domain layer. The previous H2 test profile won't work for entities using `geography(Point,4326)` columns and TEXT[] arrays — I should add a Testcontainers PostGIS configuration so repository tests run against a real Postgres. I'll add that test infrastructure plus tests.
+
+Also, since H2 will reject `geography(Point,4326)` columns from `ddl-auto: create-drop`, the existing Application context tests will fail on H2. Let me make the test profile use Testcontainers-Postgres conditionally. The cleanest approach: introduce a base `@PostgresTest` annotation backed by a shared PostGIS container, and remove the H2 fallback from `application-test.yml`.
+Now update the existing tests to extend `AbstractIntegrationTest` (Postgres-backed) instead of relying on H2:

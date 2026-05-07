@@ -1,0 +1,29 @@
+{
+  "mode": "new_project",
+  "pipeline": [
+    "prompt-agent",
+    "planning-architecture-agent",
+    "nearjobs-worker",
+    "nearjobs-worker",
+    "nearjobs-worker",
+    "nearjobs-worker",
+    "nearjobs-worker",
+    "nearjobs-worker",
+    "nearjobs-worker",
+    "nearjobs-worker",
+    "nearjobs-worker",
+    "qa-agent",
+    "fix-agent",
+    "qa-agent",
+    "memory-manager-agent",
+    "delivery-agent"
+  ],
+  "project": {
+    "projectName": "NearJobs",
+    "projectSlug": "nearjobs",
+    "projectPath": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+    "memoryPath": "/Users/nanofactory/ai-sdlc-factory/memory/projects/nearjobs",
+    "runRoot": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/nearjobs",
+    "workerAgentName": "nearjobs-worker"
+  }
+}

@@ -1,0 +1,1 @@
+Create a complete production-ready platform called TestFactoryApp with Spring Boot backend, React frontend, PostgreSQL database, auth, dashboard, Docker, CI, tests, and deploy-ready setup. Do not create MVP. Do not create scaffold only. Write real business logic.

@@ -1,0 +1,35 @@
+New step: **complete React UI — login, OTP, role select, dashboards, feed, details, forms, admin, API integration, Playwright tests** (P8–P11 frontend, all four phases in one branch).
+
+This is a very large step. Plan:
+
+1. **API slices** (RTK Query) — auth, user, jobseeker, employer, jobs, applications, savedJobs, notifications, admin
+2. **Routes/Layout** — extend the existing `RootLayout` with role-aware nav; add protected role-checked routes
+3. **Public + auth pages** — Login (phone OTP request → verify → role select on register), Register
+4. **Jobseeker** — feed (search), job details, applications list, saved jobs, profile editor
+5. **Employer** — dashboard, my-jobs list, job-create, job-edit, applications inbox per job
+6. **Admin** — dashboard with analytics, jobs queue, users, reports queue
+7. **Notifications** — header bell with unread count + drawer
+8. **Forms** — react-hook-form + zod across the board
+9. **Playwright** — happy-path E2E covering each major feature with API-level mocking via `route.fulfill` so tests run without a backend
+
+Let me check state and branch.
+Let me inspect the current frontend state:
+Good. The foundation is clean: `baseApi`, `authSlice`, layout, router, ProtectedRoute, HomePage, LoginPage placeholder. I'll build everything else on top.
+
+Let me start with API slices. They're the dependency root for the pages.
+Now the RTK Query slices. The existing `baseApi` is in place — I'll inject endpoints into it.
+I need to add tag types for `SavedJob` to `baseApi`:
+Now reusable UI components: Button, Input, Card, Badge, etc. Tailwind primitives.
+Now the JobCard and notification bell components:
+Let me update the Header to include the notification bell and route to dashboard based on role:
+Now the auth pages. Multi-step Login: enter phone → request OTP → enter OTP → verify. And Register: phone + role select + (optionally) full name + email → request OTP → verify.
+Now the Login and Register pages:
+Now jobseeker-side pages: Jobs feed, Job details, Applications, Saved jobs, Profile editor, Notifications.
+Jobseeker dashboard, applications, saved jobs, profile editor:
+Now Notifications page (shared across roles):
+Now employer pages: dashboard, my-jobs list, job form (create/edit), applications inbox per job, profile:
+Now Admin pages — dashboard, jobs queue, users, reports:
+Now wire all of these into the router. Replace the existing router with the full route tree:
+Now I need to delete the orphan `DashboardPage.tsx` (replaced by jobseeker dashboard), but rules forbid deleting files. Let me make it a redirect instead:
+Now i18n strings — extend en/hi:
+Now Playwright tests. I need to mock the API at the network layer because tests run against the Vite preview server, not a real backend. Playwright's `page.route` lets us intercept and fulfill. Let me build mock helpers and a comprehensive E2E suite.

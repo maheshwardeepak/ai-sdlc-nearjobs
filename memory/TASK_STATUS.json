@@ -1,0 +1,42 @@
+{
+  "current_task": "Open PR from feature/nearjobs-deploy and gate merge on green CI",
+  "branch": "feature/nearjobs-deploy",
+  "head": "8954ebe2558c4402c062d04eee324ea4751ee21b",
+  "tree_state": "clean",
+  "completed": [
+    "local_machine_setup",
+    "openclaw_setup",
+    "nearjobs_workspace_created",
+    "agents_registered",
+    "orchestrator_created",
+    "real_openclaw_agent_execution_connected",
+    "nearjobs_scaffold_generated",
+    "frontend_build_passed",
+    "playwright_smoke_passed",
+    "backend_maven_verify_passed",
+    "fix_qa_agent_paths",
+    "add_qa_gate",
+    "add_run_index",
+    "contract_fix_dtos_added",
+    "flyway_version_pinned_10_10_0",
+    "jwt_service_decode_hardened",
+    "job_validator_test_compile_fixed",
+    "jacoco_bumped_0_8_14_for_jdk25",
+    "testcontainers_bumped_1_20_6_for_docker29",
+    "github_workflows_committed (backend-ci, frontend-ci, security, deploy-staging, deploy-prod)",
+    "infra_scripts_docs_committed",
+    "playwright_specs_committed (admin, auth, employer, jobseeker, smoke)",
+    "branch_committed_8954ebe",
+    "qa_reverified_pass"
+  ],
+  "in_progress": [],
+  "next": [
+    "open_pr_from_feature_nearjobs_deploy",
+    "wait_for_green_backend_ci",
+    "wait_for_green_frontend_ci",
+    "wait_for_green_security_workflow",
+    "merge_to_main_after_ci_green",
+    "wire_merge_and_delivery_agents",
+    "add_approval_protocol"
+  ]
+}

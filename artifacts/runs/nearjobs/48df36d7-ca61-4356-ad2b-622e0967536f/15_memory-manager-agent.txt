@@ -1,0 +1,60 @@
+```json
+{
+  "agent": "memory-manager-agent",
+  "step": "Update memory with completed work, bugs, next actions",
+  "branch": "feature/nearjobs-deploy",
+  "head": "8954ebe2558c4402c062d04eee324ea4751ee21b",
+  "status": "OK",
+  "memory_files_updated": [
+    "memory/2026-05-06.md"
+  ]
+}
+```
+Now I have the full picture. Let me update each memory file with the actual current state from the QA verdict.
+```json
+{
+  "agent": "memory-manager-agent",
+  "step": "Update memory with completed work, bugs, next actions",
+  "status": "OK",
+  "branch": "feature/nearjobs-deploy",
+  "head": "8954ebe2558c4402c062d04eee324ea4751ee21b",
+  "qa_verdict": "PASS",
+  "memory_files_updated": [
+    "memory/QA_REPORT.json",
+    "memory/TASK_STATUS.json",
+    "memory/NEXT_ACTIONS.json",
+    "memory/PROJECT_STATE.md",
+    "memory/RUN_INDEX.json",
+    "memory/2026-05-06.md"
+  ],
+  "summary": {
+    "completed_work_recorded": [
+      "Contract-fix DTOs added",
+      "Flyway 10.10.0 pinned",
+      "JwtService decode hardened (RuntimeException catch)",
+      "JobValidatorTest GeoPoint(0.0,0.0) compile fix",
+      "JaCoCo bumped to 0.8.14 (JDK 25 compat)",
+      "Testcontainers bumped to 1.20.6 (Docker 29 compat)",
+      "GitHub workflows committed (backend-ci, frontend-ci, security, deploy-staging, deploy-prod)",
+      "Playwright specs committed (admin, auth, employer, jobseeker, smoke + mockApi)",
+      "Branch committed at 8954ebe with clean tree",
+      "QA re-verification PASS (40/40 unit tests, build success)"
+    ],
+    "open_bugs": [],
+    "deferred_to_ci": [
+      "Backend Testcontainers integration tests (~75) — macOS Docker Desktop 29 host quirk",
+      "Frontend lint/typecheck/vitest/build/Playwright — global rule forbids npm install"
+    ],
+    "next_actions": [
+      "Push and open PR feature/nearjobs-deploy → main",
+      "Gate merge on backend-ci + frontend-ci + security",
+      "Run deploy-staging.yml after merge",
+      "Wire merge-agent, delivery-agent, approval protocol",
+      "Document macOS Docker Desktop 29 dev quirk",
+      "Begin OTP/auth and profile/job modules post-merge"
+    ]
+  }
+}
+```
+
+Memory is current. Branch state, QA outcome, resolved blockers, deferred work, and next actions are all recorded as actual state — no invented progress. Daily log captured at `memory/2026-05-06.md`.

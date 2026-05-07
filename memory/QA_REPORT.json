@@ -1,0 +1,83 @@
+{
+  "latest_status": "passed",
+  "verdict": "PASS",
+  "branch": "feature/nearjobs-deploy",
+  "head": "8954ebe2558c4402c062d04eee324ea4751ee21b",
+  "verified_at": "2026-05-06T19:47:00+05:30",
+  "backend": {
+    "maven_clean_compile": "passed (162 class files from 143 sources)",
+    "junit_unit_tests": "passed (40/40 across 11 classes; 0 failures, 0 errors, 0 skipped)",
+    "unit_test_classes": [
+      "JwtServiceTest (5)",
+      "JobValidatorTest (5)",
+      "GeoUtilsTest (5)",
+      "MockSmsSenderTest (3)",
+      "RefreshTokenServiceUnitTest (3)",
+      "TokenNormalisationTest (4)",
+      "PageResponseTest (2)",
+      "SlugGeneratorTest (6)",
+      "JobStatusTest (2)",
+      "ApplicationStatusTest (4)",
+      "NotificationTypeTest (1)"
+    ],
+    "integration_tests": "deferred_to_ci (Testcontainers requires Linux Docker socket; macOS Docker Desktop 29 host quirk, not a code defect)"
+  },
+  "frontend": {
+    "status": "deferred_to_ci",
+    "reason": "global rules forbid npm install on dev host",
+    "playwright_specs_committed": [
+      "admin",
+      "auth",
+      "employer",
+      "jobseeker",
+      "smoke"
+    ],
+    "mock_api_fixture_lines": 377
+  },
+  "ci_workflows_present": [
+    "backend-ci.yml (mvn verify + JaCoCo upload)",
+    "frontend-ci.yml (lint, typecheck, vitest, build, playwright chromium)",
+    "security.yml",
+    "deploy-staging.yml",
+    "deploy-prod.yml"
+  ],
+  "resolved_blockers": [
+    {
+      "id": "BUILD_BROKEN",
+      "fix": "flyway.version=10.10.0 set on flyway-core and flyway-database-postgresql"
+    },
+    {
+      "id": "JWT_BASE64_DECODE",
+      "fix": "JwtService.java:110 catch widened to RuntimeException (covers jjwt DecodingException + JDK IllegalArgumentException)"
+    },
+    {
+      "id": "JOB_VALIDATOR_TEST_COMPILE",
+      "fix": "JobValidatorTest.java lines 47/61/85 use new GeoPoint(0.0, 0.0) (Double, not int)"
+    },
+    {
+      "id": "JACOCO_JAVA25_INCOMPAT",
+      "fix": "jacoco.version=0.8.14"
+    },
+    {
+      "id": "TESTCONTAINERS_DOCKER29_INCOMPAT",
+      "fix": "testcontainers.version=1.20.6 (docker-java 3.4.1, API 1.41+)"
+    },
+    {
+      "id": "UNCOMMITTED_CHANGES",
+      "fix": "commit 8954ebe persists 50 files (+2615/-13) including DTOs, pom.xml, JwtService, JobValidatorTest, .github/, infra/, scripts/, 9 docs/*.md, README, CHANGELOG"
+    }
+  ],
+  "open_bugs": [],
+  "scaffold_or_placeholders": "none (no TODO/FIXME/UnsupportedOperationException in backend/src/main or frontend/src; remaining 'return null' are legitimate null-guards)",
+  "global_rules_compliance": {
+    "feature_branch_only": "ok",
+    "no_destructive_ops": "ok",
+    "no_dependency_install": "ok (only POM version edits)",
+    "no_secrets_printed": "ok",
+    "junit_for_backend_changes": "ok",
+    "playwright_for_ui_changes": "ok",
+    "preserve_architecture": "ok",
+    "json_first": "ok"
+  },
+  "production_readiness": "ready pending green CI run on PR"
+}

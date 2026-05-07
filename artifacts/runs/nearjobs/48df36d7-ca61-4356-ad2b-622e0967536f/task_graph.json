@@ -1,0 +1,121 @@
+[
+  {
+    "id": "T01",
+    "title": "Project scaffold",
+    "kind": "scaffold",
+    "agent": "nearjobs-worker",
+    "dependsOn": [],
+    "status": "pending",
+    "instruction": "Create full project scaffold with backend, frontend, database, docs, Docker, CI, env examples, and smoke tests."
+  },
+  {
+    "id": "T02",
+    "title": "Backend core implementation",
+    "kind": "backend",
+    "agent": "nearjobs-worker",
+    "dependsOn": [
+      "T01"
+    ],
+    "status": "pending",
+    "instruction": "Implement real backend business code: entities, repositories, DTOs, services, controllers, validation, exceptions, migrations, and tests. No placeholders."
+  },
+  {
+    "id": "T03",
+    "title": "Authentication and security",
+    "kind": "backend",
+    "agent": "nearjobs-worker",
+    "dependsOn": [
+      "T02"
+    ],
+    "status": "pending",
+    "instruction": "Implement OTP auth, JWT auth, refresh tokens, role selection, RBAC, security filter, rate limits, and tests."
+  },
+  {
+    "id": "T04",
+    "title": "Domain features",
+    "kind": "backend",
+    "agent": "nearjobs-worker",
+    "dependsOn": [
+      "T03"
+    ],
+    "status": "pending",
+    "instruction": "Implement requested domain features end-to-end with business rules, database constraints, APIs, and tests."
+  },
+  {
+    "id": "T05",
+    "title": "Frontend application",
+    "kind": "frontend",
+    "agent": "nearjobs-worker",
+    "dependsOn": [
+      "T04"
+    ],
+    "status": "pending",
+    "instruction": "Implement real React UI, routing, auth guards, forms, API integration, state handling, error/loading states, and Playwright tests."
+  },
+  {
+    "id": "T06",
+    "title": "Integration and deployment prep",
+    "kind": "qa",
+    "agent": "nearjobs-worker",
+    "dependsOn": [
+      "T05"
+    ],
+    "status": "pending",
+    "instruction": "Wire frontend/backend contracts, Docker, CI, env docs, deployment checklist, run instructions, and fix integration gaps."
+  },
+  {
+    "id": "T07",
+    "title": "Quality gate",
+    "kind": "qa",
+    "agent": "qa-agent",
+    "dependsOn": [
+      "T06"
+    ],
+    "status": "pending",
+    "instruction": "Run real quality checks. Fail if placeholders exist, builds fail, tests fail, security is weak, or required business logic is missing."
+  },
+  {
+    "id": "T08",
+    "title": "Fix quality failures",
+    "kind": "fix",
+    "agent": "fix-agent",
+    "dependsOn": [
+      "T07"
+    ],
+    "status": "pending",
+    "instruction": "Fix all QA failures with real code. Do not hide or downgrade failures."
+  },
+  {
+    "id": "T09",
+    "title": "Final QA",
+    "kind": "qa",
+    "agent": "qa-agent",
+    "dependsOn": [
+      "T08"
+    ],
+    "status": "pending",
+    "instruction": "Re-run quality checks and confirm production readiness."
+  },
+  {
+    "id": "T10",
+    "title": "Memory update",
+    "kind": "memory",
+    "agent": "memory-manager-agent",
+    "dependsOn": [
+      "T09"
+    ],
+    "status": "pending",
+    "instruction": "Update project memory, task status, QA report, run index, and next actions."
+  },
+  {
+    "id": "T11",
+    "title": "Delivery report",
+    "kind": "delivery",
+    "agent": "delivery-agent",
+    "dependsOn": [
+      "T10"
+    ],
+    "status": "pending",
+    "instruction": "Create final delivery report with implemented features, run commands, test results, deployment checklist, and risks."
+  }
+]

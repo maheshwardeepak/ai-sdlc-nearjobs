@@ -1,0 +1,29 @@
+{
+  "mode": "new_project",
+  "pipeline": [
+    "prompt-agent",
+    "planning-architecture-agent",
+    "testfactoryapp-worker",
+    "testfactoryapp-worker",
+    "testfactoryapp-worker",
+    "testfactoryapp-worker",
+    "testfactoryapp-worker",
+    "testfactoryapp-worker",
+    "testfactoryapp-worker",
+    "testfactoryapp-worker",
+    "testfactoryapp-worker",
+    "qa-agent",
+    "fix-agent",
+    "qa-agent",
+    "memory-manager-agent",
+    "delivery-agent"
+  ],
+  "project": {
+    "projectName": "TestFactoryApp",
+    "projectSlug": "testfactoryapp",
+    "projectPath": "/Users/nanofactory/ai-sdlc-factory/projects/testfactoryapp",
+    "memoryPath": "/Users/nanofactory/ai-sdlc-factory/memory/projects/testfactoryapp",
+    "runRoot": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/testfactoryapp",
+    "workerAgentName": "testfactoryapp-worker"
+  }
+}

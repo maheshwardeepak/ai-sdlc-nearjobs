@@ -1,0 +1,8 @@
+{
+  "projectName": "NearJobs",
+  "projectSlug": "nearjobs",
+  "projectPath": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+  "memoryPath": "/Users/nanofactory/ai-sdlc-factory/memory/projects/nearjobs",
+  "runRoot": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/nearjobs",
+  "workerAgentName": "nearjobs-worker"
+}

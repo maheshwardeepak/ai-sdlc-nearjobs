@@ -1,0 +1,103 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "command": "find . -type f | wc -l",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+      "status": 0,
+      "passed": true,
+      "output": "1252"
+    },
+    {
+      "command": "grep -RInE \"TODO|placeholder|dummy|return null|UnsupportedOperationException|throw new RuntimeException\\(\\\"not implemented\" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=target || true",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+      "status": 0,
+      "passed": true,
+      "output": "./frontend/src/components/ui/Textarea.tsx:28:        className={`rounded-md border bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus-ring ${\n./frontend/src/components/ui/Input.tsx:27:        className={`h-10 rounded-md border bg-white px-3 text-sm placeholder:text-slate-400 focus-ring ${\n./frontend/src/components/notifications/NotificationBell.tsx:13:  if (!accessToken) return null;\n./frontend/src/pages/RegisterPage.tsx:97:              placeholder=\"+919900000000\"\n./frontend/src/pages/LoginPage.tsx:81:                placeholder=\"+919900000000\"\n./frontend/src/pages/JobsFeedPage.tsx:54:              placeholder=\"React, Cashier, …\"\n./frontend/src/pages/employer/JobFormPage.tsx:160:              placeholder=\"java, spring, postgres\"\n./frontend/src/pages/employer/EmployerProfilePage.tsx:101:              placeholder=\"https://example.com\"\n./frontend/src/pages/admin/AdminUsersPage.tsx:59:            <Input label=\"Search\" value={q} onChange={(e) => setQ(e.target.value)} placeholder=\"name / phone / email\" />\n./frontend/src/pages/jobseeker/JobseekerProfilePage.tsx:96:                placeholder=\"React engineer with 5 years' experience\"\n./frontend/src/pages/jobseeker/JobseekerProfilePage.tsx:104:                placeholder=\"Short bio…\"\n./frontend/src/pages/jobseeker/JobseekerProfilePage.tsx:112:              placeholder=\"react, typescript, postgres\"\n./frontend/src/pages/jobseeker/JobseekerProfilePage.tsx:118:              placeholder=\"en, hi\"\n./frontend/src/pages/JobDetailsPage.tsx:41:  if (!job) return null;\n./frontend/src/pages/JobDetailsPage.tsx:175:                placeholder=\"Why are you a good fit?\"\n./backend/src/main/resources/application-test.yml:3:# spun up by AbstractIntegrationTest. Defaults below are placeholders;\n./backend/src/main/java/com/nearjobs/auth/sms/MockSmsSender.java:43:            return null;\n./backend/src/main/java/com/nearjobs/user/service/JobseekerProfileService.java:145:        if (s == null) return null;\n./backend/src/main/java/com/nearjobs/user/service/EmployerProfileService.java:94:        if (s == null) return null;\n./backend/src/main/java/com/nearjobs/common/geo/GeoUtils.java:24:        if (geo == null) return null;\n./backend/src/main/java/com/nearjobs/common/geo/GeoUtils.java:38:        if (point == null) return null;\n./backend/src/main/java/com/nearjobs/common/audit/AuditService.java:63:            return null;\n./backend/src/main/java/com/nearjobs/common/audit/AuditService.java:75:        return null;\n./backend/src/main/java/com/nearjobs/common/persistence/JsonbListConverter.java:4: * Marker placeholder kept for backward compatibility. See\n./backend/src/main/java/com/nearjobs/common/persistence/JsonbConverter.java:4: * Marker placeholder. We previously held an {@code AttributeConverter} here,\n./backend/src/main/java/com/nearjobs/job/repository/JobSearchRepositoryImpl.java:143:        if (v == null) return null;\n./backend/src/main/java/com/nearjobs/job/repository/JobSearchRepositoryImpl.java:148:        if (v == null) return null;\n./backend/src/main/java/com/nearjobs/job/repository/JobSearchRepositoryImpl.java:154:        if (v == null) return null;\n./backend/src/main/java/com/nearjobs/job/repository/JobSearchRepositoryImpl.java:159:        if (v == null) return null;\n./backend/src/main/java/com/nearjobs/job/repository/JobSearchRepositoryImpl.java:162:        return null;\n./backend/src/main/java/com/nearjobs/job/service/JobService.java:284:        if (caller == null || jobLocation == null) return null;\n./backend/src/main/java/com/nearjobs/job/service/JobService.java:305:        if (s == null) return null;\n./backend/src/main/java/com/nearjobs/application/service/ApplicationService.java:303:        if (s == null) return null;\n./docs/CONTRIBUTING.md:45:- [ ] No new placeholder methods / `return null` / `UnsupportedOperationException`"
+    },
+    {
+      "command": "find . -name \"*.java\" ! -name \"package-info.java\" | wc -l",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+      "status": 0,
+      "passed": true,
+      "output": "169"
+    },
+    {
+      "command": "test -f pom.xml",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -d src/main/java",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -d src/test/java",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -d src/main/resources/db/migration",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -f package.json",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/frontend",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -d src",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/frontend",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -f playwright.config.ts",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/frontend",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -d tests/playwright",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/frontend",
+      "status": 1,
+      "passed": false,
+      "output": ""
+    },
+    {
+      "command": "test -f README.md",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -d docs",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    },
+    {
+      "command": "test -d scripts",
+      "cwd": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+      "status": 0,
+      "passed": true,
+      "output": ""
+    }
+  ]
+}

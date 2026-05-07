@@ -1,0 +1,7 @@
+{
+  "agent": "qa-agent",
+  "agentQaPassed": false,
+  "realQaPassed": false,
+  "passed": false,
+  "action": "fix_required"
+}

@@ -1,0 +1,37 @@
+factory:
+  name: nearjobs-ai-factory
+  project_path: /Users/nanofactory/ai-sdlc-factory/nearjobs
+
+project:
+  name: NearJobs
+  type: hyperlocal_job_marketplace
+
+stack:
+  frontend: React + Vite + TypeScript + Tailwind
+  backend: Spring Boot + Java 17 + Maven
+  database: PostgreSQL
+  cache: Redis
+  auth: OTP + JWT
+  testing:
+    backend: JUnit
+    frontend: Playwright
+
+orchestration:
+  mode: state_machine
+  start_simple_first: true
+  max_parallel_workers: 3
+
+memory:
+  use_project_snapshot: true
+  use_git_diff: true
+  use_relevant_files_only: true
+  use_graphify: true
+
+rules:
+  no_direct_main_push: true
+  no_destructive_db_action: true
+  no_branch_delete: true
+  no_repo_delete: true
+  no_file_delete_without_approval: true
+  no_dependency_change_without_approval: true
+  qa_required: true

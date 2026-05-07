@@ -1,0 +1,16 @@
+{
+  "next_actions": [
+    "Push feature/nearjobs-deploy and open a PR targeting main",
+    "Require green checks: backend-ci (mvn verify + JaCoCo), frontend-ci (lint/typecheck/vitest/build/playwright chromium), security.yml",
+    "Review CI integration test results from Testcontainers suite (~75 tests) on ubuntu-latest runners",
+    "After merge: run deploy-staging.yml and validate smoke + Playwright e2e against staging",
+    "Document macOS Docker Desktop 29 dev quirk: ~/.testcontainers.properties pointing at docker.raw.sock for local integration runs",
+    "Wire merge-agent and delivery-agent into orchestrator",
+    "Add approval protocol gate before deploy-prod.yml",
+    "Add OTP authentication module with JWT sessions (post-merge feature work)",
+    "Add Jobseeker profile module",
+    "Add Employer profile module",
+    "Add job posting module",
+    "Add job discovery and matching module"
+  ]
+}

@@ -1,0 +1,19 @@
+I'll start by reading the workspace state and the architecture artifacts so I implement exactly what was planned.
+The spec is comprehensive. The current task is **scaffold creation** (P0 from architecture phases): backend skeleton, frontend skeleton, database setup, docs, tests scaffolding, CI, Docker, env examples. Subsequent worker invocations will fill in features.
+
+Let me get on a feature branch and start scaffolding.
+Now let me build the full project scaffold. I'll create the directory structure and all the foundational files.
+Now let me write the root files first.
+Now the README:
+Now the backend Maven POM and Spring Boot application:
+Now the Flyway baseline migration (P1 schema), the common config classes, security baseline, and a real health controller. The schema is the most important foundation artifact — all subsequent agents depend on it.
+Now key common config classes (security, CORS, OpenAPI, error handling, health). I'll keep these minimal but real — they wire together properly so the app can boot. Real business logic for auth/jobs/etc. comes in subsequent worker invocations (P2+).
+Security baseline + exception handling + request-id filter + a real working health/version endpoint:
+Now real working web bits: a pagination DTO, an envelope, and a working version/info controller (real business logic — version + uptime + config flags) so the foundation phase has at least one fully functional endpoint that can be exercised by the test suite.
+Now JUnit tests for the foundation (required by agent rules — backend changes need JUnit):
+Backend Dockerfile + .dockerignore + maven wrapper note. Then frontend.
+Now the frontend scaffold.
+Now the actual React source: store, API client, router, real landing page, etc. — enough to be a working production-shaped foundation, plus tests.
+Router, layout, role guard, landing/not-found pages, and components:
+A formatter helper, an env type-decl, a vite env shim, and unit + e2e tests:
+Frontend Dockerfile + Nginx config:

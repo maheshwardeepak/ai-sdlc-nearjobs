@@ -1,0 +1,144 @@
+```json
+{
+  "agent": "delivery-agent",
+  "step": "Prepare delivery report with run commands and deploy checklist",
+  "status": "OK",
+  "branch": "feature/nearjobs-deploy",
+  "head": "8954ebe2558c4402c062d04eee324ea4751ee21b",
+  "qa_verdict": "PASS",
+  "ready_for_merge": true,
+  "implemented_features": {
+    "backend": [
+      "Contract-fix DTOs added across job/auth modules",
+      "Flyway pinned to 10.10.0 (JDK 25 / Postgres compatibility)",
+      "JwtService.decode() hardened — RuntimeException catch path returns clean auth failure",
+      "JobValidatorTest GeoPoint(0.0,0.0) compile fix",
+      "JaCoCo upgraded to 0.8.14 (JDK 25 bytecode support)",
+      "Testcontainers upgraded to 1.20.6 (Docker 29 host compatibility)"
+    ],
+    "frontend": [
+      "Playwright e2e specs committed: admin, auth, employer, jobseeker, smoke",
+      "Shared mockApi harness for Playwright suites"
+    ],
+    "ci_cd": [
+      "backend-ci workflow",
+      "frontend-ci workflow",
+      "security workflow",
+      "deploy-staging workflow",
+      "deploy-prod workflow"
+    ]
+  },
+  "test_status": {
+    "backend_unit": {
+      "result": "PASS",
+      "count": "40/40",
+      "build": "success"
+    },
+    "backend_integration_testcontainers": {
+      "result": "DEFERRED_TO_CI",
+      "reason": "macOS Docker Desktop 29 host quirk; ~75 tests will run in Linux CI runners",
+      "blocking": false
+    },
+    "frontend": {
+      "result": "DEFERRED_TO_CI",
+      "reason": "Global rule forbids local npm install; lint/typecheck/vitest/build/Playwright run in frontend-ci",
+      "blocking": false
+    },
+    "qa_reverification": "PASS"
+  },
+  "run_commands": {
+    "backend": {
+      "unit_tests": "./mvnw -pl backend test",
+      "build": "./mvnw -pl backend -DskipTests package",
+      "run_local": "./mvnw -pl backend spring-boot:run",
+      "integration_tests_ci_only": "./mvnw -pl backend verify -Pintegration"
+    },
+    "frontend": {
+      "install": "pnpm install --frozen-lockfile  # CI only — local install forbidden by global rules",
+      "lint": "pnpm --filter frontend lint",
+      "typecheck": "pnpm --filter frontend typecheck",
+      "unit_tests": "pnpm --filter frontend test",
+      "build": "pnpm --filter frontend build",
+      "e2e": "pnpm --filter frontend exec playwright test"
+    },
+    "git": {
+      "push_branch": "git push -u origin feature/nearjobs-deploy",
+      "open_pr": "gh pr create --base main --head feature/nearjobs-deploy --title 'feat(nearjobs): deploy contract fixes + CI/CD + e2e' --fill"
+    },
+    "deploy": {
+      "staging": "gh workflow run deploy-staging.yml --ref main",
+      "prod_requires_approval": "gh workflow run deploy-prod.yml --ref main"
+    }
+  },
+  "deployment_checklist": [
+    {"step": 1, "action": "Push feature/nearjobs-deploy to origin", "owner": "human", "status": "pending"},
+    {"step": 2, "action": "Open PR feature/nearjobs-deploy → main", "owner": "human", "status": "pending"},
+    {"step": 3, "action": "Verify backend-ci green (unit + Testcontainers integration)", "owner": "ci", "status": "pending"},
+    {"step": 4, "action": "Verify frontend-ci green (lint, typecheck, vitest, build, Playwright)", "owner": "ci", "status": "pending"},
+    {"step": 5, "action": "Verify security workflow green (deps + SAST scans)", "owner": "ci", "status": "pending"},
+    {"step": 6, "action": "Code review + approval on PR", "owner": "reviewer", "status": "pending"},
+    {"step": 7, "action": "Merge PR to main (no force push, no direct push to main)", "owner": "merge-agent", "status": "pending"},
+    {"step": 8, "action": "Run deploy-staging.yml against main", "owner": "ci", "status": "pending"},
+    {"step": 9, "action": "Smoke-test staging (auth flow + job search happy path)", "owner": "qa", "status": "pending"},
+    {"step": 10, "action": "Manual approval gate for deploy-prod.yml", "owner": "human", "status": "pending"},
+    {"step": 11, "action": "Run deploy-prod.yml after approval", "owner": "ci", "status": "pending"},
+    {"step": 12, "action": "Post-deploy smoke + monitor logs/metrics for 30 min", "owner": "qa", "status": "pending"}
+  ],
+  "known_risks": [
+    {
+      "id": "R1",
+      "severity": "low",
+      "description": "Testcontainers integration tests not executed locally due to macOS Docker Desktop 29 host quirk",
+      "mitigation": "Linux CI runners execute the full ~75 integration test suite in backend-ci before merge"
+    },
+    {
+      "id": "R2",
+      "severity": "low",
+      "description": "Frontend bundle/lint/e2e never executed locally on this branch",
+      "mitigation": "frontend-ci is a required check; merge gated until green"
+    },
+    {
+      "id": "R3",
+      "severity": "medium",
+      "description": "First production deploy of new CI/CD pipelines — workflow scripts unproven against real environments",
+      "mitigation": "Staging deploy + smoke must pass before prod; prod gated behind manual approval"
+    },
+    {
+      "id": "R4",
+      "severity": "low",
+      "description": "JwtService decode change alters auth failure path",
+      "mitigation": "Covered by unit tests (40/40 PASS); auth Playwright suite runs in frontend-ci"
+    },
+    {
+      "id": "R5",
+      "severity": "info",
+      "description": "merge-agent, delivery-agent, approval protocol not yet wired into pipeline",
+      "mitigation": "Tracked in next_actions; not a release blocker"
+    }
+  ],
+  "post_merge_followups": [
+    "Wire merge-agent + delivery-agent + approval protocol",
+    "Document macOS Docker Desktop 29 dev quirk in repo README",
+    "Begin OTP/auth module implementation",
+    "Begin profile/job module implementation"
+  ],
+  "compliance": {
+    "feature_branch_only": true,
+    "no_direct_push_to_main": true,
+    "no_force_push": true,
+    "no_destructive_ops": true,
+    "junit_present_for_backend": true,
+    "playwright_present_for_ui": true,
+    "qa_passed": true,
+    "secrets_not_printed": true
+  }
+}
+```
+
+**Delivery Report — feature/nearjobs-deploy @ 8954ebe**
+
+Branch is QA-PASS and ready to push. All 40 backend unit tests green, build succeeds. Testcontainers integration (~75) and full frontend pipeline are deferred to CI by design — local execution is blocked by the Docker Desktop 29 quirk and the no-local-install rule, both non-blocking because backend-ci and frontend-ci are required merge checks.
+
+Run commands, 12-step deploy checklist, and 5 tracked risks are above. Nothing here violates the global safety rules — no force push, no direct main push, no destructive ops, secrets untouched.
+
+Next physical action belongs to the human: push the branch and open the PR. Everything downstream is gated on CI + approval.

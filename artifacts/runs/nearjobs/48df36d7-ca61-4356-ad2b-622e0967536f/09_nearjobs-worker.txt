@@ -1,0 +1,126 @@
+New step: **admin APIs — users/jobs/reports moderation, route security, tests** (P7).
+Plan for P7:
+
+1. **AuditService** — write entries to `audit_logs` for every privileged admin action
+2. **AdminUserService** — list/search users, suspend/reactivate, change-role, force-verify, hard-delete (gated)
+3. **AdminJobService** — list pending/all jobs, approve/reject (with moderation notes), force-close, verify-employer
+4. **AdminReportService** — list reports with filters, resolve/dismiss
+5. **AdminAnalyticsService** — counts, trends (users, jobs, applications, reports)
+6. **AdminController** — all admin routes under `/admin/*` with class-level `@PreAuthorize("hasRole('ADMIN')")`
+7. **Route security** — explicit `/admin/**` → ADMIN-only check in `SecurityConfig`
+8. **Tests** — admin role enforcement (403 for non-admins on every admin route), full moderation flows
+
+Let me start with the audit service:
+Now the admin DTOs and services. I'll add fields to UserResponse-style DTOs as needed, but reuse existing ones where possible.
+Now the four admin services. They all consume `AuditService` and the `NotificationService` we built earlier so users hear about admin decisions.
+The `countApplicationsByStatus` doing `findAll().stream()` is unacceptable for production scale — it loads every row. Let me add a real derived-count method to the repo:
+Same with users-by-status / users-by-role / jobs-by-status: `findByX().getTotalElements()` triggers a count query but also a SELECT — it's wasteful. Let me add proper count methods. Spring Data derives `countByStatus`, `countByRole` automatically:
+Now the admin controllers and the public report-submission controller:
+Now update **route security** — add explicit `/admin/**` matcher in `SecurityConfig` so the URL itself is protected (defence in depth on top of `@PreAuthorize`):
+Note about `AdminUserService.update`: I add the audit row inside the same `@Transactional` method that saves the user. Since the audit service uses `REQUIRES_NEW`, the audit will commit independently — but if the outer transaction rolls back, the audit will still record the (failed) attempt, which is wrong. Let me reconsider: ideally the audit fires AFTER the outer commit. Spring 6 has `@TransactionalEventListener(phase = AFTER_COMMIT)` for this, but that's overkill. Simpler: AuditService is called AFTER `users.save()` returns — and Spring's `REQUIRES_NEW` suspends the outer txn, commits the audit, resumes. If the outer then rolls back due to a later exception (none here, since `save()` is the last step), the audit would still be there.
+
+Actually that's fine for our flow because `users.save()` is the last DB op. Same shape in `AdminJobService.approve` etc. Let me leave it.
+
+Now JUnit tests. The big test verifies role enforcement (anonymous, jobseeker, employer all 403) and full moderation flows:
+A small unit test for the AuditService logic-free path:
+Sanity-check inventory and commit:
+```json
+{
+  "agent": "nearjobs-worker",
+  "status": "ok",
+  "step": "Implement admin APIs: users/jobs/reports moderation, route security, tests",
+  "phase": "P7 (admin moderation/reports/analytics/audit)",
+  "branch": "feature/nearjobs-admin",
+  "parent_branch": "feature/nearjobs-applications",
+  "commit": "c172946",
+  "rules_followed": [
+    "feature branch only",
+    "no direct push to main",
+    "no destructive ops",
+    "preserved existing architecture (delegated approval to existing JobService.forcePublishAsAdmin so the 2-active rule is enforced from this path; reused existing entities/repositories)",
+    "JUnit included for backend changes (2 test classes, 14 tests)",
+    "real business logic; no placeholders"
+  ],
+  "production_code": [
+    "common/audit/AuditService.java",
+    "admin/service/AdminUserService.java",
+    "admin/service/AdminJobService.java",
+    "admin/service/AdminReportService.java",
+    "admin/service/AdminAnalyticsService.java",
+    "admin/web/AdminUserController.java",
+    "admin/web/AdminJobController.java",
+    "admin/web/AdminReportController.java",
+    "admin/web/AdminAnalyticsController.java",
+    "admin/web/ReportSubmissionController.java",
+    "admin/dto/AdminUserUpdate.java",
+    "admin/dto/JobModerationDecision.java",
+    "admin/dto/EmployerVerificationDecision.java",
+    "admin/dto/AnalyticsSnapshot.java",
+    "common/security/SecurityConfig.java (added /admin/** -> hasRole('ADMIN'))",
+    "user/repository/UserRepository.java (added countByRole/countByStatus)",
+    "job/repository/JobRepository.java (added countByStatus)",
+    "user/repository/EmployerProfileRepository.java (added countByVerified)",
+    "application/repository/ApplicationRepository.java (added countByStatus)"
+  ],
+  "tests": [
+    "common/audit/AuditServiceTest.java (2 integration: record happy path with changes payload, no-changes overload)",
+    "admin/web/AdminApiTest.java        (12 integration: anonymous 401 on every admin GET, jobseeker+employer 403 on every admin GET, suspend/reactivate with audit+notification, role filter on user list, DELETED status rejected, approve PENDING_REVIEW job with audit+employer notification, reject with moderation_notes persisted, idempotent approve on ACTIVE, 409 approve on CLOSED, force-close with audit, verify/unverify employer toggle with audit+notification, full submit→claim→resolve report flow with double-resolve 409, analytics snapshot)"
+  ],
+  "endpoints_implemented": [
+    "GET    /api/v1/admin/users                       (paged + role + status + q)",
+    "GET    /api/v1/admin/users/{id}",
+    "PATCH  /api/v1/admin/users/{id}                  (status/role/verification)",
+    "POST   /api/v1/admin/users/{id}/suspend",
+    "POST   /api/v1/admin/users/{id}/reactivate",
+    "GET    /api/v1/admin/jobs                        (paged + status filter)",
+    "POST   /api/v1/admin/jobs/{id}/approve           (force-publish, honours 2-active rule)",
+    "POST   /api/v1/admin/jobs/{id}/reject            (with moderation notes)",
+    "POST   /api/v1/admin/jobs/{id}/close             (admin force-close)",
+    "POST   /api/v1/admin/employers/{id}/verify       (toggle verification)",
+    "GET    /api/v1/admin/reports                     (paged + status + target filters)",
+    "GET    /api/v1/admin/reports/{id}",
+    "POST   /api/v1/admin/reports/{id}/claim          (OPEN -> REVIEWING)",
+    "POST   /api/v1/admin/reports/{id}/resolve        (resolve or dismiss)",
+    "GET    /api/v1/admin/analytics                   (counts snapshot)",
+    "POST   /api/v1/reports                           (any authenticated user; report submission)"
+  ],
+  "route_security": {
+    "url_layer": "SecurityConfig now matches /api/v1/admin/** with .hasRole('ADMIN') BEFORE the generic .anyRequest().authenticated() rule. Defence-in-depth: even if a future controller forgets @PreAuthorize, the URL gate still rejects non-admins with 403.",
+    "controller_layer": "Every admin controller carries class-level @PreAuthorize(\"hasRole('ADMIN')\") plus @SecurityRequirement(name='bearerAuth') so Swagger renders the lock icon correctly.",
+    "test_evidence": "AdminApiTest.anonymousIsBlockedFromAllAdminRoutes (401) and jobseekerAndEmployerAreForbiddenFromAdminRoutes (403) iterate through every public admin route and assert proper rejection."
+  },
+  "audit_trail": {
+    "actions_recorded": [
+      "admin.user.update",
+      "admin.job.approve",
+      "admin.job.reject",
+      "admin.job.force_close",
+      "admin.employer.verify",
+      "admin.report.claim",
+      "admin.report.resolve",
+      "admin.report.dismiss"
+    ],
+    "isolation": "AuditService.record runs in REQUIRES_NEW so a privileged action's audit row is committed independently. Failures inside audit are caught and logged - audit can never bring down a request.",
+    "retention": "Audit table is append-only (no UPDATE on AuditLog entity); 2-year retention plan is documented in ARCHITECTURE; cold-storage archival cron lands in P12."
+  },
+  "side_effects_on_employer_user": {
+    "job_approved": "Employer notified via NotificationType.JOB_APPROVED through the async fan-out (in-app + email if opted in; SMS allow-listed).",
+    "job_rejected": "Employer notified via JOB_REJECTED with the moderation notes inline.",
+    "job_force_closed": "Employer notified via SYSTEM with the admin-supplied reason.",
+    "employer_verified": "User receives ACCOUNT_VERIFIED notification; isVerified flag flips so subsequent /jobs/{id}/publish goes straight to ACTIVE bypassing PENDING_REVIEW; the 2-active-jobs cap stops applying.",
+    "user_suspended": "User receives a SYSTEM notification with reason; subsequent token validations still work but the User.isActive() check in AuthService and JWT issuance paths refuses sign-in (handled in P2 already)."
+  },
+  "deferred_to_later_phases": [
+    "Audit-log read endpoint for admins (GET /admin/audit) — easy to add, not in current spec",
+    "Per-day trend lines in analytics (joins on date_trunc) — P12 if needed",
+    "Bulk admin actions (multi-job approve, multi-user suspend) — out of scope",
+    "Admin-only viewable endpoint to override application status outside the state machine — intentionally not provided; admins use the existing employer endpoints with their own credentials if needed, or close the underlying job"
+  ],
+  "next_step": {
+    "handoff_to": "nearjobs-worker",
+    "instruction": "Continue with the frontend phases (P8 public + auth UI, P9 jobseeker, P10 employer, P11 admin). Each frontend feature must include page, component, API client (RTK Query slice), route, validation (zod), and Playwright test per AGENT RULES. Branch: feature/nearjobs-frontend-public from feature/nearjobs-admin."
+  }
+}
+```
+
+**P7 admin complete.** 19 production source files (5 modified), 2 test files (14 tests). Defence-in-depth on `/admin/**` (URL gate + `@PreAuthorize`), full audit trail with `REQUIRES_NEW` isolation, employer notifications fanned out on every consequential moderation action, real `countBy*` repository methods (no more `findAll().stream()` for analytics), and all admin moderation flows covered with HTTP-level tests including the negative paths (anonymous, jobseeker, employer all rejected on every admin route).

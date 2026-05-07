@@ -1,0 +1,22 @@
+{
+  "runs": [
+    {
+      "runId": "9333b666-474b-4bc6-919a-4e39065ab94d",
+      "mode": "new_project",
+      "requirement": "Initialize NearJobs project structure from scratch",
+      "runDir": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/9333b666-474b-4bc6-919a-4e39065ab94d",
+      "status": "completed",
+      "createdAt": "2026-05-05T11:42:08.096Z"
+    },
+    {
+      "runId": "qa-reverify-2026-05-06",
+      "mode": "qa_reverify",
+      "requirement": "Re-run QA after fix-agent commit 8954ebe",
+      "branch": "feature/nearjobs-deploy",
+      "head": "8954ebe2558c4402c062d04eee324ea4751ee21b",
+      "verdict": "PASS",
+      "status": "completed",
+      "createdAt": "2026-05-06T19:47:00+05:30"
+    }
+  ]
+}

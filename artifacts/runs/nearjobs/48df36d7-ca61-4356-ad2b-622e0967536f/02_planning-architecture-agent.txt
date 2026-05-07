@@ -1,0 +1,77 @@
+I'll read the SPEC.json from prompt-agent and produce the full production architecture, DB design, API contract, frontend map, test plan, deploy plan, and implementation phases.
+The spec is comprehensive. Now I'll produce the architecture plan with task graph, DB design, API contract, frontend map, test plan, deploy plan, and phased implementation. Let me check the project directory and write the architecture artifacts.
+Now let me write the human-readable architecture summary that complements the JSON:
+Both artifacts written. Returning the JSON-first response per agent rules.
+
+```json
+{
+  "agent": "planning-architecture-agent",
+  "status": "ok",
+  "project": {
+    "name": "NearJobs",
+    "slug": "nearjobs",
+    "stage": "production",
+    "is_mvp": false
+  },
+  "artifacts": {
+    "architecture_json": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/ARCHITECTURE.json",
+    "architecture_md":   "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/docs/ARCHITECTURE.md",
+    "spec_source":       "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/SPEC.json"
+  },
+  "deliverables_produced": [
+    "Architecture overview (C4 L1/L2, modular monolith, cross-cutting concerns)",
+    "Database design (10 Flyway migrations, all entities, indexes incl. GIST/GIN, triggers, partitioning, retention)",
+    "Canonical geospatial + full-text search query with ranking formula",
+    "API contract (OpenAPI 3.1, RFC7807 errors, pagination, all endpoint groups, rate limits)",
+    "Frontend map (route tree, role guards, feature slices, Axios refresh interceptor, WS client, i18n, a11y)",
+    "Test plan (JUnit + Testcontainers backend, Vitest + Playwright frontend, k6 perf, coverage gates, security scanners)",
+    "Deploy plan (Docker multi-stage, docker-compose, k8s manifests, Helm chart, GitHub Actions, backup/DR)",
+    "Implementation phases P0..P14 with dependencies, branches, tasks, and per-phase QA gates",
+    "Task graph with critical path + parallelizable lanes",
+    "Risk register with mitigations",
+    "Global Definition of Done"
+  ],
+  "phases": [
+    { "id": "P0",  "name": "Foundation & repo scaffolding",            "branch": "feature/nearjobs-foundation" },
+    { "id": "P1",  "name": "DB schema & Flyway migrations",            "branch": "feature/nearjobs-foundation" },
+    { "id": "P2",  "name": "Auth (OTP + JWT + refresh rotation)",      "branch": "feature/nearjobs-auth" },
+    { "id": "P3",  "name": "User profiles & S3 uploads",               "branch": "feature/nearjobs-user-profiles" },
+    { "id": "P4",  "name": "Jobs + geo & full-text search",            "branch": "feature/nearjobs-jobs-geosearch" },
+    { "id": "P5",  "name": "Applications (state machine)",             "branch": "feature/nearjobs-applications" },
+    { "id": "P6",  "name": "Notifications (in-app/WS/email/SMS)",      "branch": "feature/nearjobs-notifications" },
+    { "id": "P7",  "name": "Admin moderation/reports/analytics/audit", "branch": "feature/nearjobs-admin" },
+    { "id": "P8",  "name": "Frontend public + auth + layout",          "branch": "feature/nearjobs-frontend-public" },
+    { "id": "P9",  "name": "Frontend jobseeker",                       "branch": "feature/nearjobs-frontend-jobseeker" },
+    { "id": "P10", "name": "Frontend employer",                        "branch": "feature/nearjobs-frontend-employer" },
+    { "id": "P11", "name": "Frontend admin",                           "branch": "feature/nearjobs-frontend-admin" },
+    { "id": "P12", "name": "Observability, perf, hardening",           "branch": "feature/nearjobs-deploy (subset)" },
+    { "id": "P13", "name": "Deployment (Docker/k8s/Helm/CI-CD)",       "branch": "feature/nearjobs-deploy" },
+    { "id": "P14", "name": "Docs, seed data, release",                 "branch": "feature/nearjobs-platform" }
+  ],
+  "critical_path": "P0 -> P1 -> P2 -> P3 -> P4 -> P5 -> P6 -> P7 -> P12 -> P13 -> P14",
+  "scope_preserved": true,
+  "global_rules_acknowledged": [
+    "feature branch only",
+    "no direct push to main",
+    "preserve existing architecture",
+    "work only on assigned task",
+    "JUnit required for backend changes",
+    "Playwright required for UI changes",
+    "QA must pass before merge",
+    "no destructive ops without approval",
+    "no secrets/.env exposure",
+    "every agent outputs JSON first"
+  ],
+  "next_step": {
+    "handoff_to": "nearjobs-worker",
+    "instruction": "Implement phases P0..P14 in order (parallel lanes per task_graph) on dedicated feature branches that merge into feature/nearjobs-platform. Output JSON status first. Backend changes require JUnit (>=80% line / >=70% branch in touched packages). UI changes require Playwright (happy + key error paths). No direct push to main. No destructive ops without approval. Use SPEC.json + ARCHITECTURE.json as the single source of truth; ARCHITECTURE.json wins on conflicts about how, SPEC.json wins on what."
+  }
+}
+```
+
+**Architecture complete.** Two artifacts produced:
+
+- **`ARCHITECTURE.json`** (52 KB) — machine-readable plan: full DB design with all migrations/indexes/triggers, complete API contract with rate limits, frontend route+slice map, test plan with coverage gates, deploy plan (Docker/k8s/Helm/CI-CD), and a 15-phase implementation graph (P0–P14) with branches, tasks, dependencies, and per-phase QA gates.
+- **`docs/ARCHITECTURE.md`** (15 KB) — human-readable summary with diagrams, tables, and the canonical PostGIS search query.
+
+Scope from `SPEC.json` is fully preserved — nothing dropped, nothing added beyond what the spec already authorized. Critical path is P0→P1→P2→P3→P4→P5→P6→P7→P12→P13→P14, with P8/P9/P10/P11 (frontend) running in parallel lanes once their backend dependencies land. `nearjobs-worker` is unblocked.

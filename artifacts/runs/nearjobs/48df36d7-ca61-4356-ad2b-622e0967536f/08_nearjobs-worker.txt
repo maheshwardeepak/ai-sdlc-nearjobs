@@ -1,0 +1,104 @@
+New step: **applications + saved jobs + notifications, with duplicate-apply block, statuses, tests** (P5 + P6 backend).
+Plan:
+
+1. **NotificationService + NotificationPublisher** — write, list, mark read, async dispatch (email/SMS/in-app). Async because applications must not be slowed by notification I/O.
+2. **NotificationController** — list/unread-count/mark-read endpoints
+3. **ApplicationService** — apply (with duplicate block), withdraw, employer status updates (state machine enforced), employer notes
+4. **ApplicationController** — jobseeker + employer endpoints
+5. **SavedJobService + Controller** — save / unsave / list
+6. **JobseekerSavedJobsController** matches the SPEC route shape
+7. **Tests** — duplicate-apply 409, withdraw, status state-machine, saved jobs unique constraint, notifications fan-out
+
+Let me start with notifications first since applications depend on them.
+I referenced `NotificationType.smsWorthy()` — add it:
+Now ApplicationService — the heart of P5 with the duplicate-apply block, state-machine guards, ownership checks, and notification fan-out:
+Now controllers for applications:
+Now SavedJobs:
+Now tests. Pure unit for the in-memory state-machine (already existed in `ApplicationStatusTest`), plus integration tests for the new HTTP layers. The integration test will be the major coverage:
+I used `Awaitility` but it's not in the POM. Let me check:
+Awaitility isn't a direct dependency. However, `spring-boot-starter-test` includes it transitively (Spring Boot's BOM ships Awaitility). Let me confirm:
+Good — Awaitility 4.3.0 is in the local Maven cache from `spring-boot-starter-test` (it's a managed transitive dep). Test will compile.
+
+Now a small unit test for NotificationType.smsWorthy() to keep coverage tidy:
+Concern: in the integration test the `NotificationService.publish` calls SMS/email senders. The test profile uses MockSmsSender (default since `nearjobs.twilio.provider=mock`), so SMS won't fail. Email goes through `SmtpEmailSender` which uses `JavaMailSender` configured for `mailhog:1025`. In CI without mailhog the email send will throw — but our service catches it and writes a `delivered=false` row. So the test is robust.
+
+But wait — `SmtpEmailSender` is `@Primary @Component`, so it's always wired. In tests there's no mailhog, so `mail.send(msg)` will fail. We catch and log. Good.
+
+Actually, let me double-check: the test seed `User` has email set. Notification fan-out tries to send email to `employerUser.getEmail()`. That'll throw a connection-refused exception which we catch in `NotificationService.publish` — but the `try/catch` catches a wider net. Works.
+
+One more concern: in `applicantCanWithdrawAndNoOneElseCan`, the `otherSeekerToken` belongs to `otherSeekerUser` whose role is JOBSEEKER but `otherSeeker` profile is created. The `withdraw` method requires `JOBSEEKER` role at the controller (`@PreAuthorize("hasRole('JOBSEEKER')")`) and the service checks ownership. Good.
+
+Sanity-check file inventory and commit:
+```json
+{
+  "agent": "nearjobs-worker",
+  "status": "ok",
+  "step": "Implement applications/saved jobs/notifications: duplicate apply block, statuses, tests",
+  "phase": "P5 + P6 backend (applications, saved jobs, notifications)",
+  "branch": "feature/nearjobs-applications",
+  "parent_branch": "feature/nearjobs-jobs-geosearch",
+  "commit": "fa6ad6b",
+  "rules_followed": [
+    "feature branch only",
+    "no direct push to main",
+    "no destructive ops",
+    "preserved existing architecture (no migration changes; reused existing entities/repositories/DTOs from P1; added service+controller layer only)",
+    "JUnit included for backend changes (2 test classes, 16 tests)",
+    "real business logic; no placeholders or TODO stubs"
+  ],
+  "production_code": [
+    "application/service/ApplicationService.java",
+    "application/web/ApplicationController.java",
+    "job/service/SavedJobService.java",
+    "job/web/SavedJobController.java",
+    "job/dto/SavedJobResponse.java",
+    "notification/service/NotificationService.java",
+    "notification/web/NotificationController.java",
+    "notification/domain/NotificationType.java (added smsWorthy() allow-list)"
+  ],
+  "tests": [
+    "notification/domain/NotificationTypeTest.java   (1 unit: SMS allow-list correctness)",
+    "application/web/ApplicationApiTest.java         (15 integration: apply happy path with async fan-out via Awaitility, duplicate-apply 409, non-ACTIVE 409, employer-self 403, withdraw + 403 + double 409, illegal state jump, full funnel SUBMITTED→SHORTLISTED→INTERVIEW_SCHEDULED→HIRED, employer cannot WITHDRAWN, cross-employer 403, auto-flip SUBMITTED→VIEWED on GET, employer/seeker list filters, saved jobs save/duplicate/unsave/list, save non-active blocked, notifications surface + mark-all-read)"
+  ],
+  "endpoints_implemented": [
+    "POST   /api/v1/jobs/{jobId}/apply               (jobseeker)",
+    "POST   /api/v1/applications/{id}/withdraw       (jobseeker, owner)",
+    "GET    /api/v1/jobseekers/me/applications       (jobseeker, paged + status filter)",
+    "POST   /api/v1/applications/{id}/status         (employer, owner of the job)",
+    "GET    /api/v1/employers/me/applications        (employer, paged)",
+    "GET    /api/v1/jobs/{jobId}/applications        (employer, owner)",
+    "GET    /api/v1/applications/{id}                (either side, ownership-checked, auto-flips SUBMITTED→VIEWED for employer)",
+    "GET    /api/v1/jobseekers/me/saved-jobs         (jobseeker, paged)",
+    "POST   /api/v1/jobseekers/me/saved-jobs/{jobId} (jobseeker, 409 on duplicate, 409 on non-ACTIVE)",
+    "DELETE /api/v1/jobseekers/me/saved-jobs/{jobId} (jobseeker, 404 if missing)",
+    "GET    /api/v1/notifications                    (paged, ?unread=true filter)",
+    "GET    /api/v1/notifications/unread-count       (count envelope)",
+    "POST   /api/v1/notifications/{id}/read",
+    "POST   /api/v1/notifications/read-all"
+  ],
+  "business_rules_enforced": {
+    "duplicate_apply_block": "ApplicationService.apply does existsByJobIdAndJobseekerId pre-check returning 409 with 'You have already applied to this job'; the DB unique constraint (job_id, jobseeker_id) is the safety net for race conditions.",
+    "active_job_required": "Apply / save-job both require status=ACTIVE; non-active states return 409 with 'not accepting applications' / 'Cannot save a job that is not ACTIVE'.",
+    "withdraw_ownership": "Only the applicant (matched via jobseeker.user.id == caller) can withdraw; everyone else 403.",
+    "employer_status_state_machine": "Every transition runs through ApplicationStatus.canTransitionTo; illegal jumps (e.g. SUBMITTED→HIRED) return 409 'Illegal application transition'. Employers explicitly cannot move to WITHDRAWN.",
+    "cross_employer_isolation": "All employer-side reads/writes call employers.loadOwnedBy(callerId), then verify job.employer.id == that employer; mismatches 403.",
+    "auto_view_flip": "GET /applications/{id} as employer auto-transitions SUBMITTED → VIEWED in the same txn and notifies the jobseeker.",
+    "saved_jobs_unique": "DB-level unique (jobseeker_id, job_id); pre-check returns 409 on duplicate; unsave is 404 if no saved row.",
+    "notification_prefs_gating": "Per-user JSONB prefs (email/sms/push/in_app booleans) gate fan-out; in-app row is always written when the in_app preference is true (default).",
+    "sms_allow_list": "SMS only for APPLICATION_STATUS_CHANGED / JOB_APPROVED / JOB_REJECTED / ACCOUNT_VERIFIED to avoid noise and metered cost.",
+    "async_isolation": "publish() is @Async @Transactional(REQUIRES_NEW); a notification failure never rolls back the originating apply/withdraw/status-update transaction. All exceptions from channel adapters are caught and recorded as delivered=false rows so audit history is preserved."
+  },
+  "deferred_to_later_phases": [
+    "WebSocket push for in-app notifications — P6 frontend wiring",
+    "Job-match notification on job creation (find matching jobseekers within radius+skills) — P6 enhancement",
+    "Cron sweep that closes ACTIVE jobs past their expires_at — P12",
+    "Recommendations endpoint with full ranking — P5 enhancement (location+skills join already feasible via existing data)"
+  ],
+  "next_step": {
+    "handoff_to": "nearjobs-worker",
+    "instruction": "Continue with P7 (admin moderation/reports/analytics/audit): admin endpoints to approve/reject jobs, list/resolve reports, suspend users, basic analytics, audit log writes. Branch: feature/nearjobs-admin from feature/nearjobs-applications."
+  }
+}
+```
+
+**P5 + P6 backend complete.** 8 production source files (1 modified), 2 test files (16 tests). The async notification fan-out is properly isolated from the business transaction, the duplicate-apply block has both an application-layer pre-check and the database-level unique constraint as a backstop, and the application state machine is enforced at three layers: enum guard, service guard, controller-level role guard. View-flip auto-transition happens transactionally on the same GET so the employer can never see a "stuck SUBMITTED" status.

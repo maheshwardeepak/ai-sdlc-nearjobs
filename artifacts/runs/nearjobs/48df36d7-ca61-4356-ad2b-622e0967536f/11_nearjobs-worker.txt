@@ -1,0 +1,42 @@
+The orchestrator advanced before I finished the previous step. The frontend pages, API slices, and route tree are committed in working tree but not yet committed. The Playwright `mockApi.ts` is in place; I still need actual `*.spec.ts` files to satisfy the "Playwright required for UI changes" rule.
+
+New step: **Integration and deployment prep — Docker, README, env, CI, run scripts, contract fixes.** I must finish the frontend Playwright tests first (UI changes are uncommitted; agent rules require Playwright for UI changes), then deliver the deployment artifacts.
+Good — still on `feature/nearjobs-frontend`. Let me first add the Playwright tests (required to commit the frontend), then commit the frontend, then branch into deployment.
+Also one quick contract fix: the `LoginPage` validation test expects errors to surface for empty submit. With `noValidate` on the form and react-hook-form + zod, empty submit does trigger validation. Good.
+
+Let me also add a unit test for the new dashboardPath helper:
+The existing `tests/e2e/smoke.spec.ts` from the foundation still works (landing page, header brand link, 404). Good. Commit the frontend:
+Now branch into deployment prep — the actual current step:
+Now the actual deployment step. Plan:
+
+1. **Docker Compose** for local dev (already partially planned in foundation, never written): Postgres+PostGIS, Redis, MinIO, MailHog, backend, frontend, Nginx
+2. **Production docker-compose** variant
+3. **Nginx reverse-proxy** config
+4. **Helm chart skeleton** (already directory, fill it)
+5. **K8s raw manifests**
+6. **GitHub Actions**: backend-ci, frontend-ci, security, deploy
+7. **Run scripts**: seed.sh, healthcheck.sh, backup.sh
+8. **Docs**: DEVELOPMENT, DEPLOYMENT, SECURITY, CONTRIBUTING, API, DATABASE
+9. **Contract fixes**: anything I noticed during the build that's mis-aligned between BE/FE
+
+Let me check what's already there:
+The directories exist but are empty (foundation step created them but didn't populate). Time to fill them.
+K8s manifests + Helm chart + GitHub Actions:
+Helm chart skeleton:
+Prometheus + Grafana scrape config:
+GitHub Actions CI workflows:
+Now run scripts:
+Now docs. Concise, production-quality, not boilerplate:
+Now **contract fixes** — sweep for actual mismatches between BE and FE I noticed during the build.
+
+Let me audit:
+
+1. The frontend `notifications/{id}/read` POST returns `ApiResponse<Void>`. Backend's `NotificationController.markRead` returns `ApiResponse<Void>`. ✓
+2. Frontend `applicationsApi.applicationById` GET; backend has `GET /applications/{id}`. ✓ But controller uses neither role pre-auth — relies on service ownership check. Verified in code. ✓
+3. The `mockApi.ts` `notifications/read-all` route registration — the URL matcher `**/api/v1/notifications**` matches the read-all path too, so the order of registrations matters in Playwright (last-registered wins for same URL). Let me check… yes in mockApi.ts the read-all is registered AFTER the catch-all, so it shadows the catch-all. Good.
+4. `auth/me` invalidation — backend `/auth/me` returns `UserResponse`; frontend `authApi.me` query uses `User` tag. After tokensReceived dispatch we don't refetch /auth/me; we have user already. ✓
+5. The OTP request's `purpose` field in frontend `OtpRequestBody` includes `LOGIN | REGISTER | ...`. Backend `OtpRequest` accepts the same `OtpPurpose` enum. ✓
+6. The `notification.payload` field — backend's `NotificationResponse.payload` is `Map<String, Object>` but the entity's `payload` JSONB column may yield `null` when unset. Looking at `Notification` entity, `payload` is initialised to `new HashMap<>()`. But on read the `Map.copyOf(n.getPayload())` will NPE if payload is null. Edge case — let me harden:
+Same defensive copy issues elsewhere — `JobResponse.from` does `List.copyOf(j.getSkillsRequired())` which NPEs on null. Entity initialises to empty list, but a fresh entity loaded from DB could have null in race-y situations. Let me fix:
+Now finalize the README to reflect the now-real deployment story, the QA report, and the delivery report (per WORLD_CLASS_FACTORY_RULES.md):
+Now update the README to reflect the actual now-delivered state:

@@ -1,0 +1,66 @@
+I'll convert this requirement into a complete production-ready platform specification.
+```json
+{
+  "agent": "prompt-agent",
+  "status": "ok",
+  "project": {
+    "name": "NearJobs",
+    "slug": "nearjobs",
+    "path": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs",
+    "memory_path": "/Users/nanofactory/ai-sdlc-factory/memory/projects/nearjobs",
+    "worker_agent": "nearjobs-worker",
+    "stage": "production",
+    "is_mvp": false,
+    "is_scaffold_only": false
+  },
+  "spec_file": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs/SPEC.json",
+  "summary_file": "/Users/nanofactory/ai-sdlc-factory/memory/projects/nearjobs/spec-summary.md",
+  "scope_preserved": true,
+  "scope_items_covered": [
+    "Spring Boot backend",
+    "React frontend",
+    "PostgreSQL database (with PostGIS)",
+    "JWT authentication",
+    "OTP login (SMS + email)",
+    "Jobseeker / Employer / Admin roles",
+    "Nearby job discovery (geospatial)",
+    "Job posting (full lifecycle)",
+    "Applications (full lifecycle + pipeline)",
+    "Notifications (in-app/WebSocket + email + SMS)",
+    "Admin moderation (jobs, KYC, reports, analytics)",
+    "Docker (dev compose + prod multi-stage)",
+    "CI/CD (GitHub Actions: build, test, security, deploy)",
+    "Tests (JUnit + Testcontainers backend, Vitest + Playwright frontend)",
+    "Deployment setup (Kubernetes manifests + Helm + Nginx ingress)",
+    "Real business logic (search ranking, recommendations, fraud signals, expiry, audit)"
+  ],
+  "additional_production_concerns_added": [
+    "Refresh token rotation + revocation",
+    "Rate limiting (Bucket4j + Redis)",
+    "Audit logging (AuditLog entity)",
+    "Reports / abuse handling",
+    "Observability (Prometheus, Grafana, Loki, Sentry, OpenTelemetry)",
+    "Object storage with presigned URLs (S3/MinIO)",
+    "i18n (en, hi) and WCAG 2.1 AA",
+    "GDPR/DPDP data export + anonymized soft-delete",
+    "Caffeine + Redis multi-level caching",
+    "Seed data for staging/dev"
+  ],
+  "global_rules_acknowledged": [
+    "feature branch only",
+    "no direct push to main",
+    "preserve existing architecture",
+    "JUnit required for backend changes",
+    "Playwright required for UI changes",
+    "QA must pass before merge",
+    "no destructive ops without approval",
+    "no secrets/.env exposure"
+  ],
+  "next_step": {
+    "handoff_to": "nearjobs-worker",
+    "instruction": "Read /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/SPEC.json and implement the full platform on a feature branch. Output JSON status first. Do not reduce scope. Backend changes require JUnit; UI changes require Playwright. QA must pass before merge."
+  }
+}
+```
+
+**Spec written.** Full production specification at `projects/nearjobs/SPEC.json` (31 KB) — covers all requested features plus the production concerns you'd actually need to ship: refresh token rotation, rate limiting, audit logging, observability, S3 uploads, i18n, accessibility, GDPR/DPDP, caching, and seed data. Scope preserved, no MVP shortcuts. Ready for `nearjobs-worker` to implement.

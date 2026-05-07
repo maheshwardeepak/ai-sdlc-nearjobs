@@ -1,0 +1,14 @@
+{
+  "runs": [
+    {
+      "runId": "48df36d7-ca61-4356-ad2b-622e0967536f",
+      "mode": "new_project",
+      "requirement": "Create a complete production-ready platform called NearJobs using Spring Boot backend, React frontend, PostgreSQL database, JWT authentication, OTP login, jobseeker/employer/admin roles, nearby job discovery, job posting, applications, notifications, admin moderation, Docker, CI/CD, tests, deployment setup, and real business logic. Do not create MVP. Do not create scaffold only. Implement actual production-ready code.",
+      "runDir": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/nearjobs/48df36d7-ca61-4356-ad2b-622e0967536f",
+      "status": "human_review_required",
+      "createdAt": "2026-05-06T14:19:53.446Z",
+      "projectSlug": "nearjobs",
+      "projectPath": "/Users/nanofactory/ai-sdlc-factory/projects/nearjobs"
+    }
+  ]
+}

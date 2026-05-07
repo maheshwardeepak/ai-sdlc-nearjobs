@@ -1,0 +1,8 @@
+{
+  "projectName": "TestFactoryApp",
+  "projectSlug": "testfactoryapp",
+  "projectPath": "/Users/nanofactory/ai-sdlc-factory/projects/testfactoryapp",
+  "memoryPath": "/Users/nanofactory/ai-sdlc-factory/memory/projects/testfactoryapp",
+  "runRoot": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/testfactoryapp",
+  "workerAgentName": "testfactoryapp-worker"
+}
