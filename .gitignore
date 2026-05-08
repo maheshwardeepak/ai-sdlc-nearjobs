@@ -1,0 +1,15 @@
+
+# AI SDLC Factory generated runtime files
+runtime/logs/
+runtime/tasks/
+runtime/*.lock
+runtime/*-state.json
+
+# Generated release outputs
+artifacts/releases/*.manifest.json
+artifacts/releases/*-release-report.json
+artifacts/releases/*-release-summary.md
+artifacts/releases/*-release-history.json
+
+# Patch/debug backups
+artifacts/patch-backups/

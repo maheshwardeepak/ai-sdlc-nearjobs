@@ -1,8 +1,0 @@
-STDOUT:
-NAME                IMAGE                COMMAND                  SERVICE    CREATED         STATUS         PORTS
-nearjobs-backend    infra-backend        "java -jar /app/app.…"   backend    4 seconds ago   Up 3 seconds   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
-nearjobs-frontend   infra-frontend       "/docker-entrypoint.…"   frontend   3 seconds ago   Up 3 seconds   0.0.0.0:3000->80/tcp, [::]:3000->80/tcp
-nearjobs-postgres   postgres:16-alpine   "docker-entrypoint.s…"   postgres   3 seconds ago   Up 3 seconds   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
-nearjobs-redis      redis:7-alpine       "docker-entrypoint.s…"   redis      3 seconds ago   Up 3 seconds   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
-
-STDERR:
