@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import { execSync } from "child_process";
 
 export function detectChangedProjects(): string[] {
@@ -12,6 +10,7 @@ export function detectChangedProjects(): string[] {
 
     for (const file of output.split("\n").map((f) => f.trim()).filter(Boolean)) {
       const match = file.match(/^projects\/([^/]+)/);
+
       if (match && match[1]) {
         projects.add(match[1]);
       }
@@ -27,23 +26,13 @@ export function detectChangedProjects(): string[] {
 
     for (const line of status.split("\n").map((l) => l.trim()).filter(Boolean)) {
       const match = line.match(/projects\/([^/\s]+)/);
+
       if (match && match[1]) {
         projects.add(match[1]);
       }
     }
   } catch {
     // ignore status errors
-  }
-
-  const projectsRoot = path.resolve(process.cwd(), "projects");
-
-  if (fs.existsSync(projectsRoot)) {
-    for (const project of fs.readdirSync(projectsRoot)) {
-      const testFile = path.join(projectsRoot, project, "SMART_DELIVERY_TEST.md");
-      if (fs.existsSync(testFile)) {
-        projects.add(project);
-      }
-    }
   }
 
   return [...projects];
