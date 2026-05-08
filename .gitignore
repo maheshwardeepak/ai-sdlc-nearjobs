@@ -14,3 +14,4 @@ artifacts/releases/*-release-history.json
 # Patch/debug backups
 artifacts/patch-backups/
 backups/
+backups/
