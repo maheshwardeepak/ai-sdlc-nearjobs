@@ -1,0 +1,52 @@
+name: Autonomous SDLC CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  autonomous-sdlc-checks:
+    name: Typecheck and Autonomous Health Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.0.8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck orchestrator
+        run: pnpm exec tsc -p orchestrator/tsconfig.json --noEmit
+
+      - name: Run autonomous health gate
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts autonomous-health-gate
+
+      - name: Generate dashboard snapshot
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts dashboard
+
+      - name: Upload runtime logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autonomous-runtime-logs
+          path: |
+            runtime/logs
+            runtime/tasks
+            artifacts/runs
+          if-no-files-found: ignore
