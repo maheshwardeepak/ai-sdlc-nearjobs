@@ -15,6 +15,7 @@ import { generateReleaseManifest } from "./releaseManifest.js";
 import { runDelivery } from "./deliveryCommand.js";
 import { runFleetDelivery } from "./fleetDelivery.js";
 import { runDaemonOnce, startSmartDaemon } from "./autonomousDaemon.js";
+import { loadDaemonState } from "./daemonState.js";
 import { runSmartFleetDelivery } from "./smartFleetDelivery.js";
 import { applySafeRepoPatches } from "./safeRepoPatchEngine.js";
 import { runAutonomousFailureRepair } from "./failureRepairEngine.js";
@@ -247,6 +248,11 @@ management:
   case "smart-delivery": {
     const result = await runSmartFleetDelivery();
     console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "daemon-status": {
+    console.log(JSON.stringify(loadDaemonState(), null, 2));
     break;
   }
 
