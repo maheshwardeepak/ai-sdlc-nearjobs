@@ -82,18 +82,22 @@ async function checkPortReady(port: number): Promise<{ free: boolean; allowedOcc
 export async function runInfraPreflight(): Promise<InfraPreflightResult> {
   const freeMemGb = os.freemem() / 1024 / 1024 / 1024;
 
+  const isCi = process.env.CI === "true";
+
   const dockerExists = await commandExists("docker");
   const gitExists = await commandExists("git");
   const nodeExists = await commandExists("node");
   const pnpmExists = await commandExists("pnpm");
 
-  const ports = {
-    "3000": await checkPortReady(3000),
-    "5173": await checkPortReady(5173),
-    "8080": await checkPortReady(8080),
-    "5432": await checkPortReady(5432),
-    "6379": await checkPortReady(6379)
-  };
+  const ports = isCi
+    ? {}
+    : {
+        "3000": await checkPortReady(3000),
+        "5173": await checkPortReady(5173),
+        "8080": await checkPortReady(8080),
+        "5432": await checkPortReady(5432),
+        "6379": await checkPortReady(6379)
+      };
 
   const networkReady = await checkNetwork();
 
@@ -104,7 +108,11 @@ export async function runInfraPreflight(): Promise<InfraPreflightResult> {
     pnpmExists,
     memoryOk: freeMemGb >= 2,
     networkReady,
-    portsReady: Object.values(ports).every((port) => port.free || port.allowedOccupied)
+    portsReady:
+      isCi ||
+      Object.values(ports).every(
+        (port) => port.free || port.allowedOccupied
+      )
   };
 
   return {
