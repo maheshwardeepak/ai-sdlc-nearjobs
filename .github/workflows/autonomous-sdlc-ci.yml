@@ -34,6 +34,9 @@ jobs:
       - name: Typecheck orchestrator
         run: pnpm exec tsc -p orchestrator/tsconfig.json --noEmit
 
+      - name: Run infrastructure preflight
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts infra-preflight
+
       - name: Run autonomous health gate
         run: pnpm exec tsx orchestrator/src/factoryCli.ts autonomous-health-gate
 
