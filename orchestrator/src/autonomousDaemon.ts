@@ -56,11 +56,15 @@ export async function runDaemonOnce() {
 
   const result = await runSmartFleetDelivery();
 
-  return {
+  const daemonResult = {
     success: result.success,
     mode: "smart-once",
     result
   };
+
+  saveDaemonState(daemonResult);
+
+  return daemonResult;
 }
 
 export async function startSmartDaemon() {
