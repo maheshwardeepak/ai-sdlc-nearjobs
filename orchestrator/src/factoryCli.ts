@@ -20,6 +20,7 @@ import { getDaemonMetrics } from "./daemonMetrics.js";
 import { getFailureAnalytics } from "./failureAnalytics.js";
 import { getFailureTrends } from "./failureTrends.js";
 import { getAutonomousHealth } from "./autonomousHealth.js";
+import { runAutonomousHealthGate } from "./autonomousHealthGate.js";
 import { runSmartFleetDelivery } from "./smartFleetDelivery.js";
 import { applySafeRepoPatches } from "./safeRepoPatchEngine.js";
 import { runAutonomousFailureRepair } from "./failureRepairEngine.js";
@@ -252,6 +253,11 @@ management:
   case "smart-delivery": {
     const result = await runSmartFleetDelivery();
     console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "autonomous-health-gate": {
+    console.log(JSON.stringify(runAutonomousHealthGate(), null, 2));
     break;
   }
 
