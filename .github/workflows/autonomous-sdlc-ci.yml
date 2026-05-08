@@ -46,4 +46,6 @@ jobs:
             runtime/logs
             runtime/tasks
             artifacts/runs
+            artifacts/reports/verification-plan.json
+            artifacts/reports/verification-result.json
           if-no-files-found: ignore
