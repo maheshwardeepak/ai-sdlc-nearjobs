@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { runTask } from "../taskRuntime.js";
 import { createIncrementalVerificationPlan } from "./incrementalVerificationPlanner.js";
 
@@ -89,11 +91,26 @@ export async function executeIncrementalVerification(
     });
   }
 
-  return {
+  const output = {
     success: results.every((result) => result.success),
     plan,
     results
   };
+
+  const reportsDir = path.resolve(process.cwd(), "artifacts/reports");
+  fs.mkdirSync(reportsDir, { recursive: true });
+
+  fs.writeFileSync(
+    path.join(reportsDir, "verification-plan.json"),
+    JSON.stringify(plan, null, 2)
+  );
+
+  fs.writeFileSync(
+    path.join(reportsDir, "verification-result.json"),
+    JSON.stringify(output, null, 2)
+  );
+
+  return output;
 }
 
 if (process.argv[1]?.includes("incrementalVerificationExecutor")) {
