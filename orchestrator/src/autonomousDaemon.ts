@@ -1,11 +1,33 @@
+import fs from "fs";
+import path from "path";
 import { runSmartFleetDelivery } from "./smartFleetDelivery.js";
 
 const POLL_INTERVAL_MS = 30000;
+
+const LOCK_FILE = path.resolve(
+  process.cwd(),
+  "runtime",
+  "smart-daemon.lock"
+);
 
 let running = false;
 
 async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function acquireLock() {
+  if (fs.existsSync(LOCK_FILE)) {
+    throw new Error("Smart daemon already running.");
+  }
+
+  fs.writeFileSync(LOCK_FILE, String(process.pid));
+}
+
+function releaseLock() {
+  if (fs.existsSync(LOCK_FILE)) {
+    fs.unlinkSync(LOCK_FILE);
+  }
 }
 
 export async function runDaemonOnce() {
@@ -21,6 +43,20 @@ export async function runDaemonOnce() {
 }
 
 export async function startSmartDaemon() {
+  acquireLock();
+
+  process.on("SIGINT", () => {
+    console.log("Stopping smart daemon...");
+    releaseLock();
+    process.exit(0);
+  });
+
+  process.on("SIGTERM", () => {
+    console.log("Stopping smart daemon...");
+    releaseLock();
+    process.exit(0);
+  });
+
   console.log("Starting smart autonomous daemon...");
   console.log(`Poll interval: ${POLL_INTERVAL_MS}ms`);
 
