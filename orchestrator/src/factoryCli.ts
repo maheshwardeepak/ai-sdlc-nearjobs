@@ -21,6 +21,7 @@ import { getFailureAnalytics } from "./failureAnalytics.js";
 import { getFailureTrends } from "./failureTrends.js";
 import { getAutonomousHealth } from "./autonomousHealth.js";
 import { runAutonomousHealthGate } from "./autonomousHealthGate.js";
+import { generateAutonomousDashboard } from "./autonomousDashboard.js";
 import { runSmartFleetDelivery } from "./smartFleetDelivery.js";
 import { applySafeRepoPatches } from "./safeRepoPatchEngine.js";
 import { runAutonomousFailureRepair } from "./failureRepairEngine.js";
@@ -253,6 +254,11 @@ management:
   case "smart-delivery": {
     const result = await runSmartFleetDelivery();
     console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "dashboard": {
+    console.log(JSON.stringify(generateAutonomousDashboard(), null, 2));
     break;
   }
 
