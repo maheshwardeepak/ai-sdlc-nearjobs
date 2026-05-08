@@ -2,6 +2,18 @@ import fs from "fs";
 import path from "path";
 import { runTask } from "./taskRuntime.js";
 import { runProjectVerificationGate } from "./projectVerificationGate.js";
+import { loadVerificationResult } from "./verificationCache.js";
+
+type VerificationResult = {
+  success: boolean;
+  gates: {
+    build: { success: boolean };
+    runtime: { success: boolean }[];
+    apiSmoke: { success: boolean };
+    playwright: { success: boolean };
+    security: { success: boolean };
+  };
+};
 
 async function gitValue(args: string[]) {
   const result = await runTask({
@@ -14,8 +26,15 @@ async function gitValue(args: string[]) {
   return result.success ? result.stdout.trim() : "unknown";
 }
 
-export async function generateReleaseManifest(projectName: string) {
-  const verification = await runProjectVerificationGate(projectName);
+export async function generateReleaseManifest(
+  projectName: string,
+  existingVerification?: VerificationResult
+) {
+  const verification = (
+    existingVerification ||
+    loadVerificationResult() ||
+    await runProjectVerificationGate(projectName)
+  ) as VerificationResult;
 
   const releaseDir = path.resolve(process.cwd(), "artifacts/releases");
   fs.mkdirSync(releaseDir, { recursive: true });

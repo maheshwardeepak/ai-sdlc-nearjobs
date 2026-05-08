@@ -4,6 +4,7 @@ import { validateRuntime } from "./runtimeValidator.js";
 import { runApiSmokeGate } from "./apiSmokeTestGate.js";
 import { runPlaywrightGate } from "./playwrightGate.js";
 import { runSecurityGate } from "./securityGate.js";
+import { saveVerificationResult } from "./verificationCache.js";
 
 export async function runProjectVerificationGate(projectName: string) {
   const cleanRebuild = await runCleanRebuildGate(projectName);
@@ -29,7 +30,7 @@ export async function runProjectVerificationGate(projectName: string) {
   const playwright = await runPlaywrightGate(projectName);
   const security = await runSecurityGate(projectName);
 
-  return {
+  const result = {
     projectName,
     success:
       build.success &&
@@ -46,4 +47,8 @@ export async function runProjectVerificationGate(projectName: string) {
       security
     }
   };
+
+  saveVerificationResult(result);
+
+  return result;
 }

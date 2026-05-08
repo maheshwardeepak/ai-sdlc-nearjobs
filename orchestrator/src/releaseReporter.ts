@@ -1,9 +1,24 @@
 import fs from "fs";
 import path from "path";
 import { runProjectVerificationGate } from "./projectVerificationGate.js";
+import { loadVerificationResult } from "./verificationCache.js";
+
+type VerificationResult = {
+  success: boolean;
+  gates: {
+    build: { success: boolean };
+    runtime: { success: boolean }[];
+    apiSmoke: { success: boolean };
+    playwright: { success: boolean };
+    security: { success: boolean };
+  };
+};
 
 export async function generateReleaseReport(projectName: string) {
-  const result = await runProjectVerificationGate(projectName);
+  const result = (
+    loadVerificationResult() ||
+    await runProjectVerificationGate(projectName)
+  ) as VerificationResult;
 
   const releaseDir = path.resolve(process.cwd(), "artifacts/releases");
   fs.mkdirSync(releaseDir, { recursive: true });

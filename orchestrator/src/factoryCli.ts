@@ -13,6 +13,9 @@ import { runProjectVerificationGate } from "./projectVerificationGate.js";
 import { generateReleaseReport } from "./releaseReporter.js";
 import { generateReleaseManifest } from "./releaseManifest.js";
 import { runDelivery } from "./deliveryCommand.js";
+import { runFleetDelivery } from "./fleetDelivery.js";
+import { runDaemonOnce } from "./autonomousDaemon.js";
+import { runSmartFleetDelivery } from "./smartFleetDelivery.js";
 import { applySafeRepoPatches } from "./safeRepoPatchEngine.js";
 import { runAutonomousFailureRepair } from "./failureRepairEngine.js";
 import { runCleanRebuildGate } from "./cleanRebuildGate.js";
@@ -237,6 +240,35 @@ management:
 `
       }
     ]);
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "smart-delivery": {
+    const result = await runSmartFleetDelivery();
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "daemon-once": {
+    const result = await runDaemonOnce();
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "fleet-delivery": {
+    const result = await runFleetDelivery();
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "continuous-delivery": {
+    if (!arg) throw new Error("Project name required");
+
+    const { runDelivery } = await import("./deliveryCommand.js");
+
+    const result = await runDelivery(arg.toLowerCase());
+
     console.log(JSON.stringify(result, null, 2));
     break;
   }
