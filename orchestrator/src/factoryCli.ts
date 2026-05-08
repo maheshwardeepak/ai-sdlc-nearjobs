@@ -251,6 +251,22 @@ management:
     break;
   }
 
+  case "daemon-logs": {
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const logFile = path.resolve(process.cwd(), "runtime/logs/factory.log");
+
+    if (!fs.existsSync(logFile)) {
+      console.log("No daemon/factory log found.");
+      break;
+    }
+
+    const lines = fs.readFileSync(logFile, "utf8").split("\n").slice(-80);
+    console.log(lines.join("\n"));
+    break;
+  }
+
   case "daemon-status": {
     console.log(JSON.stringify(loadDaemonState(), null, 2));
     break;
