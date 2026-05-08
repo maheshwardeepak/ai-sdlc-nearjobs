@@ -1,0 +1,145 @@
+{
+  "projectName": "nearjobs",
+  "success": true,
+  "gates": {
+    "build": {
+      "success": true,
+      "results": [
+        {
+          "success": true,
+          "exitCode": 0,
+          "stdout": "\n> nearjobs-frontend@0.1.0 build\n> vite build\n\nvite v5.4.21 building for production...\ntransforming...\n✓ 29 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                  0.10 kB │ gzip:  0.11 kB\ndist/assets/index-zG89yLne.js  142.68 kB │ gzip: 45.86 kB\n✓ built in 239ms",
+          "stderr": "",
+          "durationMs": 517,
+          "logFile": "/Users/nanofactory/ai-sdlc-factory/runtime/tasks/frontend-build-gate.log"
+        },
+        {
+          "success": true,
+          "exitCode": 0,
+          "stdout": "[INFO] Scanning for projects...\n[INFO] \n[INFO] -----------------------< com.nearjobs:nearjobs >------------------------\n[INFO] Building nearjobs 0.0.1-SNAPSHOT\n[INFO]   from pom.xml\n[INFO] --------------------------------[ jar ]---------------------------------\n[INFO] \n[INFO] --- resources:3.3.1:resources (default-resources) @ nearjobs ---\n[INFO] Copying 1 resource from src/main/resources to target/classes\n[INFO] Copying 0 resource from src/main/resources to target/classes\n[INFO] \n[INFO] --- compiler:3.13.0:compile (default-compile) @ nearjobs ---\n[INFO] Nothing to compile - all classes are up to date.\n[INFO] \n[INFO] --- resources:3.3.1:testResources (default-testResources) @ nearjobs ---\n[INFO] skip non existing resourceDirectory /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend/src/test/resources\n[INFO] \n[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ nearjobs ---\n[INFO] Nothing to compile - all classes are up to date.\n[INFO] \n[INFO] --- surefire:3.2.5:test (default-test) @ nearjobs ---\n[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO] \n[INFO] -------------------------------------------------------\n[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO] Running com.nearjobs.api.StatusControllerTest\n14:51:59.812 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.nearjobs.api.StatusControllerTest]: StatusControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.\n14:51:59.849 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.nearjobs.NearJobsApplication for test class com.nearjobs.api.StatusControllerTest\n\n  .   ____          _            __ _ _\n /\\\\ / ___'_ __ _ _(_)_ __  __ _ \\ \\ \\ \\\n( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\\n \\\\/  ___)| |_)| | | | | || (_| |  ) ) ) )\n  '  |____| .__|_| |_|_| |_\\__, | / / / /\n =========|_|==============|___/=/_/_/_/\n\n :: Spring Boot ::                (v3.3.5)\n\n2026-05-08T14:51:59.976+05:30  INFO 3134 --- [           main] com.nearjobs.api.StatusControllerTest    : Starting StatusControllerTest using Java 21.0.11 with PID 3134 (started by nanofactory in /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend)\n2026-05-08T14:51:59.976+05:30  INFO 3134 --- [           main] com.nearjobs.api.StatusControllerTest    : No active profile set, falling back to 1 default profile: \"default\"\n2026-05-08T14:52:00.449+05:30  INFO 3134 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''\n2026-05-08T14:52:00.450+05:30  INFO 3134 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''\n2026-05-08T14:52:00.454+05:30  INFO 3134 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'\n2026-05-08T14:52:00.456+05:30  INFO 3134 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 6 ms\n2026-05-08T14:52:00.476+05:30  INFO 3134 --- [           main] com.nearjobs.api.StatusControllerTest    : Started StatusControllerTest in 0.591 seconds (process running for 0.882)\n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.144 s -- in com.nearjobs.api.StatusControllerTest\n[INFO] Running com.nearjobs.NearJobsApplicationTests\n2026-05-08T14:52:00.906+05:30  INFO 3134 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.nearjobs.NearJobsApplicationTests]: NearJobsApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.\n2026-05-08T14:52:00.908+05:30  INFO 3134 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.nearjobs.NearJobsApplication for test class com.nearjobs.NearJobsApplicationTests\n\n  .   ____          _            __ _ _\n /\\\\ / ___'_ __ _ _(_)_ __  __ _ \\ \\ \\ \\\n( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\\n \\\\/  ___)| |_)| | | | | || (_| |  ) ) ) )\n  '  |____| .__|_| |_|_| |_\\__, | / / / /\n =========|_|==============|___/=/_/_/_/\n\n :: Spring Boot ::                (v3.3.5)\n\n2026-05-08T14:52:00.918+05:30  INFO 3134 --- [           main] com.nearjobs.NearJobsApplicationTests    : Starting NearJobsApplicationTests using Java 21.0.11 with PID 3134 (started by nanofactory in /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend)\n2026-05-08T14:52:00.918+05:30  INFO 3134 --- [           main] com.nearjobs.NearJobsApplicationTests    : No active profile set, falling back to 1 default profile: \"default\"\n2026-05-08T14:52:01.025+05:30  INFO 3134 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'\n2026-05-08T14:52:01.031+05:30  INFO 3134 --- [           main] com.nearjobs.NearJobsApplicationTests    : Started NearJobsApplicationTests in 0.121 seconds (process running for 1.436)\n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.128 s -- in com.nearjobs.NearJobsApplicationTests\n[INFO] \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO] BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO] Total time:  1.961 s\n[INFO] Finished at: 2026-05-08T14:52:01+05:30\n[INFO] ------------------------------------------------------------------------",
+          "stderr": "WARNING: A Java agent has been loaded dynamically (/Users/nanofactory/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.19/byte-buddy-agent-1.14.19.jar)\nWARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning\nWARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information\nWARNING: Dynamic loading of agents will be disallowed by default in a future release\nOpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended",
+          "durationMs": 2716,
+          "logFile": "/Users/nanofactory/ai-sdlc-factory/runtime/tasks/backend-test-gate.log"
+        },
+        {
+          "success": true,
+          "exitCode": 0,
+          "stdout": "name: infra\nservices:\n  backend:\n    build:\n      context: /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend\n      dockerfile: Dockerfile\n    container_name: nearjobs-backend\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        target: 8080\n        published: \"8080\"\n        protocol: tcp\n  frontend:\n    build:\n      context: /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/frontend\n      dockerfile: Dockerfile\n    container_name: nearjobs-frontend\n    depends_on:\n      backend:\n        condition: service_started\n        required: true\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        target: 80\n        published: \"3000\"\n        protocol: tcp\n  postgres:\n    container_name: nearjobs-postgres\n    environment:\n      POSTGRES_DB: nearjobs\n      POSTGRES_PASSWORD: nearjobs\n      POSTGRES_USER: nearjobs\n    image: postgres:16-alpine\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        target: 5432\n        published: \"5432\"\n        protocol: tcp\n  redis:\n    container_name: nearjobs-redis\n    image: redis:7-alpine\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        target: 6379\n        published: \"6379\"\n        protocol: tcp\nnetworks:\n  default:\n    name: infra_default",
+          "stderr": "",
+          "durationMs": 44,
+          "logFile": "/Users/nanofactory/ai-sdlc-factory/runtime/tasks/compose-config-gate.log"
+        },
+        {
+          "success": true,
+          "exitCode": 0,
+          "stdout": "NAME                IMAGE                COMMAND                  SERVICE    CREATED       STATUS       PORTS\nnearjobs-backend    infra-backend        \"java -jar /app/app.…\"   backend    2 hours ago   Up 2 hours   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp\nnearjobs-frontend   infra-frontend       \"/docker-entrypoint.…\"   frontend   2 hours ago   Up 2 hours   0.0.0.0:3000->80/tcp, [::]:3000->80/tcp\nnearjobs-postgres   postgres:16-alpine   \"docker-entrypoint.s…\"   postgres   2 hours ago   Up 2 hours   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp\nnearjobs-redis      redis:7-alpine       \"docker-entrypoint.s…\"   redis      2 hours ago   Up 2 hours   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp",
+          "stderr": "",
+          "durationMs": 67,
+          "logFile": "/Users/nanofactory/ai-sdlc-factory/runtime/tasks/compose-ps-gate.log"
+        }
+      ]
+    },
+    "runtime": [
+      {
+        "name": "backend-health",
+        "url": "http://localhost:8080/actuator/health",
+        "success": true,
+        "status": 200,
+        "data": {
+          "status": "UP"
+        }
+      },
+      {
+        "name": "frontend",
+        "url": "http://localhost:3000",
+        "success": true,
+        "status": 200,
+        "data": "<script type=\"module\" crossorigin src=\"/assets/index-zG89yLne.js\"></script>\n<div id=\"root\"></div>\n"
+      }
+    ],
+    "apiSmoke": {
+      "success": true,
+      "results": [
+        {
+          "name": "backend-actuator-health",
+          "success": true,
+          "status": 200,
+          "data": {
+            "status": "UP"
+          }
+        },
+        {
+          "name": "backend-status-api",
+          "success": true,
+          "status": 200,
+          "data": {
+            "status": "UP",
+            "app": "NearJobs"
+          }
+        },
+        {
+          "name": "frontend-root",
+          "success": true,
+          "status": 200,
+          "data": "<script type=\"module\" crossorigin src=\"/assets/index-zG89yLne.js\"></script>\n<div id=\"root\"></div>\n"
+        },
+        {
+          "name": "docker-backend-running",
+          "success": true,
+          "data": "nearjobs-frontend\nnearjobs-postgres\nnearjobs-redis\nnearjobs-backend"
+        },
+        {
+          "name": "docker-frontend-running",
+          "success": true,
+          "data": "nearjobs-frontend\nnearjobs-postgres\nnearjobs-redis\nnearjobs-backend"
+        },
+        {
+          "name": "docker-postgres-running",
+          "success": true,
+          "data": "nearjobs-frontend\nnearjobs-postgres\nnearjobs-redis\nnearjobs-backend"
+        },
+        {
+          "name": "docker-redis-running",
+          "success": true,
+          "data": "nearjobs-frontend\nnearjobs-postgres\nnearjobs-redis\nnearjobs-backend"
+        }
+      ]
+    },
+    "playwright": {
+      "success": true,
+      "result": {
+        "success": true,
+        "exitCode": 0,
+        "stdout": "\n> nearjobs-frontend@0.1.0 e2e\n> playwright test\n\n\nRunning 2 tests using 1 worker\n\n  ✓  1 [chromium] › tests/e2e/smoke.spec.ts:3:1 › NearJobs frontend loads (63ms)\n  ✓  2 [chromium] › tests/e2e/smoke.spec.ts:8:1 › NearJobs backend status API is reachable (15ms)\n\n  2 passed (457ms)",
+        "stderr": "",
+        "durationMs": 903,
+        "logFile": "/Users/nanofactory/ai-sdlc-factory/runtime/tasks/playwright-e2e-gate.log"
+      }
+    },
+    "security": {
+      "success": true,
+      "checks": {
+        "frontendAudit": {
+          "success": true,
+          "exitCode": 0,
+          "stdout": "# npm audit report\n\nesbuild  <=0.24.2\nSeverity: moderate\nesbuild enables any website to send any requests to the development server and read the response - https://github.com/advisories/GHSA-67mh-4wv8-2f99\nfix available via `npm audit fix --force`\nWill install vite@8.0.11, which is a breaking change\nnode_modules/esbuild\n  vite  <=6.4.1\n  Depends on vulnerable versions of esbuild\n  node_modules/vite\n\n\n2 moderate severity vulnerabilities\n\nTo address all issues (including breaking changes), run:\n  npm audit fix --force",
+          "stderr": "",
+          "durationMs": 751,
+          "logFile": "/Users/nanofactory/ai-sdlc-factory/runtime/tasks/security-npm-audit.log"
+        },
+        "composeConfig": {
+          "success": true,
+          "exitCode": 0,
+          "stdout": "name: infra\nservices:\n  backend:\n    build:\n      context: /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend\n      dockerfile: Dockerfile\n    container_name: nearjobs-backend\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        target: 8080\n        published: \"8080\"\n        protocol: tcp\n  frontend:\n    build:\n      context: /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/frontend\n      dockerfile: Dockerfile\n    container_name: nearjobs-frontend\n    depends_on:\n      backend:\n        condition: service_started\n        required: true\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        target: 80\n        published: \"3000\"\n        protocol: tcp\n  postgres:\n    container_name: nearjobs-postgres\n    environment:\n      POSTGRES_DB: nearjobs\n      POSTGRES_PASSWORD: nearjobs\n      POSTGRES_USER: nearjobs\n    image: postgres:16-alpine\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        target: 5432\n        published: \"5432\"\n        protocol: tcp\n  redis:\n    container_name: nearjobs-redis\n    image: redis:7-alpine\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        target: 6379\n        published: \"6379\"\n        protocol: tcp\nnetworks:\n  default:\n    name: infra_default",
+          "stderr": "",
+          "durationMs": 46,
+          "logFile": "/Users/nanofactory/ai-sdlc-factory/runtime/tasks/security-compose-config.log"
+        },
+        "secrets": {
+          "success": true,
+          "findings": []
+        }
+      }
+    }
+  }
+}

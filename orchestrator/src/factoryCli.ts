@@ -10,6 +10,9 @@ import { runApiSmokeGate } from "./apiSmokeTestGate.js";
 import { runBuildVerificationGate } from "./buildVerificationGate.js";
 import { runPlaywrightGate } from "./playwrightGate.js";
 import { runProjectVerificationGate } from "./projectVerificationGate.js";
+import { generateReleaseReport } from "./releaseReporter.js";
+import { generateReleaseManifest } from "./releaseManifest.js";
+import { runDelivery } from "./deliveryCommand.js";
 import { runSecurityGate } from "./securityGate.js";
 import { approvePlan, requestApproval, requestRevision } from "./approval.js";
 import { createRunPlan, loadDag, validateDag } from "./dagExecutor.js";
@@ -192,6 +195,27 @@ switch (command) {
   case "security-gate": {
     if (!arg) throw new Error("Project name required");
     const result = await runSecurityGate(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "deliver": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runDelivery(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "release-manifest": {
+    if (!arg) throw new Error("Project name required");
+    const result = await generateReleaseManifest(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "release-report": {
+    if (!arg) throw new Error("Project name required");
+    const result = await generateReleaseReport(arg.toLowerCase());
     console.log(JSON.stringify(result, null, 2));
     break;
   }

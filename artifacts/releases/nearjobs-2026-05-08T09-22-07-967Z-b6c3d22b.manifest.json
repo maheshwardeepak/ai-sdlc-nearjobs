@@ -1,0 +1,15 @@
+{
+  "projectName": "nearjobs",
+  "version": "nearjobs-2026-05-08T09-22-07-967Z-b6c3d22b",
+  "branch": "main",
+  "commit": "b6c3d22b",
+  "generatedAt": "2026-05-08T09:22:07.967Z",
+  "readyForDelivery": true,
+  "gates": {
+    "build": true,
+    "runtime": true,
+    "apiSmoke": true,
+    "playwright": true,
+    "security": true
+  }
+}

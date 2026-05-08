@@ -7,8 +7,8 @@ STDOUT:
 Running 2 tests using 1 worker
 
   ✓  1 [chromium] › tests/e2e/smoke.spec.ts:3:1 › NearJobs frontend loads (63ms)
-  ✓  2 [chromium] › tests/e2e/smoke.spec.ts:8:1 › NearJobs backend status API is reachable (15ms)
+  ✓  2 [chromium] › tests/e2e/smoke.spec.ts:8:1 › NearJobs backend status API is reachable (16ms)
 
-  2 passed (458ms)
+  2 passed (455ms)
 
 STDERR:
