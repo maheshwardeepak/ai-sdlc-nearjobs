@@ -1,4 +1,6 @@
 import { runProjectVerificationGate } from "./projectVerificationGate.js";
+import { runAutonomousHealthGate } from "./autonomousHealthGate.js";
+import { runInfrastructurePreflight } from "./infrastructurePreflight.js";
 import { loadVerificationResult } from "./verificationCache.js";
 import { generateReleaseReport } from "./releaseReporter.js";
 import { generateReleaseManifest } from "./releaseManifest.js";
@@ -17,6 +19,28 @@ type VerificationResult = {
 };
 
 export async function runDelivery(projectName: string) {
+  const infrastructure = runInfrastructurePreflight();
+
+  if (!infrastructure.success) {
+    return {
+      success: false,
+      projectName,
+      message: "Delivery blocked by infrastructure preflight.",
+      infrastructure
+    };
+  }
+
+  const healthGate = runAutonomousHealthGate();
+
+  if (!healthGate.success) {
+    return {
+      success: false,
+      projectName,
+      message: "Delivery blocked by autonomous platform health gate.",
+      healthGate
+    };
+  }
+
   const verification = (
     loadVerificationResult() ||
     await runProjectVerificationGate(projectName)
