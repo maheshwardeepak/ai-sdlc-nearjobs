@@ -77,6 +77,7 @@ export async function executeIncrementalVerification(
     const result = await runTask({
       id: `verification-${check}`,
       name: `Verification ${check}`,
+      cwd: process.cwd(),
       command: command.command,
       args: command.args
     });
