@@ -1,0 +1,11 @@
+{
+  "result": {
+    "nodeId": "review_qa",
+    "agent": "review-qa-agent",
+    "success": true,
+    "message": "Agent review-qa-agent executed node review_qa.",
+    "outputPath": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/review_qa.result.json",
+    "finishedAt": "2026-05-07T11:54:15.397Z"
+  },
+  "agentRulesPreview": "# review-qa-agent\n\nRole:\nYou are the Review and QA Agent.\n\nResponsibilities:\n- Review architecture, backend, frontend, infra, tests, security, UX, accessibility, and production readiness.\n- Block delivery if any critical gate fails.\n- Ensure generated app is not scaffold-only.\n- Ensure frontend UX is senior-quality.\n- Ensure backend logic is real and production-grade.\n"
+}

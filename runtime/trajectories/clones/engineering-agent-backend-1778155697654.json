@@ -1,0 +1,9 @@
+{
+  "id": "engineering-agent-backend-1778155697654",
+  "parentAgent": "engineering-agent",
+  "role": "backend",
+  "projectName": "NearJobs",
+  "workspacePath": "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/nearjobs/workers/engineering-agent-backend-1778155697654",
+  "status": "READY",
+  "createdAt": "2026-05-07T12:08:17.654Z"
+}

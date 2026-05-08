@@ -1,0 +1,57 @@
+{
+  "factoryVersion": "2.0.0",
+  "mode": "enterprise_sdlc_factory",
+  "rootPath": "/Users/nanofactory/ai-sdlc-factory",
+  "approvalRequiredBeforeExecution": true,
+  "coreAgents": [
+    "intake-agent",
+    "planning-agent",
+    "engineering-agent",
+    "infra-deploy-agent",
+    "validation-agent",
+    "debug-fix-agent",
+    "review-qa-agent",
+    "delivery-memory-agent"
+  ],
+  "qualityGates": [
+    "PLAN_APPROVED",
+    "BACKEND_BUILD_GREEN",
+    "FRONTEND_BUILD_GREEN",
+    "DOCKER_BUILD_GREEN",
+    "LOCAL_DEPLOY_GREEN",
+    "DB_MIGRATION_GREEN",
+    "HEALTH_CHECK_GREEN",
+    "API_SMOKE_GREEN",
+    "AUTH_FLOW_GREEN",
+    "PLAYWRIGHT_GREEN",
+    "SECURITY_GREEN",
+    "SECRETS_GREEN",
+    "REGRESSION_GREEN",
+    "DELIVERY_READY"
+  ],
+  "autoFix": {
+    "enabled": true,
+    "maxAttempts": 5,
+    "loop": [
+      "detect",
+      "collect_logs",
+      "classify",
+      "root_cause",
+      "patch",
+      "rebuild",
+      "redeploy",
+      "retest"
+    ]
+  },
+  "humanApproval": {
+    "requiredAfterPlanning": true,
+    "allowRevisionBeforeApproval": true,
+    "executionBlockedUntilApproved": true
+  },
+  "graphify": {
+    "enabled": true,
+    "useForPlanningContext": true,
+    "useForDebugContext": true,
+    "useForMemory": true
+  }
+}

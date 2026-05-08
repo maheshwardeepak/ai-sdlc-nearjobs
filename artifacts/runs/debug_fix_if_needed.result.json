@@ -1,0 +1,11 @@
+{
+  "result": {
+    "nodeId": "debug_fix_if_needed",
+    "agent": "debug-fix-agent",
+    "success": true,
+    "skipped": true,
+    "message": "Skipped debug-fix because no failed gates exist.",
+    "outputPath": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/debug_fix_if_needed.result.json",
+    "finishedAt": "2026-05-07T11:54:15.397Z"
+  }
+}

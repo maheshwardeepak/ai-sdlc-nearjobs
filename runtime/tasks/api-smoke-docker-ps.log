@@ -1,0 +1,7 @@
+STDOUT:
+nearjobs-frontend
+nearjobs-postgres
+nearjobs-redis
+nearjobs-backend
+
+STDERR:

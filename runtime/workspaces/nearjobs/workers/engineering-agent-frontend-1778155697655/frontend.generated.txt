@@ -1,0 +1,4 @@
+WORKER: engineering-agent-frontend-1778155697655
+ROLE: frontend
+OBJECTIVE: Generate production-grade frontend implementation for NearJobs
+GENERATED_AT: 2026-05-07T12:11:33.435Z

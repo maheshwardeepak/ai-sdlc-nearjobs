@@ -1,0 +1,4 @@
+WORKER: validation-agent-playwright-1778155697655
+ROLE: playwright
+OBJECTIVE: Generate production-grade playwright implementation for NearJobs
+GENERATED_AT: 2026-05-07T12:46:15.809Z

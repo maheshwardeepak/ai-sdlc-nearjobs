@@ -1,0 +1,267 @@
+import { synthesizeProject } from "./projectSynthesizer.js";
+import { applyRepoPatches } from "./repoPatchEngine.js";
+import { runBuildPipeline } from "./buildExecutor.js";
+import { validateRuntime } from "./runtimeValidator.js";
+import { runAutoFixLoop } from "./autoFixLoop.js";
+import { validateDeployReadiness } from "./deployReadinessValidator.js";
+import { materializeDeployableApp } from "./appMaterializer.js";
+import { runSelfHealingRuntimeLoop } from "./selfHealingRuntimeLoop.js";
+import { runApiSmokeGate } from "./apiSmokeTestGate.js";
+import { runBuildVerificationGate } from "./buildVerificationGate.js";
+import { runPlaywrightGate } from "./playwrightGate.js";
+import { runProjectVerificationGate } from "./projectVerificationGate.js";
+import { runSecurityGate } from "./securityGate.js";
+import { approvePlan, requestApproval, requestRevision } from "./approval.js";
+import { createRunPlan, loadDag, validateDag } from "./dagExecutor.js";
+import { runApprovedDagOnce } from "./agentRunner.js";
+import { createProjectWorkspace } from "./workspaceManager.js";
+import { createEngineeringClones, createValidationClones } from "./cloneManager.js";
+import { executeAllClones } from "./parallelExecutor.js";
+import { validateOpenClawArtifacts } from "./artifactValidator.js";
+import { createMergePlan, executeMergePlan } from "./mergeEngine.js";
+import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
+
+
+import { loadState, saveState } from "./state.js";
+
+const command = process.argv[2];
+const arg = process.argv.slice(3).join(" ");
+
+switch (command) {
+  case "init": {
+    const state = loadState();
+    saveState(state);
+    createRunPlan();
+    console.log("Factory run initialized.");
+    console.log(JSON.stringify(loadState(), null, 2));
+    break;
+  }
+
+  case "validate-dag": {
+    const dag = loadDag();
+    validateDag(dag);
+    console.log("DAG is valid.");
+    break;
+  }
+
+  case "request-approval": {
+    const state = loadState();
+    const approval = requestApproval(state.planVersion + 1);
+    console.log("Plan approval requested.");
+    console.log(JSON.stringify(approval, null, 2));
+    break;
+  }
+
+  case "revise": {
+    if (!arg) {
+      throw new Error("Revision note is required.");
+    }
+    const approval = requestRevision(arg);
+    console.log("Revision requested.");
+    console.log(JSON.stringify(approval, null, 2));
+    break;
+  }
+
+  case "approve": {
+    const approval = approvePlan();
+    console.log("Plan approved.");
+    console.log(JSON.stringify(approval, null, 2));
+    break;
+  }
+
+  case "create-workspace": {
+    if (!arg) {
+      throw new Error("Project name is required.");
+    }
+    const workspace = createProjectWorkspace(arg);
+    console.log("Project workspace created.");
+    console.log(JSON.stringify(workspace, null, 2));
+    break;
+  }
+
+  case "create-clones": {
+    if (!arg) {
+      throw new Error("Project name is required.");
+    }
+    const clones = [
+      ...createEngineeringClones(arg),
+      ...createValidationClones(arg)
+    ];
+    console.log("Agent clones created.");
+    console.log(JSON.stringify(clones, null, 2));
+    break;
+  }
+
+  case "execute-clones": {
+    if (!arg) {
+      throw new Error("Project name is required.");
+    }
+
+    executeAllClones(arg)
+      .then((results) => {
+        console.log("Parallel clone execution completed.");
+        console.log(JSON.stringify(results, null, 2));
+      })
+      .catch(console.error);
+
+    break;
+  }
+
+  case "validate-artifacts": {
+    const results = validateOpenClawArtifacts();
+    console.log("Artifact validation completed.");
+    console.log(JSON.stringify(results, null, 2));
+    break;
+  }
+
+  case "merge-dry-run": {
+    if (!arg) {
+      throw new Error("Project name is required.");
+    }
+    const plan = createMergePlan(arg, true);
+    console.log("Merge dry-run completed.");
+    console.log(JSON.stringify(plan, null, 2));
+    break;
+  }
+
+  case "merge-artifacts": {
+    if (!arg) {
+      throw new Error("Project name is required.");
+    }
+    const plan = createMergePlan(arg, false);
+    const result = executeMergePlan(plan);
+    console.log("Artifacts merged.");
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "regenerate-invalid": {
+    if (!arg) {
+      throw new Error("Project name is required.");
+    }
+
+    regenerateInvalidArtifacts(arg)
+      .then((results) => {
+        console.log("Invalid artifacts regenerated.");
+        console.log(JSON.stringify(results, null, 2));
+      })
+      .catch(console.error);
+
+    break;
+  }
+
+  
+
+  case "synthesize-project": {
+    if (!arg) throw new Error("Project name required");
+    const result = synthesizeProject(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "patch-repo": {
+    if (!arg) throw new Error("Project name required");
+    const result = applyRepoPatches(arg.toLowerCase(), false);
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "build-project": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runBuildPipeline(
+      `${process.cwd()}/projects/${arg.toLowerCase()}`
+    );
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "materialize-app": {
+    if (!arg) throw new Error("Project name required");
+    const result = materializeDeployableApp(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "validate-deploy-readiness": {
+    if (!arg) throw new Error("Project name required");
+    const result = validateDeployReadiness(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "security-gate": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runSecurityGate(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "verify-project": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runProjectVerificationGate(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "playwright-gate": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runPlaywrightGate(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "build-gate": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runBuildVerificationGate(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "api-smoke": {
+    const result = await runApiSmokeGate();
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "self-heal-runtime": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runSelfHealingRuntimeLoop(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "validate-runtime": {
+    const result = await validateRuntime();
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "auto-fix": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runAutoFixLoop(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+
+  case "run-approved": {
+    const results = runApprovedDagOnce();
+    console.log("Approved DAG execution completed.");
+    console.log(JSON.stringify(results, null, 2));
+    break;
+  }
+
+  case "state": {
+    console.log(JSON.stringify(loadState(), null, 2));
+    break;
+  }
+
+  default:
+    console.log(`Usage:
+  tsx orchestrator/src/factoryCli.ts init
+  tsx orchestrator/src/factoryCli.ts validate-dag
+  tsx orchestrator/src/factoryCli.ts request-approval
+  tsx orchestrator/src/factoryCli.ts revise "change note"
+  tsx orchestrator/src/factoryCli.ts approve
+  tsx orchestrator/src/factoryCli.ts create-workspace "NearJobs"\n  tsx orchestrator/src/factoryCli.ts create-clones "NearJobs"\n  tsx orchestrator/src/factoryCli.ts run-approved\n  tsx orchestrator/src/factoryCli.ts state`);
+}

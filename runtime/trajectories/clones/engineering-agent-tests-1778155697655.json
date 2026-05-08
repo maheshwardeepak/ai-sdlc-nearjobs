@@ -1,0 +1,9 @@
+{
+  "id": "engineering-agent-tests-1778155697655",
+  "parentAgent": "engineering-agent",
+  "role": "tests",
+  "projectName": "NearJobs",
+  "workspacePath": "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/nearjobs/workers/engineering-agent-tests-1778155697655",
+  "status": "READY",
+  "createdAt": "2026-05-07T12:08:17.655Z"
+}

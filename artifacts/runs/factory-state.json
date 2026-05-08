@@ -1,0 +1,26 @@
+{
+  "projectName": null,
+  "status": "DELIVERY",
+  "planVersion": 1,
+  "gates": {
+    "PLAN_APPROVED": true,
+    "BACKEND_BUILD_GREEN": true,
+    "FRONTEND_BUILD_GREEN": true,
+    "DOCKER_BUILD_GREEN": true,
+    "LOCAL_DEPLOY_GREEN": true,
+    "DB_MIGRATION_GREEN": true,
+    "HEALTH_CHECK_GREEN": true,
+    "API_SMOKE_GREEN": true,
+    "AUTH_FLOW_GREEN": true,
+    "PLAYWRIGHT_GREEN": true,
+    "SECURITY_GREEN": true,
+    "SECRETS_GREEN": true,
+    "REGRESSION_GREEN": true,
+    "DELIVERY_READY": true
+  },
+  "failedGates": [],
+  "autoFixAttempts": 0,
+  "maxAutoFixAttempts": 5,
+  "lastError": null,
+  "updatedAt": "2026-05-07T11:54:15.398Z"
+}

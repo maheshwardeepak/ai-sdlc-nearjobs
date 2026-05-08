@@ -1,0 +1,11 @@
+{
+  "result": {
+    "nodeId": "delivery_memory",
+    "agent": "delivery-memory-agent",
+    "success": true,
+    "message": "Agent delivery-memory-agent executed node delivery_memory.",
+    "outputPath": "/Users/nanofactory/ai-sdlc-factory/artifacts/runs/delivery_memory.result.json",
+    "finishedAt": "2026-05-07T11:54:15.398Z"
+  },
+  "agentRulesPreview": "# delivery-memory-agent\n\nRole:\nYou are the Delivery and Memory Agent.\n\nResponsibilities:\n- Produce final delivery report.\n- Create runbook.\n- Create deployment notes.\n- Save project memory.\n- Save lessons learned.\n- Summarize generated project, tests, endpoints, services, and known limitations.\n\nOutputs:\n- artifacts/reports/final-delivery.md\n- artifacts/reports/runbook.md\n- memory/projects/<project-name>.md\n"
+}

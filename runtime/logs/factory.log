@@ -1,0 +1,164 @@
+{"level":30,"time":1778155586827,"pid":75942,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Node Version Test","command":"node","args":["-v"]}
+{"level":30,"time":1778155586852,"pid":75942,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Node Version Test","durationMs":25}
+{"level":30,"time":1778155893427,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-backend-1778155697654","role":"backend"}
+{"level":30,"time":1778155893428,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"backend-worker","command":"pwd"}
+{"level":30,"time":1778155893433,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-database-1778155697655","role":"database"}
+{"level":30,"time":1778155893434,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"database-worker","command":"pwd"}
+{"level":30,"time":1778155893435,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-frontend-1778155697655","role":"frontend"}
+{"level":30,"time":1778155893436,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"frontend-worker","command":"pwd"}
+{"level":30,"time":1778155893437,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-tests-1778155697655","role":"tests"}
+{"level":30,"time":1778155893437,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"tests-worker","command":"pwd"}
+{"level":30,"time":1778155893439,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-api-1778155697655","role":"api"}
+{"level":30,"time":1778155893439,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"api-worker","command":"pwd"}
+{"level":30,"time":1778155893440,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-build-1778155697655","role":"build"}
+{"level":30,"time":1778155893440,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"build-worker","command":"pwd"}
+{"level":30,"time":1778155893441,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-playwright-1778155697655","role":"playwright"}
+{"level":30,"time":1778155893441,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"playwright-worker","command":"pwd"}
+{"level":30,"time":1778155893443,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-security-1778155697656","role":"security"}
+{"level":30,"time":1778155893443,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"security-worker","command":"pwd"}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"backend-worker","durationMs":24}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-backend-1778155697654","success":true}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"database-worker","durationMs":18}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-database-1778155697655","success":true}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"frontend-worker","durationMs":16}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-frontend-1778155697655","success":true}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"tests-worker","durationMs":15}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-tests-1778155697655","success":true}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"api-worker","durationMs":13}
+{"level":30,"time":1778155893452,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-api-1778155697655","success":true}
+{"level":30,"time":1778155893453,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"build-worker","durationMs":13}
+{"level":30,"time":1778155893453,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-build-1778155697655","success":true}
+{"level":30,"time":1778155893453,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"playwright-worker","durationMs":12}
+{"level":30,"time":1778155893453,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-playwright-1778155697655","success":true}
+{"level":30,"time":1778155893453,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"security-worker","durationMs":10}
+{"level":30,"time":1778155893453,"pid":76072,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-security-1778155697656","success":true}
+{"level":30,"time":1778156251023,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-backend-1778155697654","role":"backend"}
+{"level":30,"time":1778156251024,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-backend-1778155697654"}
+{"level":30,"time":1778156251028,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-database-1778155697655","role":"database"}
+{"level":30,"time":1778156251028,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-database-1778155697655"}
+{"level":30,"time":1778156251029,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-frontend-1778155697655","role":"frontend"}
+{"level":30,"time":1778156251029,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-frontend-1778155697655"}
+{"level":30,"time":1778156251030,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-tests-1778155697655","role":"tests"}
+{"level":30,"time":1778156251030,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-tests-1778155697655"}
+{"level":30,"time":1778156251031,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-api-1778155697655","role":"api"}
+{"level":30,"time":1778156251031,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"validation-agent-api-1778155697655"}
+{"level":30,"time":1778156251031,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-build-1778155697655","role":"build"}
+{"level":30,"time":1778156251032,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"validation-agent-build-1778155697655"}
+{"level":30,"time":1778156251032,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-playwright-1778155697655","role":"playwright"}
+{"level":30,"time":1778156251032,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"validation-agent-playwright-1778155697655"}
+{"level":30,"time":1778156251033,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-security-1778155697656","role":"security"}
+{"level":30,"time":1778156251033,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"validation-agent-security-1778155697656"}
+{"level":50,"time":1778156254105,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_FAILURE","workerId":"engineering-agent-backend-1778155697654","error":"Command failed with exit code 1: openclaw capability infer --prompt '\\nYou are a senior backend engineer.\\n\\nObjective:\\nGenerate production-grade backend implementation for NearJobs\\n\\nRequirements:\\n- production-grade quality\\n- real implementation\\n- no scaffolds\\n- deployment-ready\\n- enterprise quality\\n- secure coding\\n- include validation\\n- include tests\\n'\n\nerror: unknown command 'infer'"}
+{"level":30,"time":1778156254105,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-backend-1778155697654","success":false}
+{"level":50,"time":1778156254111,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_FAILURE","workerId":"validation-agent-api-1778155697655","error":"Command failed with exit code 1: openclaw capability infer --prompt '\\nYou are a senior api engineer.\\n\\nObjective:\\nGenerate production-grade api implementation for NearJobs\\n\\nRequirements:\\n- production-grade quality\\n- real implementation\\n- no scaffolds\\n- deployment-ready\\n- enterprise quality\\n- secure coding\\n- include validation\\n- include tests\\n'\n\nerror: unknown command 'infer'"}
+{"level":30,"time":1778156254112,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-api-1778155697655","success":false}
+{"level":50,"time":1778156254112,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_FAILURE","workerId":"engineering-agent-database-1778155697655","error":"Command failed with exit code 1: openclaw capability infer --prompt '\\nYou are a senior database engineer.\\n\\nObjective:\\nGenerate production-grade database implementation for NearJobs\\n\\nRequirements:\\n- production-grade quality\\n- real implementation\\n- no scaffolds\\n- deployment-ready\\n- enterprise quality\\n- secure coding\\n- include validation\\n- include tests\\n'\n\nerror: unknown command 'infer'"}
+{"level":30,"time":1778156254112,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-database-1778155697655","success":false}
+{"level":50,"time":1778156254112,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_FAILURE","workerId":"engineering-agent-tests-1778155697655","error":"Command failed with exit code 1: openclaw capability infer --prompt '\\nYou are a senior tests engineer.\\n\\nObjective:\\nGenerate production-grade tests implementation for NearJobs\\n\\nRequirements:\\n- production-grade quality\\n- real implementation\\n- no scaffolds\\n- deployment-ready\\n- enterprise quality\\n- secure coding\\n- include validation\\n- include tests\\n'\n\nerror: unknown command 'infer'"}
+{"level":30,"time":1778156254112,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-tests-1778155697655","success":false}
+{"level":50,"time":1778156254114,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_FAILURE","workerId":"validation-agent-security-1778155697656","error":"Command failed with exit code 1: openclaw capability infer --prompt '\\nYou are a senior security engineer.\\n\\nObjective:\\nGenerate production-grade security implementation for NearJobs\\n\\nRequirements:\\n- production-grade quality\\n- real implementation\\n- no scaffolds\\n- deployment-ready\\n- enterprise quality\\n- secure coding\\n- include validation\\n- include tests\\n'\n\nerror: unknown command 'infer'"}
+{"level":30,"time":1778156254114,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-security-1778155697656","success":false}
+{"level":50,"time":1778156254114,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_FAILURE","workerId":"validation-agent-playwright-1778155697655","error":"Command failed with exit code 1: openclaw capability infer --prompt '\\nYou are a senior playwright engineer.\\n\\nObjective:\\nGenerate production-grade playwright implementation for NearJobs\\n\\nRequirements:\\n- production-grade quality\\n- real implementation\\n- no scaffolds\\n- deployment-ready\\n- enterprise quality\\n- secure coding\\n- include validation\\n- include tests\\n'\n\nerror: unknown command 'infer'"}
+{"level":30,"time":1778156254114,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-playwright-1778155697655","success":false}
+{"level":50,"time":1778156254114,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_FAILURE","workerId":"validation-agent-build-1778155697655","error":"Command failed with exit code 1: openclaw capability infer --prompt '\\nYou are a senior build engineer.\\n\\nObjective:\\nGenerate production-grade build implementation for NearJobs\\n\\nRequirements:\\n- production-grade quality\\n- real implementation\\n- no scaffolds\\n- deployment-ready\\n- enterprise quality\\n- secure coding\\n- include validation\\n- include tests\\n'\n\nerror: unknown command 'infer'"}
+{"level":30,"time":1778156254114,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-build-1778155697655","success":false}
+{"level":50,"time":1778156254114,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_FAILURE","workerId":"engineering-agent-frontend-1778155697655","error":"Command failed with exit code 1: openclaw capability infer --prompt '\\nYou are a senior frontend engineer.\\n\\nObjective:\\nGenerate production-grade frontend implementation for NearJobs\\n\\nRequirements:\\n- production-grade quality\\n- real implementation\\n- no scaffolds\\n- deployment-ready\\n- enterprise quality\\n- secure coding\\n- include validation\\n- include tests\\n'\n\nerror: unknown command 'infer'"}
+{"level":30,"time":1778156254114,"pid":76279,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-frontend-1778155697655","success":false}
+{"level":30,"time":1778157975799,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-backend-1778155697654","role":"backend"}
+{"level":30,"time":1778157975800,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-backend-1778155697654"}
+{"level":30,"time":1778157975804,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-database-1778155697655","role":"database"}
+{"level":30,"time":1778157975804,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-database-1778155697655"}
+{"level":30,"time":1778157975805,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-frontend-1778155697655","role":"frontend"}
+{"level":30,"time":1778157975806,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-frontend-1778155697655"}
+{"level":30,"time":1778157975807,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"engineering-agent-tests-1778155697655","role":"tests"}
+{"level":30,"time":1778157975807,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-tests-1778155697655"}
+{"level":30,"time":1778157975807,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-api-1778155697655","role":"api"}
+{"level":30,"time":1778157975808,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"validation-agent-api-1778155697655"}
+{"level":30,"time":1778157975808,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-build-1778155697655","role":"build"}
+{"level":30,"time":1778157975808,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"validation-agent-build-1778155697655"}
+{"level":30,"time":1778157975809,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-playwright-1778155697655","role":"playwright"}
+{"level":30,"time":1778157975809,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"validation-agent-playwright-1778155697655"}
+{"level":30,"time":1778157975809,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_START","workerId":"validation-agent-security-1778155697656","role":"security"}
+{"level":30,"time":1778157975810,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"validation-agent-security-1778155697656"}
+{"level":30,"time":1778158111098,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"validation-agent-security-1778155697656"}
+{"level":30,"time":1778158111098,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-security-1778155697656","success":true}
+{"level":30,"time":1778158118040,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"engineering-agent-tests-1778155697655"}
+{"level":30,"time":1778158118040,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-tests-1778155697655","success":true}
+{"level":30,"time":1778158129002,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"validation-agent-playwright-1778155697655"}
+{"level":30,"time":1778158129002,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-playwright-1778155697655","success":true}
+{"level":30,"time":1778158147522,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"engineering-agent-backend-1778155697654"}
+{"level":30,"time":1778158147522,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-backend-1778155697654","success":true}
+{"level":30,"time":1778158152529,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"engineering-agent-frontend-1778155697655"}
+{"level":30,"time":1778158152529,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-frontend-1778155697655","success":true}
+{"level":30,"time":1778158153775,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"validation-agent-build-1778155697655"}
+{"level":30,"time":1778158153775,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-build-1778155697655","success":true}
+{"level":30,"time":1778158176909,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"engineering-agent-database-1778155697655"}
+{"level":30,"time":1778158176909,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"engineering-agent-database-1778155697655","success":true}
+{"level":30,"time":1778158185616,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"validation-agent-api-1778155697655"}
+{"level":30,"time":1778158185616,"pid":76847,"hostname":"Nanos-Mac-Studio-2.local","type":"WORKER_EXECUTION_COMPLETE","workerId":"validation-agent-api-1778155697655","success":true}
+{"level":30,"time":1778158788699,"pid":77194,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-database-1778155697655"}
+{"level":30,"time":1778158997446,"pid":77194,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"engineering-agent-database-1778155697655"}
+{"level":30,"time":1778158997446,"pid":77194,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-frontend-1778155697655"}
+{"level":30,"time":1778159093723,"pid":77194,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"engineering-agent-frontend-1778155697655"}
+{"level":30,"time":1778159466985,"pid":77439,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_START","workerId":"engineering-agent-frontend-1778155697655"}
+{"level":30,"time":1778159777872,"pid":77439,"hostname":"Nanos-Mac-Studio-2.local","type":"OPENCLAW_EXECUTION_SUCCESS","workerId":"engineering-agent-frontend-1778155697655"}
+{"level":30,"time":1778224502066,"pid":96754,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778224502107,"pid":96754,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":40}
+{"level":30,"time":1778225202781,"pid":97853,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778225203291,"pid":97853,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":510}
+{"level":30,"time":1778225203291,"pid":97853,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778225204379,"pid":97853,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":1088}
+{"level":30,"time":1778225204379,"pid":97853,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778225204423,"pid":97853,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":44}
+{"level":30,"time":1778225204423,"pid":97853,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778225204489,"pid":97853,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":66}
+{"level":30,"time":1778225557975,"pid":98330,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778225558874,"pid":98330,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":899}
+{"level":30,"time":1778225778188,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778225778703,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":515}
+{"level":30,"time":1778225778703,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778225779907,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":1204}
+{"level":30,"time":1778225779907,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778225779951,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":44}
+{"level":30,"time":1778225779951,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778225780022,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":71}
+{"level":30,"time":1778225780044,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778225780075,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":31}
+{"level":30,"time":1778225780075,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778225780979,"pid":98494,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":904}
+{"level":30,"time":1778230513237,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778230513752,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":515}
+{"level":30,"time":1778230513753,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778230516420,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2667}
+{"level":30,"time":1778230516420,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778230516467,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":46}
+{"level":30,"time":1778230516467,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778230516533,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":65}
+{"level":30,"time":1778230516554,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778230516584,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":29}
+{"level":30,"time":1778230516584,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778230517490,"pid":635,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":905}
+{"level":30,"time":1778230740237,"pid":1159,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778230740960,"pid":1159,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":722}
+{"level":30,"time":1778230740960,"pid":1159,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778230741011,"pid":1159,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":51}
+{"level":30,"time":1778230895079,"pid":1377,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778230895841,"pid":1377,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":762}
+{"level":30,"time":1778230895841,"pid":1377,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778230895894,"pid":1377,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":53}
+{"level":30,"time":1778231035065,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778231035582,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":517}
+{"level":30,"time":1778231035582,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778231038520,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2938}
+{"level":30,"time":1778231038520,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778231038566,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":46}
+{"level":30,"time":1778231038566,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778231038636,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":69}
+{"level":30,"time":1778231038657,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778231038690,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":32}
+{"level":30,"time":1778231038690,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778231039593,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":903}
+{"level":30,"time":1778231039593,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778231040197,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":604}
+{"level":30,"time":1778231040197,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778231040244,"pid":1519,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":47}

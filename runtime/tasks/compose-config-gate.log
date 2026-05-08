@@ -1,0 +1,60 @@
+STDOUT:
+name: infra
+services:
+  backend:
+    build:
+      context: /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/backend
+      dockerfile: Dockerfile
+    container_name: nearjobs-backend
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+  frontend:
+    build:
+      context: /Users/nanofactory/ai-sdlc-factory/projects/nearjobs/frontend
+      dockerfile: Dockerfile
+    container_name: nearjobs-frontend
+    depends_on:
+      backend:
+        condition: service_started
+        required: true
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "3000"
+        protocol: tcp
+  postgres:
+    container_name: nearjobs-postgres
+    environment:
+      POSTGRES_DB: nearjobs
+      POSTGRES_PASSWORD: nearjobs
+      POSTGRES_USER: nearjobs
+    image: postgres:16-alpine
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+  redis:
+    container_name: nearjobs-redis
+    image: redis:7-alpine
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 6379
+        published: "6379"
+        protocol: tcp
+networks:
+  default:
+    name: infra_default
+
+STDERR:

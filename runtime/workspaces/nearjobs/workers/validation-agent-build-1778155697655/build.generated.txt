@@ -1,0 +1,4 @@
+WORKER: validation-agent-build-1778155697655
+ROLE: build
+OBJECTIVE: Generate production-grade build implementation for NearJobs
+GENERATED_AT: 2026-05-07T12:11:33.440Z

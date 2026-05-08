@@ -1,0 +1,4 @@
+WORKER: engineering-agent-tests-1778155697655
+ROLE: tests
+OBJECTIVE: Generate production-grade tests implementation for NearJobs
+GENERATED_AT: 2026-05-07T12:46:15.807Z

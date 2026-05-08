@@ -1,0 +1,4 @@
+WORKER: engineering-agent-backend-1778155697654
+ROLE: backend
+OBJECTIVE: Generate production-grade backend implementation for NearJobs
+GENERATED_AT: 2026-05-07T12:46:15.799Z

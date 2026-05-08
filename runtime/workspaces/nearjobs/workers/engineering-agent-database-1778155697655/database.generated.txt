@@ -1,0 +1,4 @@
+WORKER: engineering-agent-database-1778155697655
+ROLE: database
+OBJECTIVE: Generate production-grade database implementation for NearJobs
+GENERATED_AT: 2026-05-07T12:11:33.433Z
