@@ -34,6 +34,7 @@ import { createProjectWorkspace } from "./workspaceManager.js";
 import { createEngineeringClones, createValidationClones } from "./cloneManager.js";
 import { executeAllClones } from "./parallelExecutor.js";
 import { runInfraPreflight } from "./infraPreflight.js";
+import { detectGitRepos } from "./git/submoduleDetector.js";
 import { validateOpenClawArtifacts } from "./artifactValidator.js";
 import { createMergePlan, executeMergePlan } from "./mergeEngine.js";
 import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
@@ -83,6 +84,16 @@ switch (command) {
     const approval = approvePlan();
     console.log("Plan approved.");
     console.log(JSON.stringify(approval, null, 2));
+    break;
+  }
+
+  case "repo-graph": {
+    const repos = detectGitRepos(process.cwd());
+    console.log(JSON.stringify({
+      success: true,
+      total: repos.length,
+      repos
+    }, null, 2));
     break;
   }
 
@@ -438,5 +449,5 @@ management:
   tsx orchestrator/src/factoryCli.ts request-approval
   tsx orchestrator/src/factoryCli.ts revise "change note"
   tsx orchestrator/src/factoryCli.ts approve
-  tsx orchestrator/src/factoryCli.ts create-workspace "NearJobs"\n  tsx orchestrator/src/factoryCli.ts create-clones "NearJobs"\n  tsx orchestrator/src/factoryCli.ts run-approved\n  tsx orchestrator/src/factoryCli.ts state`);
+  tsx orchestrator/src/factoryCli.ts create-workspace "NearJobs"\n  tsx orchestrator/src/factoryCli.ts create-clones "NearJobs"\n  tsx orchestrator/src/factoryCli.ts run-approved\n  tsx orchestrator/src/factoryCli.ts repo-graph\n  tsx orchestrator/src/factoryCli.ts state`);
 }
