@@ -1,0 +1,193 @@
+STDOUT:
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.06kB done
+#1 DONE 0.0s
+
+#2 [frontend internal] load build definition from Dockerfile
+#2 DONE 0.0s
+
+#2 [frontend internal] load build definition from Dockerfile
+#2 transferring dockerfile: 338B done
+#2 DONE 0.0s
+
+#3 [backend internal] load build definition from Dockerfile
+#3 transferring dockerfile: 291B done
+#3 DONE 0.0s
+
+#4 [backend internal] load metadata for docker.io/library/maven:3.9.9-eclipse-temurin-21-alpine
+#4 ...
+
+#5 [frontend internal] load metadata for docker.io/library/node:22-alpine
+#5 DONE 0.3s
+
+#6 [backend internal] load metadata for docker.io/library/eclipse-temurin:21-jre-alpine
+#6 DONE 0.3s
+
+#7 [frontend internal] load metadata for docker.io/library/nginx:1.27-alpine
+#7 DONE 0.4s
+
+#8 [frontend internal] load .dockerignore
+#8 transferring context: 2B done
+#8 DONE 0.0s
+
+#9 [frontend stage-1 1/2] FROM docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+#9 resolve docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10 done
+#9 DONE 0.0s
+
+#10 [frontend build 1/7] FROM docker.io/library/node:22-alpine@sha256:8ea2348b068a9544dae7317b4f3aafcdc032df1647bb7d768a05a5cad1a7683f
+#10 resolve docker.io/library/node:22-alpine@sha256:8ea2348b068a9544dae7317b4f3aafcdc032df1647bb7d768a05a5cad1a7683f done
+#10 DONE 0.0s
+
+#11 [frontend internal] load build context
+#11 transferring context: 73.80MB 0.6s done
+#11 DONE 0.7s
+
+#12 [frontend build 2/7] WORKDIR /app
+#12 CACHED
+
+#13 [frontend build 3/7] COPY . .
+#13 DONE 0.2s
+
+#4 [backend internal] load metadata for docker.io/library/maven:3.9.9-eclipse-temurin-21-alpine
+#4 ...
+
+#14 [frontend build 4/7] RUN corepack enable
+#14 DONE 0.1s
+
+#4 [backend internal] load metadata for docker.io/library/maven:3.9.9-eclipse-temurin-21-alpine
+#4 DONE 1.4s
+
+#15 [backend internal] load .dockerignore
+#15 transferring context: 2B done
+#15 DONE 0.0s
+
+#16 [backend build 1/4] FROM docker.io/library/maven:3.9.9-eclipse-temurin-21-alpine@sha256:5a8b906c4faa11d33f6c74758f67db8eac25441e14b0729f6d50ff78992be58a
+#16 resolve docker.io/library/maven:3.9.9-eclipse-temurin-21-alpine@sha256:5a8b906c4faa11d33f6c74758f67db8eac25441e14b0729f6d50ff78992be58a done
+#16 DONE 0.0s
+
+#17 [backend stage-1 1/3] FROM docker.io/library/eclipse-temurin:21-jre-alpine@sha256:704db3c40204a44f471191446ddd9cda5d60dab40f0e15c6507b815ed897238b
+#17 resolve docker.io/library/eclipse-temurin:21-jre-alpine@sha256:704db3c40204a44f471191446ddd9cda5d60dab40f0e15c6507b815ed897238b done
+#17 DONE 0.0s
+
+#18 [backend internal] load build context
+#18 transferring context: 57.62kB done
+#18 DONE 0.0s
+
+#19 [backend build 2/4] WORKDIR /app
+#19 CACHED
+
+#20 [backend build 3/4] COPY . .
+#20 DONE 0.0s
+
+#21 [backend build 4/4] RUN mvn -q -DskipTests package
+#21 ...
+
+#22 [frontend build 5/7] RUN npm install
+#22 0.966 
+#22 0.966 added 2 packages, and audited 70 packages in 760ms
+#22 0.967 
+#22 0.967 7 packages are looking for funding
+#22 0.967   run `npm fund` for details
+#22 0.970 
+#22 0.970 2 moderate severity vulnerabilities
+#22 0.970 
+#22 0.970 To address all issues (including breaking changes), run:
+#22 0.970   npm audit fix --force
+#22 0.970 
+#22 0.970 Run `npm audit` for details.
+#22 0.971 npm notice
+#22 0.971 npm notice New major version of npm available! 10.9.7 -> 11.14.0
+#22 0.971 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.14.0
+#22 0.971 npm notice To update run: npm install -g npm@11.14.0
+#22 0.971 npm notice
+#22 DONE 1.0s
+
+#23 [frontend build 6/7] RUN npm install vite @vitejs/plugin-react react react-dom typescript
+#23 3.280 
+#23 3.280 added 1 package, and audited 71 packages in 3s
+#23 3.280 
+#23 3.280 7 packages are looking for funding
+#23 3.280   run `npm fund` for details
+#23 3.284 
+#23 3.284 2 moderate severity vulnerabilities
+#23 3.284 
+#23 3.284 To address all issues (including breaking changes), run:
+#23 3.284   npm audit fix --force
+#23 3.284 
+#23 3.284 Run `npm audit` for details.
+#23 DONE 3.3s
+
+#24 [frontend build 7/7] RUN npx vite build
+#24 0.334 vite v5.4.21 building for production...
+#24 0.356 transforming...
+#24 0.639 ✓ 29 modules transformed.
+#24 0.682 rendering chunks...
+#24 0.685 computing gzip size...
+#24 0.688 dist/index.html                  0.10 kB │ gzip:  0.11 kB
+#24 0.688 dist/assets/index-zG89yLne.js  142.68 kB │ gzip: 45.87 kB
+#24 0.688 ✓ built in 343ms
+#24 DONE 0.7s
+
+#25 [frontend stage-1 2/2] COPY --from=build /app/dist /usr/share/nginx/html
+#25 CACHED
+
+#26 [frontend] exporting to image
+#26 exporting layers done
+#26 exporting manifest sha256:8e2392c89bebfc3d5f079b119604f7591c06054ca8d4ac082a121978bd7550d8 done
+#26 exporting config sha256:8b9844ad22f02d2d9e48d9bce06af19acbfed5bcbf6ca31e0c3780d9245ef9c0 done
+#26 exporting attestation manifest sha256:55c1fbd893530fb6cceb33b2931600b597fe5817025a5a5d7bc58aa44e4eb1fe done
+#26 exporting manifest list sha256:6f06abb958667b052dee7de13b6065c6804fff6081216789db7e6a127b2713f8 done
+#26 naming to docker.io/library/infra-frontend:latest
+#26 naming to docker.io/library/infra-frontend:latest done
+#26 unpacking to docker.io/library/infra-frontend:latest done
+#26 DONE 0.0s
+
+#27 [frontend] resolving provenance for metadata file
+#27 DONE 0.0s
+
+#21 [backend build 4/4] RUN mvn -q -DskipTests package
+#21 DONE 14.9s
+
+#28 [backend stage-1 2/3] WORKDIR /app
+#28 CACHED
+
+#29 [backend stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#29 DONE 0.0s
+
+#30 [backend] exporting to image
+#30 exporting layers
+#30 exporting layers 0.4s done
+#30 exporting manifest sha256:9c0a64dc2563cc91975ffaa418a9ad0d1c75ccc355b9276e704ed358936b969c done
+#30 exporting config sha256:ff543ebb1842348e61c4c25e868128ca79a3b36cb234926a131902d3da8a6eee done
+#30 exporting attestation manifest sha256:63b83761fee8cb92209d0d71d905c8e131115f25807a76b64c4c9111c5de3b5e done
+#30 exporting manifest list sha256:d12b07225ebe3dd7c66eb721e390e53c1a03b9b944fb58d8c77f47205df31cb9 done
+#30 naming to docker.io/library/infra-backend:latest done
+#30 unpacking to docker.io/library/infra-backend:latest 0.1s done
+#30 DONE 0.5s
+
+#31 [backend] resolving provenance for metadata file
+#31 DONE 0.0s
+
+STDERR:
+ Image infra-backend Building 
+ Image infra-frontend Building 
+ Image infra-backend Built 
+ Image infra-frontend Built 
+ Network infra_default Creating 
+ Network infra_default Created 
+ Container nearjobs-postgres Creating 
+ Container nearjobs-backend Creating 
+ Container nearjobs-redis Creating 
+ Container nearjobs-backend Created 
+ Container nearjobs-frontend Creating 
+ Container nearjobs-redis Created 
+ Container nearjobs-postgres Created 
+ Container nearjobs-frontend Created 
+ Container nearjobs-backend Starting 
+ Container nearjobs-postgres Starting 
+ Container nearjobs-redis Starting 
+ Container nearjobs-backend Started 
+ Container nearjobs-frontend Starting 
+ Container nearjobs-redis Started 
+ Container nearjobs-postgres Started 
+ Container nearjobs-frontend Started 

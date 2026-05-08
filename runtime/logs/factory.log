@@ -250,3 +250,463 @@
 {"level":30,"time":1778232127984,"pid":2810,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Git rev-parse --short HEAD","durationMs":17}
 {"level":30,"time":1778232127984,"pid":2810,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Git rev-parse --abbrev-ref HEAD","command":"git","args":["rev-parse","--abbrev-ref","HEAD"]}
 {"level":30,"time":1778232127997,"pid":2810,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Git rev-parse --abbrev-ref HEAD","durationMs":13}
+{"level":30,"time":1778232384952,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778232385465,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":512}
+{"level":30,"time":1778232385465,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778232388206,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2741}
+{"level":30,"time":1778232388206,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778232388250,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":44}
+{"level":30,"time":1778232388250,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778232388325,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":75}
+{"level":30,"time":1778232388347,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778232388378,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":30}
+{"level":30,"time":1778232388378,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778232389330,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":952}
+{"level":30,"time":1778232389331,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778232390060,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":729}
+{"level":30,"time":1778232390060,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778232390108,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":48}
+{"level":30,"time":1778232390110,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778232390623,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":513}
+{"level":30,"time":1778232390623,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778232393269,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2645}
+{"level":30,"time":1778232393269,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778232393313,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":44}
+{"level":30,"time":1778232393313,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778232393379,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":66}
+{"level":30,"time":1778232393387,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778232393422,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":35}
+{"level":30,"time":1778232393422,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778232394320,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":898}
+{"level":30,"time":1778232394320,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778232394931,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":610}
+{"level":30,"time":1778232394931,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778232394978,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":47}
+{"level":30,"time":1778232394980,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778232395497,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":517}
+{"level":30,"time":1778232395497,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778232398157,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2660}
+{"level":30,"time":1778232398157,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778232398202,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":44}
+{"level":30,"time":1778232398202,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778232398269,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":66}
+{"level":30,"time":1778232398276,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778232398308,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":32}
+{"level":30,"time":1778232398308,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778232399211,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":903}
+{"level":30,"time":1778232399211,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778232399813,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":601}
+{"level":30,"time":1778232399813,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778232399861,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":48}
+{"level":30,"time":1778232399862,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Git rev-parse --short HEAD","command":"git","args":["rev-parse","--short","HEAD"]}
+{"level":30,"time":1778232399880,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Git rev-parse --short HEAD","durationMs":18}
+{"level":30,"time":1778232399880,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Git rev-parse --abbrev-ref HEAD","command":"git","args":["rev-parse","--abbrev-ref","HEAD"]}
+{"level":30,"time":1778232399893,"pid":3734,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Git rev-parse --abbrev-ref HEAD","durationMs":13}
+{"level":30,"time":1778232810073,"pid":4699,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Safe Repo Patch Diff","command":"git","args":["diff","--","projects/nearjobs"]}
+{"level":30,"time":1778232810093,"pid":4699,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Safe Repo Patch Diff","durationMs":19}
+{"level":30,"time":1778232820025,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778232820531,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":506}
+{"level":30,"time":1778232820531,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778232823266,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2735}
+{"level":30,"time":1778232823266,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778232823312,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":46}
+{"level":30,"time":1778232823312,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778232823383,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":70}
+{"level":30,"time":1778232823404,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778232823435,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":31}
+{"level":30,"time":1778232823435,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778232824338,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":903}
+{"level":30,"time":1778232824338,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778232825085,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":747}
+{"level":30,"time":1778232825085,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778232825137,"pid":4753,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":52}
+{"level":30,"time":1778233171423,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778233171935,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":511}
+{"level":30,"time":1778233171935,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778233174697,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2762}
+{"level":30,"time":1778233174697,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778233174742,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":45}
+{"level":30,"time":1778233174742,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778233174814,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":71}
+{"level":30,"time":1778233174834,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778233174866,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":32}
+{"level":30,"time":1778233174866,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778233175762,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":895}
+{"level":30,"time":1778233175762,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778233177185,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":1423}
+{"level":30,"time":1778233177185,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778233177240,"pid":5146,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":55}
+{"level":30,"time":1778233324202,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778233324711,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":509}
+{"level":30,"time":1778233324711,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778233327507,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2796}
+{"level":30,"time":1778233327508,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778233327552,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":43}
+{"level":30,"time":1778233327552,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778233327620,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":68}
+{"level":30,"time":1778233327641,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778233327671,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":29}
+{"level":30,"time":1778233327671,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778233328571,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":900}
+{"level":30,"time":1778233328571,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778233329285,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":714}
+{"level":30,"time":1778233329286,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778233329333,"pid":5478,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":47}
+{"level":30,"time":1778233341463,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778233341976,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":513}
+{"level":30,"time":1778233341977,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778233344638,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2660}
+{"level":30,"time":1778233344638,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778233344683,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":45}
+{"level":30,"time":1778233344683,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778233344754,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":71}
+{"level":30,"time":1778233344775,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778233344804,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":29}
+{"level":30,"time":1778233344804,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778233345706,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":902}
+{"level":30,"time":1778233345706,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778233346392,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":686}
+{"level":30,"time":1778233346392,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778233346438,"pid":5748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":46}
+{"level":30,"time":1778233372007,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778233372511,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":505}
+{"level":30,"time":1778233372511,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778233375268,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2757}
+{"level":30,"time":1778233375268,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778233375311,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":43}
+{"level":30,"time":1778233375311,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778233375378,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":67}
+{"level":30,"time":1778233375399,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778233375431,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":31}
+{"level":30,"time":1778233375431,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778233376303,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":872}
+{"level":30,"time":1778233376303,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778233376950,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":647}
+{"level":30,"time":1778233376950,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778233376994,"pid":6018,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":44}
+{"level":30,"time":1778233669474,"pid":6442,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778233669513,"pid":6442,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":38}
+{"level":30,"time":1778233670475,"pid":6490,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778233671385,"pid":6490,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":910}
+{"level":30,"time":1778233807117,"pid":6631,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778233807928,"pid":6631,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":811}
+{"level":30,"time":1778233807928,"pid":6631,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":50,"time":1778233809285,"pid":6631,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_FAILURE","task":"Clean Rebuild Build No Cache","durationMs":1357,"error":"Command failed with exit code 1: docker compose -f infra/docker-compose.yml build --no-cache\n\n Image infra-backend Building \n Image infra-frontend Building \n#1 [internal] load local bake definitions\n#1 reading from stdin 1.11kB done\n#1 DONE 0.0s\n\n#2 [frontend internal] load build definition from Dockerfile\n#2 transferring dockerfile: 338B done\n#2 DONE 0.0s\n\n#3 [backend internal] load build definition from Dockerfile\n#3 transferring dockerfile: 167B done\n#3 DONE 0.0s\n\n#4 [backend internal] load metadata for docker.io/library/eclipse-temurin:21-jre-alpine\n#4 ...\n\n#5 [frontend internal] load metadata for docker.io/library/node:22-alpine\n#5 DONE 0.9s\n\n#6 [frontend internal] load metadata for docker.io/library/nginx:1.27-alpine\n#6 DONE 0.9s\n\n#7 [frontend internal] load .dockerignore\n#7 transferring context: 2B done\n#7 DONE 0.0s\n\n#4 [backend internal] load metadata for docker.io/library/eclipse-temurin:21-jre-alpine\n#4 DONE 0.9s\n\n#8 [backend internal] load .dockerignore\n#8 transferring context: 2B done\n#8 DONE 0.0s\n\n#9 [frontend build 1/7] FROM docker.io/library/node:22-alpine@sha256:8ea2348b068a9544dae7317b4f3aafcdc032df1647bb7d768a05a5cad1a7683f\n#9 resolve docker.io/library/node:22-alpine@sha256:8ea2348b068a9544dae7317b4f3aafcdc032df1647bb7d768a05a5cad1a7683f done\n#9 DONE 0.0s\n\n#10 [frontend stage-1 1/2] FROM docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10\n#10 resolve docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10 0.0s done\n#10 CACHED\n\n#11 [frontend build 2/7] WORKDIR /app\n#11 CACHED\n\n#12 [backend 1/3] FROM docker.io/library/eclipse-temurin:21-jre-alpine@sha256:704db3c40204a44f471191446ddd9cda5d60dab40f0e15c6507b815ed897238b\n#12 resolve docker.io/library/eclipse-temurin:21-jre-alpine@sha256:704db3c40204a44f471191446ddd9cda5d60dab40f0e15c6507b815ed897238b done\n#12 DONE 0.0s\n\n#13 [backend 2/3] WORKDIR /app\n#13 CACHED\n\n#14 [backend internal] load build context\n#14 transferring context: 2B done\n#14 DONE 0.0s\n\n#15 [backend 3/3] COPY target/*.jar app.jar\n#15 ERROR: lstat /target: no such file or directory\n\n#16 [frontend internal] load build context\n#16 transferring context: 3.00MB 0.1s done\n#16 CANCELED\n------\n > [backend 3/3] COPY target/*.jar app.jar:\n------\nDockerfile:3\n\n--------------------\n\n   1 |     FROM eclipse-temurin:21-jre-alpine\n\n   2 |     WORKDIR /app\n\n   3 | >>> COPY target/*.jar app.jar\n\n   4 |     EXPOSE 8080\n\n   5 |     ENTRYPOINT [\"java\",\"-jar\",\"/app/app.jar\"]\n\n--------------------\n\ntarget backend: failed to solve: lstat /target: no such file or directory"}
+{"level":30,"time":1778234141394,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778234141449,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":54}
+{"level":30,"time":1778234141449,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":50,"time":1778234143000,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_FAILURE","task":"Clean Rebuild Build No Cache","durationMs":1551,"error":"Command failed with exit code 1: docker compose -f infra/docker-compose.yml build --no-cache\n\n Image infra-backend Building \n Image infra-frontend Building \n#1 [internal] load local bake definitions\n#1 reading from stdin 1.11kB done\n#1 DONE 0.0s\n\n#2 [backend internal] load build definition from Dockerfile\n#2 transferring dockerfile: 167B done\n#2 DONE 0.0s\n\n#3 [frontend internal] load build definition from Dockerfile\n#3 transferring dockerfile: 338B done\n#3 DONE 0.0s\n\n#4 [frontend internal] load metadata for docker.io/library/node:22-alpine\n#4 DONE 1.1s\n\n#5 [frontend internal] load metadata for docker.io/library/nginx:1.27-alpine\n#5 DONE 1.2s\n\n#6 [backend internal] load metadata for docker.io/library/eclipse-temurin:21-jre-alpine\n#6 DONE 1.1s\n\n#7 [backend internal] load .dockerignore\n#7 transferring context: 2B done\n#7 DONE 0.0s\n\n#8 [backend 1/3] FROM docker.io/library/eclipse-temurin:21-jre-alpine@sha256:704db3c40204a44f471191446ddd9cda5d60dab40f0e15c6507b815ed897238b\n#8 resolve docker.io/library/eclipse-temurin:21-jre-alpine@sha256:704db3c40204a44f471191446ddd9cda5d60dab40f0e15c6507b815ed897238b done\n#8 DONE 0.0s\n\n#9 [backend 2/3] WORKDIR /app\n#9 CACHED\n\n#10 [backend internal] load build context\n#10 transferring context: 2B 0.0s done\n#10 DONE 0.0s\n\n#11 [frontend internal] load .dockerignore\n#11 transferring context: 2B done\n#11 DONE 0.0s\n\n#12 [frontend internal] load build context\n#12 DONE 0.0s\n\n#13 [backend 3/3] COPY target/*.jar app.jar\n#13 ERROR: lstat /target: no such file or directory\n\n#14 [frontend stage-1 1/2] FROM docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10\n#14 resolve docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10 0.0s done\n#14 CACHED\n\n#15 [frontend build 1/7] FROM docker.io/library/node:22-alpine@sha256:8ea2348b068a9544dae7317b4f3aafcdc032df1647bb7d768a05a5cad1a7683f\n#15 resolve docker.io/library/node:22-alpine@sha256:8ea2348b068a9544dae7317b4f3aafcdc032df1647bb7d768a05a5cad1a7683f 0.0s done\n#15 DONE 0.0s\n------\n > [backend 3/3] COPY target/*.jar app.jar:\n------\nDockerfile:3\n\n--------------------\n\n   1 |     FROM eclipse-temurin:21-jre-alpine\n\n   2 |     WORKDIR /app\n\n   3 | >>> COPY target/*.jar app.jar\n\n   4 |     EXPOSE 8080\n\n   5 |     ENTRYPOINT [\"java\",\"-jar\",\"/app/app.jar\"]\n\n--------------------\n\ntarget backend: failed to solve: lstat /target: no such file or directory"}
+{"level":30,"time":1778234143000,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker PS","command":"docker","args":["ps","-a"]}
+{"level":30,"time":1778234143022,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker PS","durationMs":21}
+{"level":30,"time":1778234143022,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Logs","command":"docker","args":["logs","nearjobs-backend"]}
+{"level":50,"time":1778234143041,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_FAILURE","task":"Backend Logs","durationMs":18,"error":"Command failed with exit code 1: docker logs nearjobs-backend\n\nError response from daemon: No such container: nearjobs-backend"}
+{"level":30,"time":1778234143041,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Logs","command":"docker","args":["logs","nearjobs-frontend"]}
+{"level":50,"time":1778234143059,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_FAILURE","task":"Frontend Logs","durationMs":18,"error":"Command failed with exit code 1: docker logs nearjobs-frontend\n\nError response from daemon: No such container: nearjobs-frontend"}
+{"level":30,"time":1778234143060,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Autonomous Repair Rebuild 1","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","--build","-d"]}
+{"level":30,"time":1778234160567,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Autonomous Repair Rebuild 1","durationMs":17506}
+{"level":30,"time":1778234160567,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778234162075,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":1507}
+{"level":30,"time":1778234162075,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778234178066,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":15991}
+{"level":30,"time":1778234178066,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778234178433,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":366}
+{"level":30,"time":1778234178433,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778234179071,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":638}
+{"level":30,"time":1778234179071,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778234181851,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2780}
+{"level":30,"time":1778234181851,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778234181894,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":43}
+{"level":30,"time":1778234181894,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778234181965,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":70}
+{"level":30,"time":1778234182064,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778234182098,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":34}
+{"level":30,"time":1778234182098,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778234182994,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":896}
+{"level":30,"time":1778234182994,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778234183952,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":958}
+{"level":30,"time":1778234183952,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778234184010,"pid":6833,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":58}
+{"level":30,"time":1778234249025,"pid":7381,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778234249788,"pid":7381,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":763}
+{"level":30,"time":1778234249788,"pid":7381,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778234266486,"pid":7381,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":16697}
+{"level":30,"time":1778234266486,"pid":7381,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778234266827,"pid":7381,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":340}
+{"level":30,"time":1778234267960,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778234268485,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":525}
+{"level":30,"time":1778234268485,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778234271326,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2841}
+{"level":30,"time":1778234271326,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778234271371,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":45}
+{"level":30,"time":1778234271371,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778234271442,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":71}
+{"level":30,"time":1778234271541,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778234271570,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":28}
+{"level":30,"time":1778234271570,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778234272474,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":903}
+{"level":30,"time":1778234272474,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778234273064,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":589}
+{"level":30,"time":1778234273064,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778234273112,"pid":7496,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":48}
+{"level":30,"time":1778235013694,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778235014500,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":806}
+{"level":30,"time":1778235014501,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778235031585,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":17083}
+{"level":30,"time":1778235031585,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778235031953,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":367}
+{"level":30,"time":1778235031953,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778235032586,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":633}
+{"level":30,"time":1778235032586,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778235035341,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2755}
+{"level":30,"time":1778235035341,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235035386,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":45}
+{"level":30,"time":1778235035386,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778235035455,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":69}
+{"level":30,"time":1778235035559,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778235035587,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":27}
+{"level":30,"time":1778235035587,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778235036492,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":904}
+{"level":30,"time":1778235036492,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778235037455,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":962}
+{"level":30,"time":1778235037455,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235037506,"pid":8074,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":51}
+{"level":30,"time":1778235038465,"pid":8429,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778235039330,"pid":8429,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":864}
+{"level":30,"time":1778235039330,"pid":8429,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778235055520,"pid":8429,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":16189}
+{"level":30,"time":1778235055520,"pid":8429,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778235055882,"pid":8429,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":362}
+{"level":30,"time":1778235057024,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778235057550,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":527}
+{"level":30,"time":1778235057550,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778235060282,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2732}
+{"level":30,"time":1778235060282,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235060332,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":50}
+{"level":30,"time":1778235060333,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778235060404,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":71}
+{"level":30,"time":1778235060509,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778235060536,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":27}
+{"level":30,"time":1778235060536,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778235061441,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":905}
+{"level":30,"time":1778235061441,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778235062032,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":591}
+{"level":30,"time":1778235062032,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235062078,"pid":8548,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":46}
+{"level":30,"time":1778235311074,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778235311904,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":830}
+{"level":30,"time":1778235311904,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778235329216,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":17311}
+{"level":30,"time":1778235329216,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778235329547,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":330}
+{"level":30,"time":1778235329547,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778235330176,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":629}
+{"level":30,"time":1778235330176,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778235332994,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2818}
+{"level":30,"time":1778235332994,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235333037,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":43}
+{"level":30,"time":1778235333037,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778235333106,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":68}
+{"level":30,"time":1778235333209,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778235333240,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":31}
+{"level":30,"time":1778235333240,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778235334136,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":896}
+{"level":30,"time":1778235334136,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778235334727,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":591}
+{"level":30,"time":1778235334727,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235334774,"pid":8929,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":46}
+{"level":30,"time":1778235375968,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778235376796,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":827}
+{"level":30,"time":1778235376796,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778235395430,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":18634}
+{"level":30,"time":1778235395430,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778235395777,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":347}
+{"level":30,"time":1778235395777,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778235396396,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":619}
+{"level":30,"time":1778235396396,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778235399151,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2755}
+{"level":30,"time":1778235399151,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235399196,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":44}
+{"level":30,"time":1778235399196,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778235399265,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":69}
+{"level":30,"time":1778235399370,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778235399398,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":28}
+{"level":30,"time":1778235399398,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778235400303,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":905}
+{"level":30,"time":1778235400303,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778235401042,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":739}
+{"level":30,"time":1778235401042,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235401098,"pid":9300,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":56}
+{"level":30,"time":1778235496885,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778235497761,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":875}
+{"level":30,"time":1778235497761,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":50,"time":1778235499091,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_FAILURE","task":"Clean Rebuild Build No Cache","durationMs":1330,"error":"Command failed with exit code 1: docker compose -f infra/docker-compose.yml build --no-cache\n\n Image infra-backend Building \n Image infra-frontend Building \n#1 [internal] load local bake definitions\n#1 reading from stdin 1.11kB done\n#1 DONE 0.0s\n\n#2 [backend internal] load build definition from Dockerfile\n#2 transferring dockerfile: 167B done\n#2 DONE 0.0s\n\n#3 [frontend internal] load build definition from Dockerfile\n#3 transferring dockerfile: 338B done\n#3 DONE 0.0s\n\n#4 [frontend internal] load metadata for docker.io/library/node:22-alpine\n#4 ...\n\n#5 [backend internal] load metadata for docker.io/library/eclipse-temurin:21-jre-alpine\n#5 DONE 0.9s\n\n#6 [backend internal] load .dockerignore\n#6 transferring context: 2B done\n#6 DONE 0.0s\n\n#7 [frontend internal] load metadata for docker.io/library/nginx:1.27-alpine\n#7 DONE 0.9s\n\n#8 [backend internal] load build context\n#8 transferring context: 2B done\n#8 DONE 0.0s\n\n#4 [frontend internal] load metadata for docker.io/library/node:22-alpine\n#4 DONE 0.9s\n\n#9 [backend 1/3] FROM docker.io/library/eclipse-temurin:21-jre-alpine@sha256:704db3c40204a44f471191446ddd9cda5d60dab40f0e15c6507b815ed897238b\n#9 resolve docker.io/library/eclipse-temurin:21-jre-alpine@sha256:704db3c40204a44f471191446ddd9cda5d60dab40f0e15c6507b815ed897238b done\n#9 DONE 0.0s\n\n#10 [backend 2/3] WORKDIR /app\n#10 CACHED\n\n#11 [frontend internal] load .dockerignore\n#11 transferring context: 2B done\n#11 DONE 0.0s\n\n#12 [backend 3/3] COPY target/*.jar app.jar\n#12 ERROR: lstat /target: no such file or directory\n\n#13 [frontend build 1/7] FROM docker.io/library/node:22-alpine@sha256:8ea2348b068a9544dae7317b4f3aafcdc032df1647bb7d768a05a5cad1a7683f\n#13 resolve docker.io/library/node:22-alpine@sha256:8ea2348b068a9544dae7317b4f3aafcdc032df1647bb7d768a05a5cad1a7683f 0.0s done\n#13 DONE 0.0s\n\n#14 [frontend stage-1 1/2] FROM docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10\n#14 resolve docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10 0.0s done\n#14 CACHED\n\n#15 [frontend build 2/7] WORKDIR /app\n#15 CACHED\n\n#16 [frontend internal] load build context\n#16 transferring context: 99.61kB done\n#16 CANCELED\n------\n > [backend 3/3] COPY target/*.jar app.jar:\n------\nDockerfile:3\n\n--------------------\n\n   1 |     FROM eclipse-temurin:21-jre-alpine\n\n   2 |     WORKDIR /app\n\n   3 | >>> COPY target/*.jar app.jar\n\n   4 |     EXPOSE 8080\n\n   5 |     ENTRYPOINT [\"java\",\"-jar\",\"/app/app.jar\"]\n\n--------------------\n\ntarget backend: failed to solve: lstat /target: no such file or directory"}
+{"level":30,"time":1778235499091,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker PS","command":"docker","args":["ps","-a"]}
+{"level":30,"time":1778235499117,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker PS","durationMs":26}
+{"level":30,"time":1778235499117,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Logs","command":"docker","args":["logs","nearjobs-backend"]}
+{"level":50,"time":1778235499134,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_FAILURE","task":"Backend Logs","durationMs":17,"error":"Command failed with exit code 1: docker logs nearjobs-backend\n\nError response from daemon: No such container: nearjobs-backend"}
+{"level":30,"time":1778235499134,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Logs","command":"docker","args":["logs","nearjobs-frontend"]}
+{"level":50,"time":1778235499150,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_FAILURE","task":"Frontend Logs","durationMs":16,"error":"Command failed with exit code 1: docker logs nearjobs-frontend\n\nError response from daemon: No such container: nearjobs-frontend"}
+{"level":30,"time":1778235499151,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778235499201,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":50}
+{"level":30,"time":1778235499201,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778235516242,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":17041}
+{"level":30,"time":1778235516242,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778235516580,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":338}
+{"level":30,"time":1778235516580,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778235517202,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":622}
+{"level":30,"time":1778235517202,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778235519943,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2741}
+{"level":30,"time":1778235519943,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235519987,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":43}
+{"level":30,"time":1778235519987,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778235520056,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":69}
+{"level":30,"time":1778235520160,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778235520187,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":26}
+{"level":30,"time":1778235520187,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778235521094,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":906}
+{"level":30,"time":1778235521094,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778235521907,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":813}
+{"level":30,"time":1778235521907,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235521958,"pid":9687,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":51}
+{"level":30,"time":1778235787985,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778235788783,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":797}
+{"level":30,"time":1778235788783,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778235805525,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":16742}
+{"level":30,"time":1778235805525,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778235805877,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":352}
+{"level":30,"time":1778235805877,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778235806491,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":614}
+{"level":30,"time":1778235806491,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778235809244,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2753}
+{"level":30,"time":1778235809244,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235809287,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":43}
+{"level":30,"time":1778235809287,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778235809357,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":70}
+{"level":30,"time":1778235809461,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778235809488,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":27}
+{"level":30,"time":1778235809488,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778235810396,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":907}
+{"level":30,"time":1778235810396,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778235811235,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":839}
+{"level":30,"time":1778235811235,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778235811290,"pid":10301,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":55}
+{"level":30,"time":1778236022072,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778236022912,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":840}
+{"level":30,"time":1778236022912,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778236038510,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":15597}
+{"level":30,"time":1778236038510,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778236038853,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":342}
+{"level":30,"time":1778236038853,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778236039483,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":630}
+{"level":30,"time":1778236039483,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778236042309,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2826}
+{"level":30,"time":1778236042309,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236042353,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":44}
+{"level":30,"time":1778236042353,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778236042425,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":72}
+{"level":30,"time":1778236042531,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778236042557,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":26}
+{"level":30,"time":1778236042557,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778236043464,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":907}
+{"level":30,"time":1778236043464,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778236044059,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":595}
+{"level":30,"time":1778236044059,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236044110,"pid":10748,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":51}
+{"level":30,"time":1778236055295,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778236056146,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":850}
+{"level":30,"time":1778236056146,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778236072649,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":16502}
+{"level":30,"time":1778236072649,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778236073031,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":382}
+{"level":30,"time":1778236073032,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778236074543,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":1511}
+{"level":30,"time":1778236074544,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778236090901,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":16357}
+{"level":30,"time":1778236090902,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778236091242,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":340}
+{"level":30,"time":1778236091243,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778236091863,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":620}
+{"level":30,"time":1778236091863,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778236094590,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2726}
+{"level":30,"time":1778236094590,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236094640,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":50}
+{"level":30,"time":1778236094640,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778236094712,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":72}
+{"level":30,"time":1778236094815,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778236094841,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":26}
+{"level":30,"time":1778236094841,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778236095739,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":898}
+{"level":30,"time":1778236095739,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778236096378,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":639}
+{"level":30,"time":1778236096378,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236096426,"pid":11106,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":48}
+{"level":30,"time":1778236355607,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778236356427,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":819}
+{"level":30,"time":1778236356427,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778236373839,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":17411}
+{"level":30,"time":1778236373839,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778236374184,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":345}
+{"level":30,"time":1778236374184,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778236374818,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":634}
+{"level":30,"time":1778236374818,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778236377570,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2751}
+{"level":30,"time":1778236377570,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236377615,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":45}
+{"level":30,"time":1778236377615,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778236377682,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":67}
+{"level":30,"time":1778236377783,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778236377811,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":28}
+{"level":30,"time":1778236377811,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778236378709,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":898}
+{"level":30,"time":1778236378709,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778236379605,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":896}
+{"level":30,"time":1778236379605,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236379662,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":57}
+{"level":30,"time":1778236379664,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778236380467,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":802}
+{"level":30,"time":1778236380467,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778236396295,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":15828}
+{"level":30,"time":1778236396295,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778236396631,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":336}
+{"level":30,"time":1778236396631,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778236397240,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":609}
+{"level":30,"time":1778236397240,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778236399954,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2714}
+{"level":30,"time":1778236399954,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236399998,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":44}
+{"level":30,"time":1778236399998,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778236400068,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":70}
+{"level":30,"time":1778236400160,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778236400188,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":28}
+{"level":30,"time":1778236400188,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778236401087,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":899}
+{"level":30,"time":1778236401087,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778236401686,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":599}
+{"level":30,"time":1778236401686,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236401731,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":44}
+{"level":30,"time":1778236401732,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Down","command":"docker","args":["compose","-f","infra/docker-compose.yml","down","-v","--remove-orphans"]}
+{"level":30,"time":1778236402513,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Down","durationMs":780}
+{"level":30,"time":1778236402513,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Build No Cache","command":"docker","args":["compose","-f","infra/docker-compose.yml","build","--no-cache"]}
+{"level":30,"time":1778236417899,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Build No Cache","durationMs":15385}
+{"level":30,"time":1778236417899,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Clean Rebuild Up","command":"docker","args":["compose","-f","infra/docker-compose.yml","up","-d"]}
+{"level":30,"time":1778236418253,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Clean Rebuild Up","durationMs":354}
+{"level":30,"time":1778236418253,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Frontend Build Gate","command":"npm","args":["run","build"]}
+{"level":30,"time":1778236418860,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Frontend Build Gate","durationMs":607}
+{"level":30,"time":1778236418860,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Backend Test Gate","command":"mvn","args":["test"]}
+{"level":30,"time":1778236421542,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Backend Test Gate","durationMs":2682}
+{"level":30,"time":1778236421542,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose Config Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236421587,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose Config Gate","durationMs":45}
+{"level":30,"time":1778236421587,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Docker Compose PS Gate","command":"docker","args":["compose","-f","infra/docker-compose.yml","ps"]}
+{"level":30,"time":1778236421658,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Docker Compose PS Gate","durationMs":71}
+{"level":30,"time":1778236421750,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"API Smoke Docker PS","command":"docker","args":["ps","--format","{{.Names}}"]}
+{"level":30,"time":1778236421777,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"API Smoke Docker PS","durationMs":27}
+{"level":30,"time":1778236421777,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Playwright E2E Gate","command":"npm","args":["run","e2e"]}
+{"level":30,"time":1778236422686,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Playwright E2E Gate","durationMs":909}
+{"level":30,"time":1778236422686,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security NPM Audit","command":"npm","args":["audit","--audit-level=high"]}
+{"level":30,"time":1778236423273,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security NPM Audit","durationMs":587}
+{"level":30,"time":1778236423273,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Security Docker Compose Config","command":"docker","args":["compose","-f","infra/docker-compose.yml","config"]}
+{"level":30,"time":1778236423320,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Security Docker Compose Config","durationMs":47}
+{"level":30,"time":1778236423321,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Git rev-parse --short HEAD","command":"git","args":["rev-parse","--short","HEAD"]}
+{"level":30,"time":1778236423339,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Git rev-parse --short HEAD","durationMs":18}
+{"level":30,"time":1778236423339,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_START","task":"Git rev-parse --abbrev-ref HEAD","command":"git","args":["rev-parse","--abbrev-ref","HEAD"]}
+{"level":30,"time":1778236423352,"pid":11637,"hostname":"Nanos-Mac-Studio-2.local","type":"TASK_SUCCESS","task":"Git rev-parse --abbrev-ref HEAD","durationMs":13}

@@ -1,0 +1,30 @@
+[
+  {
+    "version": "nearjobs-2026-05-08T09-26-39-862Z-f258cb84",
+    "commit": "f258cb84",
+    "branch": "main",
+    "generatedAt": "2026-05-08T09:26:39.862Z",
+    "readyForDelivery": true,
+    "gates": {
+      "build": true,
+      "runtime": true,
+      "apiSmoke": true,
+      "playwright": true,
+      "security": true
+    }
+  },
+  {
+    "version": "nearjobs-2026-05-08T10-33-43-321Z-f258cb84",
+    "commit": "f258cb84",
+    "branch": "main",
+    "generatedAt": "2026-05-08T10:33:43.321Z",
+    "readyForDelivery": true,
+    "gates": {
+      "build": true,
+      "runtime": true,
+      "apiSmoke": true,
+      "playwright": true,
+      "security": true
+    }
+  }
+]

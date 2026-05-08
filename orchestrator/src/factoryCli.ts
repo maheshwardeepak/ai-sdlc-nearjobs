@@ -13,6 +13,9 @@ import { runProjectVerificationGate } from "./projectVerificationGate.js";
 import { generateReleaseReport } from "./releaseReporter.js";
 import { generateReleaseManifest } from "./releaseManifest.js";
 import { runDelivery } from "./deliveryCommand.js";
+import { applySafeRepoPatches } from "./safeRepoPatchEngine.js";
+import { runAutonomousFailureRepair } from "./failureRepairEngine.js";
+import { runCleanRebuildGate } from "./cleanRebuildGate.js";
 import { runSecurityGate } from "./securityGate.js";
 import { approvePlan, requestApproval, requestRevision } from "./approval.js";
 import { createRunPlan, loadDag, validateDag } from "./dagExecutor.js";
@@ -195,6 +198,45 @@ switch (command) {
   case "security-gate": {
     if (!arg) throw new Error("Project name required");
     const result = await runSecurityGate(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "clean-rebuild-gate": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runCleanRebuildGate(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "repair-project": {
+    if (!arg) throw new Error("Project name required");
+    const result = await runAutonomousFailureRepair(arg.toLowerCase());
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+  case "safe-patch-demo": {
+    if (!arg) throw new Error("Project name required");
+    const result = await applySafeRepoPatches(arg.toLowerCase(), [
+      {
+        targetFile: "backend/src/main/resources/application.yml",
+        reason: "Add explicit app identity for safe patch engine demo",
+        content: `server:
+  port: 8080
+
+spring:
+  application:
+    name: nearjobs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+`
+      }
+    ]);
     console.log(JSON.stringify(result, null, 2));
     break;
   }

@@ -1,0 +1,22 @@
+STDOUT:
+
+
+STDERR:
+ Container nearjobs-redis Stopping 
+ Container nearjobs-postgres Stopping 
+ Container nearjobs-frontend Stopping 
+ Container nearjobs-postgres Stopped 
+ Container nearjobs-postgres Removing 
+ Container nearjobs-postgres Removed 
+ Container nearjobs-frontend Stopped 
+ Container nearjobs-frontend Removing 
+ Container nearjobs-frontend Removed 
+ Container nearjobs-backend Stopping 
+ Container nearjobs-redis Stopped 
+ Container nearjobs-redis Removing 
+ Container nearjobs-redis Removed 
+ Container nearjobs-backend Stopped 
+ Container nearjobs-backend Removing 
+ Container nearjobs-backend Removed 
+ Network infra_default Removing 
+ Network infra_default Removed 

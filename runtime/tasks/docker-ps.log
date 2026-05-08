@@ -1,0 +1,6 @@
+STDOUT:
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS    PORTS     NAMES
+abd30914927c   nginx     "/docker-entrypoint.…"   6 minutes ago   Created             agitated_booth
+a6700149a4cf   nginx     "/docker-entrypoint.…"   8 minutes ago   Created             compassionate_lovelace
+
+STDERR:

@@ -1,9 +1,9 @@
 {
   "projectName": "nearjobs",
-  "version": "nearjobs-2026-05-08T10-33-43-321Z-f258cb84",
+  "version": "nearjobs-2026-05-08T09-26-39-862Z-f258cb84",
   "branch": "main",
   "commit": "f258cb84",
-  "generatedAt": "2026-05-08T10:33:43.321Z",
+  "generatedAt": "2026-05-08T09:26:39.862Z",
   "readyForDelivery": true,
   "gates": {
     "build": true,

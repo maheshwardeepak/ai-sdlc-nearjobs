@@ -7,6 +7,19 @@ export type RepairClassification = {
 export function classifyRuntimeFailure(logText: string): RepairClassification {
   const text = logText.toLowerCase();
 
+
+  if (
+    text.includes("copy target/*.jar") ||
+    text.includes("lstat /target") ||
+    text.includes("no such file or directory")
+  ) {
+    return {
+      category: "MISSING_BACKEND_JAR",
+      confidence: 0.97,
+      recommendedAction: "Patch backend Dockerfile to use a Maven builder stage that packages the JAR inside Docker."
+    };
+  }
+
   if (text.includes("no main manifest attribute")) {
     return {
       category: "SPRING_BOOT_JAR_NOT_EXECUTABLE",

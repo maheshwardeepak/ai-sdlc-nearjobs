@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
@@ -9,6 +10,102 @@ function write(file: string, content: string) {
 export function applyKnownPatch(projectName: string, category: string) {
   const root = path.resolve(process.cwd(), "projects", projectName);
   const patches: string[] = [];
+
+
+
+
+
+  if (category === "MAVEN_DEPENDENCY_FAILURE") {
+    patches.push("maven-dependency-refresh");
+
+    execSync("mvn dependency:resolve", {
+      cwd: path.join(root, "backend"),
+      stdio: "ignore"
+    });
+  }
+
+  if (category === "SPRING_BOOT_STARTUP_FAILURE") {
+    patches.push("spring-restart");
+
+    execSync(
+      "docker compose -f infra/docker-compose.yml restart backend",
+      {
+        cwd: root,
+        stdio: "ignore"
+      }
+    );
+  }
+
+  if (category === "DATABASE_CONNECTION_FAILURE") {
+    patches.push("postgres-restart");
+
+    execSync(
+      "docker compose -f infra/docker-compose.yml restart postgres",
+      {
+        cwd: root,
+        stdio: "ignore"
+      }
+    );
+  }
+
+  if (category === "REDIS_CONNECTION_FAILURE") {
+    patches.push("redis-restart");
+
+    execSync(
+      "docker compose -f infra/docker-compose.yml restart redis",
+      {
+        cwd: root,
+        stdio: "ignore"
+      }
+    );
+  }
+
+  if (category === "DOCKER_NETWORK_FAILURE") {
+    patches.push("docker-network-recreate");
+
+    execSync(
+      "docker compose -f infra/docker-compose.yml down -v --remove-orphans",
+      {
+        cwd: root,
+        stdio: "ignore"
+      }
+    );
+  }
+
+
+  if (category === "PORT_CONFLICT") {
+    patches.push("docker-cleanup");
+
+    execSync("docker compose -f infra/docker-compose.yml down -v --remove-orphans", {
+      cwd: root,
+      stdio: "ignore"
+    });
+  }
+
+  if (category === "TYPESCRIPT_IMPORT_FAILURE") {
+    patches.push("frontend-npm-install");
+
+    execSync("npm install", {
+      cwd: path.join(root, "frontend"),
+      stdio: "ignore"
+    });
+  }
+
+
+  if (category === "MISSING_BACKEND_JAR") {
+    write(path.join(root, "backend/Dockerfile"), `FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
+WORKDIR /app
+COPY . .
+RUN mvn -q -DskipTests package
+
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app/app.jar"]
+`);
+    patches.push("backend/Dockerfile");
+  }
 
   if (category === "SPRING_BOOT_JAR_NOT_EXECUTABLE") {
     write(path.join(root, "backend/pom.xml"), `<project xmlns="http://maven.apache.org/POM/4.0.0"

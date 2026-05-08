@@ -1,0 +1,10 @@
+STDOUT:
+
+
+STDERR:
+Error response from daemon: No such container: nearjobs-frontend
+
+ERROR:
+Command failed with exit code 1: docker logs nearjobs-frontend
+
+Error response from daemon: No such container: nearjobs-frontend

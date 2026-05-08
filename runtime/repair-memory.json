@@ -1,0 +1,8 @@
+[
+  {
+    "category": "MISSING_BACKEND_JAR",
+    "repair": "Patch backend Dockerfile to use a Maven builder stage that packages the JAR inside Docker.",
+    "success": true,
+    "timestamp": "2026-05-08T10:18:19.151Z"
+  }
+]
