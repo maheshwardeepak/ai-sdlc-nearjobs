@@ -37,6 +37,7 @@ import { runInfraPreflight } from "./infraPreflight.js";
 import { detectGitRepos } from "./git/submoduleDetector.js";
 import { generateBranchDiff } from "./git/branchDiff.js";
 import { createIncrementalVerificationPlan } from "./git/incrementalVerificationPlanner.js";
+import { executeIncrementalVerification } from "./git/incrementalVerificationExecutor.js";
 import { validateOpenClawArtifacts } from "./artifactValidator.js";
 import { createMergePlan, executeMergePlan } from "./mergeEngine.js";
 import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
@@ -86,6 +87,19 @@ switch (command) {
     const approval = approvePlan();
     console.log("Plan approved.");
     console.log(JSON.stringify(approval, null, 2));
+    break;
+  }
+
+  case "verify-incremental": {
+    executeIncrementalVerification(arg || "main")
+      .then((result) => {
+        console.log(JSON.stringify(result, null, 2));
+        if (!result.success) process.exit(1);
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
     break;
   }
 
