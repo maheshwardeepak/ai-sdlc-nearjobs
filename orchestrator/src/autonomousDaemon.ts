@@ -1,27 +1,47 @@
-import fs from "fs";
-import path from "path";
-import { runFleetDelivery } from "./fleetDelivery.js";
+import { runSmartFleetDelivery } from "./smartFleetDelivery.js";
 
-function getProjects() {
-  const root = path.resolve(process.cwd(), "projects");
+const POLL_INTERVAL_MS = 30000;
 
-  return fs
-    .readdirSync(root)
-    .filter((p) => fs.statSync(path.join(root, p)).isDirectory());
+let running = false;
+
+async function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function runDaemonOnce() {
-  const projects = getProjects();
-
   console.log("Autonomous daemon scan completed.");
-  console.log(`Projects found: ${projects.join(", ")}`);
 
-  const result = await runFleetDelivery();
+  const result = await runSmartFleetDelivery();
 
   return {
     success: result.success,
-    mode: "once",
-    projects,
+    mode: "smart-once",
     result
   };
+}
+
+export async function startSmartDaemon() {
+  console.log("Starting smart autonomous daemon...");
+  console.log(`Poll interval: ${POLL_INTERVAL_MS}ms`);
+
+  while (true) {
+    if (running) {
+      console.log("Previous delivery still running. Skipping cycle.");
+      await sleep(POLL_INTERVAL_MS);
+      continue;
+    }
+
+    running = true;
+
+    try {
+      const result = await runDaemonOnce();
+      console.log(JSON.stringify(result, null, 2));
+    } catch (error) {
+      console.error("Daemon cycle failed:", error);
+    } finally {
+      running = false;
+    }
+
+    await sleep(POLL_INTERVAL_MS);
+  }
 }
