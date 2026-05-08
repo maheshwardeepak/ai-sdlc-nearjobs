@@ -16,17 +16,37 @@ async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function processExists(pid: number) {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function acquireLock() {
   if (fs.existsSync(LOCK_FILE)) {
-    throw new Error("Smart daemon already running.");
+    const existingPid = Number(fs.readFileSync(LOCK_FILE, "utf8"));
+
+    if (Number.isFinite(existingPid) && processExists(existingPid)) {
+      throw new Error("Smart daemon already running.");
+    }
+
+    fs.unlinkSync(LOCK_FILE);
   }
 
+  fs.mkdirSync(path.dirname(LOCK_FILE), { recursive: true });
   fs.writeFileSync(LOCK_FILE, String(process.pid));
 }
 
 function releaseLock() {
   if (fs.existsSync(LOCK_FILE)) {
-    fs.unlinkSync(LOCK_FILE);
+    const existingPid = Number(fs.readFileSync(LOCK_FILE, "utf8"));
+
+    if (existingPid === process.pid) {
+      fs.unlinkSync(LOCK_FILE);
+    }
   }
 }
 
