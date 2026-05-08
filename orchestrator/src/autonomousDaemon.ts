@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { runSmartFleetDelivery } from "./smartFleetDelivery.js";
+import { saveDaemonState } from "./daemonState.js";
 
 const POLL_INTERVAL_MS = 30000;
 
@@ -91,6 +92,7 @@ export async function startSmartDaemon() {
 
     try {
       const result = await runDaemonOnce();
+      saveDaemonState(result);
       console.log(JSON.stringify(result, null, 2));
     } catch (error) {
       console.error("Daemon cycle failed:", error);
