@@ -31,14 +31,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck orchestrator
-        run: pnpm exec tsc -p orchestrator/tsconfig.json --noEmit
-
-      - name: Run infrastructure preflight
-        run: pnpm exec tsx orchestrator/src/factoryCli.ts infra-preflight
-
-      - name: Run autonomous health gate
-        run: pnpm exec tsx orchestrator/src/factoryCli.ts autonomous-health-gate
+      - name: Run incremental verification
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts verify-incremental
 
       - name: Generate dashboard snapshot
         run: pnpm exec tsx orchestrator/src/factoryCli.ts dashboard
