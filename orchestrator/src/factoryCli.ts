@@ -36,6 +36,7 @@ import { executeAllClones } from "./parallelExecutor.js";
 import { createDeliveryScore } from "./deliveryScore.js";
 import { createAgentPerformanceReport } from "./agentPerformanceScore.js";
 import { createRegressionAnalysis } from "./regressionAnalysis.js";
+import { createDefaultTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
 import { verifyGeneratedCrudIntegration } from "./generatedCrudIntegrationVerifier.js";
@@ -253,6 +254,12 @@ switch (command) {
         console.error(error);
         process.exit(1);
       });
+    break;
+  }
+
+  case "stack-contract": {
+    const result = createDefaultTechnologyStackContract();
+    console.log(JSON.stringify(result, null, 2));
     break;
   }
 
