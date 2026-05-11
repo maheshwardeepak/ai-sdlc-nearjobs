@@ -51,6 +51,25 @@ async function waitForHealth(url: string, attempts = 20): Promise<boolean> {
   return false;
 }
 
+async function createVerificationDatabase(baseUrl: string, dbName: string): Promise<string> {
+  const adminUrl = baseUrl.replace(/\/[^/]+$/, "/postgres");
+
+  await execa("psql", [
+    adminUrl,
+    "-c",
+    `DROP DATABASE IF EXISTS ${dbName}`
+  ], { stdio: "pipe" });
+
+  await execa("psql", [
+    adminUrl,
+    "-c",
+    `CREATE DATABASE ${dbName}`
+  ], { stdio: "pipe" });
+
+  return baseUrl.replace(/\/[^/]+$/, `/${dbName}`);
+}
+
+
 export async function verifyGeneratedCrudIntegration(rootDir: string) {
   const apps = findBackendApps(path.resolve(process.cwd(), rootDir));
   const results: CrudIntegrationResult[] = [];
@@ -69,7 +88,10 @@ export async function verifyGeneratedCrudIntegration(rootDir: string) {
     try {
       const databaseUrl =
         process.env.DATABASE_URL ||
-        "postgres://postgres:postgres@localhost:5432/postgres";
+        "postgres://postgres:postgres@localhost:55432/postgres";
+
+      const dbName = `factory_verify_${Date.now()}`;
+      const verificationDatabaseUrl = await createVerificationDatabase(databaseUrl, dbName);
 
       const initSql = path.join(appPath, "sql/init.sql");
 
@@ -79,7 +101,7 @@ export async function verifyGeneratedCrudIntegration(rootDir: string) {
         env: { ...process.env, CI: "false" }
       });
 
-      await execa("psql", [databaseUrl, "-f", initSql], {
+      await execa("psql", [verificationDatabaseUrl, "-f", initSql], {
         cwd: appPath,
         stdio: "pipe"
       });
@@ -93,7 +115,7 @@ export async function verifyGeneratedCrudIntegration(rootDir: string) {
           ...process.env,
           CI: "false",
           PORT: "3001",
-          DATABASE_URL: databaseUrl
+          DATABASE_URL: verificationDatabaseUrl
         }
       });
 
