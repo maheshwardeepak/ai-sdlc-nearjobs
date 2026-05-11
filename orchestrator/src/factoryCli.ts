@@ -38,6 +38,7 @@ import { createAgentPerformanceReport } from "./agentPerformanceScore.js";
 import { createRegressionAnalysis } from "./regressionAnalysis.js";
 import { createDefaultPolicy, validateFactoryPolicy } from "./policyEngine.js";
 import { verifyPolicyCompliance } from "./policyComplianceVerifier.js";
+import { verifySecurityAudit } from "./securityAuditVerifier.js";
 import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -267,6 +268,18 @@ switch (command) {
       process.exit(1);
     }
 
+    break;
+  }
+
+  case "verify-security-audit": {
+    verifySecurityAudit(arg || "runtime/workspaces")
+      .then((result) => {
+        console.log(JSON.stringify(result, null, 2));
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
     break;
   }
 
