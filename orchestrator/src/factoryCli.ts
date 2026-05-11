@@ -290,8 +290,19 @@ switch (command) {
     const output = {
       success: results.every((result) => result.success),
       checks,
-      results
+      results,
+      createdAt: new Date().toISOString()
     };
+
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const reportsDir = path.resolve(process.cwd(), "artifacts/reports");
+    fs.mkdirSync(reportsDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(reportsDir, "factory-full-verification-report.json"),
+      JSON.stringify(output, null, 2)
+    );
 
     console.log(JSON.stringify(output, null, 2));
 
