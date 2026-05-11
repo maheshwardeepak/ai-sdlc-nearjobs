@@ -1,10 +1,12 @@
 import { generateBranchDiff } from "./branchDiff.js";
+import { analyzeDependencyImpact } from "./dependencyImpactGraph.js";
 
 export type VerificationPlan = {
   success: boolean;
   baseBranch: string;
   changedFiles: string[];
   changedProjects: string[];
+  impactedProjects: string[];
   checks: string[];
 };
 
@@ -46,13 +48,15 @@ export async function createIncrementalVerificationPlan(
   baseBranch = "main"
 ): Promise<VerificationPlan> {
   const diff = await generateBranchDiff(baseBranch);
+  const impact = analyzeDependencyImpact(diff.changedProjects);
 
   return {
     success: true,
     baseBranch,
     changedFiles: diff.changedFiles,
     changedProjects: diff.changedProjects,
-    checks: planChecks(diff.changedProjects, diff.changedFiles)
+    impactedProjects: impact.impactedProjects,
+    checks: planChecks(impact.impactedProjects, diff.changedFiles)
   };
 }
 
