@@ -35,3 +35,7 @@ projects/tmp-source-tmp-target/
 
 # Temp directories
 tmp/
+
+# Dependencies
+node_modules/
+**/node_modules/

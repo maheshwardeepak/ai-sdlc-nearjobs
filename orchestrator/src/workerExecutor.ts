@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { logger } from "./logger.js";
 import { executeOpenClawTask } from "./openclawAdapter.js";
+import { recordAgentRun } from "./db/runtimeDb.js";
 
 export type WorkerExecution = {
   workerId: string;
@@ -71,6 +72,22 @@ Requirements:
     workerId: execution.workerId,
     success: aiResult.success
   });
+
+  try {
+    await recordAgentRun({
+      agent: execution.workerId.split("-").slice(0, 2).join("-"),
+      role: execution.role,
+      workerId: execution.workerId,
+      status: aiResult.success ? "SUCCESS" : "FAILED",
+      outputFile: aiResult.outputFile
+    });
+  } catch (error) {
+    logger.error({
+      type: "WORKER_DB_RECORD_FAILED",
+      workerId: execution.workerId,
+      error: error instanceof Error ? error.message : String(error)
+    });
+  }
 
   return {
     success: aiResult.success,
