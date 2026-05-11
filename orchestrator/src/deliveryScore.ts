@@ -70,6 +70,18 @@ export function createDeliveryScore() {
     JSON.stringify(output, null, 2)
   );
 
+  const historyPath = path.join(reportsDir, "delivery-score-history.json");
+  const history = fs.existsSync(historyPath)
+    ? JSON.parse(fs.readFileSync(historyPath, "utf8"))
+    : [];
+
+  history.push(output);
+
+  fs.writeFileSync(
+    historyPath,
+    JSON.stringify(history.slice(-100), null, 2)
+  );
+
   return output;
 }
 
