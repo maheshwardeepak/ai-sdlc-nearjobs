@@ -56,3 +56,36 @@ export function createDefaultTechnologyStackContract(): TechnologyStackContract 
 if (process.argv[1]?.includes("technologyStackContract")) {
   console.log(JSON.stringify(createDefaultTechnologyStackContract(), null, 2));
 }
+
+
+export function validateTechnologyStackContract() {
+  const contractPath = path.resolve(
+    process.cwd(),
+    "artifacts/reports/technology-stack-contract.json"
+  );
+
+  if (!fs.existsSync(contractPath)) {
+    return {
+      success: false,
+      error: "technology-stack-contract-not-found"
+    };
+  }
+
+  const contract = JSON.parse(
+    fs.readFileSync(contractPath, "utf8")
+  ) as TechnologyStackContract;
+
+  const success =
+    Boolean(contract.confirmed) &&
+    Boolean(contract.backend?.language) &&
+    Boolean(contract.backend?.framework) &&
+    Boolean(contract.frontend?.language) &&
+    Boolean(contract.frontend?.framework) &&
+    Boolean(contract.database?.engine);
+
+  return {
+    success,
+    contract,
+    error: success ? null : "technology-stack-contract-incomplete"
+  };
+}
