@@ -29,6 +29,18 @@ function sha256(filePath: string): string {
   return crypto.createHash("sha256").update(content).digest("hex");
 }
 
+function createRollbackSnapshot(targetDir: string): string | null {
+  if (!fs.existsSync(targetDir)) return null;
+
+  const snapshotRoot = path.resolve(process.cwd(), "artifacts/rollback");
+  fs.mkdirSync(snapshotRoot, { recursive: true });
+
+  const snapshotDir = path.join(snapshotRoot, `snapshot-${Date.now()}`);
+  fs.cpSync(targetDir, snapshotDir, { recursive: true });
+
+  return snapshotDir;
+}
+
 function collectFiles(dir: string, base = dir): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -69,6 +81,8 @@ export function executeArtifactMerge(
       dryRun
     };
   }
+
+  const rollbackSnapshot = dryRun ? null : createRollbackSnapshot(targetDir);
 
   const files = collectFiles(sourceDir);
 
@@ -116,6 +130,7 @@ export function executeArtifactMerge(
     success: conflicts.length === 0,
     sourceDir,
     targetDir,
+    rollbackSnapshot,
     candidates,
     conflicts,
     merged,
