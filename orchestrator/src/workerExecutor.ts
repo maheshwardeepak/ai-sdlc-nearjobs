@@ -185,6 +185,54 @@ export async function executeWorker(
 
     generatedFiles.push(serverFile);
 
+
+    const backendDockerfile = path.join(
+      execution.workspacePath,
+      "backend/Dockerfile"
+    );
+
+    fs.writeFileSync(
+      backendDockerfile,
+      [
+        "FROM node:22-alpine",
+        "",
+        "WORKDIR /app",
+        "",
+        "COPY package.json ./",
+        "RUN npm install",
+        "",
+        "COPY . .",
+        "",
+        "EXPOSE 3000",
+        "",
+        'HEALTHCHECK CMD wget --spider -q http://localhost:3000/health || exit 1',
+        "",
+        'CMD ["npm", "run", "dev"]',
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(backendDockerfile);
+
+    const backendCompose = path.join(
+      execution.workspacePath,
+      "backend/docker-compose.yml"
+    );
+
+    fs.writeFileSync(
+      backendCompose,
+      [
+        "services:",
+        "  backend:",
+        "    build: .",
+        "    ports:",
+        '      - "3000:3000"',
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(backendCompose);
+
     const dbFile = path.join(
       execution.workspacePath,
       "backend/src/db/db.ts"
@@ -426,6 +474,54 @@ export async function executeWorker(
     );
 
     generatedFiles.push(mainFile);
+
+
+    const frontendDockerfile = path.join(
+      execution.workspacePath,
+      "frontend/Dockerfile"
+    );
+
+    fs.writeFileSync(
+      frontendDockerfile,
+      [
+        "FROM node:22-alpine",
+        "",
+        "WORKDIR /app",
+        "",
+        "COPY package.json ./",
+        "RUN npm install",
+        "",
+        "COPY . .",
+        "",
+        "EXPOSE 5173",
+        "",
+        'HEALTHCHECK CMD wget --spider -q http://localhost:5173 || exit 1',
+        "",
+        'CMD ["npm", "run", "dev", "--", "--host"]',
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(frontendDockerfile);
+
+    const frontendCompose = path.join(
+      execution.workspacePath,
+      "frontend/docker-compose.yml"
+    );
+
+    fs.writeFileSync(
+      frontendCompose,
+      [
+        "services:",
+        "  frontend:",
+        "    build: .",
+        "    ports:",
+        '      - "5173:5173"',
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(frontendCompose);
 
   }
 
