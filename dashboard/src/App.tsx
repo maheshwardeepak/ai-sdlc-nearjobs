@@ -23,6 +23,16 @@ type AgentRun = {
 };
 
 
+
+type AgentPerformance = {
+  agent: string;
+  runs: number;
+  successes: number;
+  failures: number;
+  score: number;
+};
+
+
 type DeliveryScore = {
   success: boolean;
   score: number;
@@ -47,6 +57,7 @@ export default function App() {
   const [apiHealthy, setApiHealthy] = useState(false);
   const [deliveryScore, setDeliveryScore] = useState<DeliveryScore | null>(null);
   const [deliveryHistory, setDeliveryHistory] = useState<DeliveryScore[]>([]);
+  const [agentPerformance, setAgentPerformance] = useState<AgentPerformance[]>([]);
 
   async function loadDashboard() {
     const [
@@ -55,14 +66,16 @@ export default function App() {
       agentsRes,
       verificationsRes,
       deliveryScoreRes,
-      deliveryHistoryRes
+      deliveryHistoryRes,
+      agentPerformanceRes
     ] = await Promise.all([
       axios.get(`${API_BASE}/health`),
       axios.get(`${API_BASE}/executions`),
       axios.get(`${API_BASE}/agents`),
       axios.get(`${API_BASE}/verifications`),
       axios.get(`${API_BASE}/delivery-score`),
-      axios.get(`${API_BASE}/delivery-score/history`)
+      axios.get(`${API_BASE}/delivery-score/history`),
+      axios.get(`${API_BASE}/agent-performance`)
     ]);
 
     setApiHealthy(Boolean(healthRes.data.success));
@@ -71,6 +84,7 @@ export default function App() {
     setVerifications(verificationsRes.data.verificationRuns || []);
     setDeliveryScore(deliveryScoreRes.data);
     setDeliveryHistory(deliveryHistoryRes.data.history || []);
+    setAgentPerformance(Object.values(agentPerformanceRes.data.agents || {}));
   }
 
   useEffect(() => {
@@ -123,6 +137,32 @@ export default function App() {
               : ""}
           </small>
         </div>
+      </section>
+
+      <section className="panel">
+        <h2>Agent Performance</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>Runs</th>
+              <th>Successes</th>
+              <th>Failures</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {agentPerformance.map((item) => (
+              <tr key={item.agent}>
+                <td>{item.agent}</td>
+                <td>{item.runs}</td>
+                <td>{item.successes}</td>
+                <td>{item.failures}</td>
+                <td>{item.score}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
 
       <section className="panel">
