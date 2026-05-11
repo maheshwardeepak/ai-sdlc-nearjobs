@@ -34,6 +34,7 @@ import { createProjectWorkspace } from "./workspaceManager.js";
 import { createEngineeringClones, createValidationClones } from "./cloneManager.js";
 import { executeAllClones } from "./parallelExecutor.js";
 import { createDeliveryScore } from "./deliveryScore.js";
+import { createAgentPerformanceReport } from "./agentPerformanceScore.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
 import { verifyGeneratedCrudIntegration } from "./generatedCrudIntegrationVerifier.js";
@@ -244,6 +245,18 @@ switch (command) {
 
   case "verify-generated-apps": {
     verifyGeneratedApps(arg || "runtime/workspaces")
+      .then((result) => {
+        console.log(JSON.stringify(result, null, 2));
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+    break;
+  }
+
+  case "agent-performance": {
+    createAgentPerformanceReport()
       .then((result) => {
         console.log(JSON.stringify(result, null, 2));
       })
