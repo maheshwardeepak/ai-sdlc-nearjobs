@@ -362,6 +362,7 @@ switch (command) {
       "validate-policy",
       "verify-policy-compliance",
       "verify-security-audit",
+      "verify-secret-scan",
       "generated-crud-verification"
     ];
 
@@ -383,6 +384,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-policy-compliance", "runtime/workspaces/crudbackendgenerationtest"] }
               : check === "verify-security-audit"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-security-audit", "runtime/workspaces/crudbackendgenerationtest"] }
+              : check === "verify-secret-scan"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-secret-scan", "runtime/workspaces/crudbackendgenerationtest"] }
               : { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-generated-crud", "runtime/workspaces/crudbackendgenerationtest"] };
 
       const result = await runTask({
