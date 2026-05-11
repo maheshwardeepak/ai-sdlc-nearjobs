@@ -94,7 +94,7 @@ export function executeArtifactMerge(
     merged.push(relativeFile);
   }
 
-  return {
+  const report = {
     success: conflicts.length === 0,
     sourceDir,
     targetDir,
@@ -103,6 +103,15 @@ export function executeArtifactMerge(
     merged,
     dryRun
   };
+
+  const reportsDir = path.resolve(process.cwd(), "artifacts/reports");
+  fs.mkdirSync(reportsDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(reportsDir, "merge-report.json"),
+    JSON.stringify(report, null, 2)
+  );
+
+  return report;
 }
 
 if (process.argv[1]?.includes("artifactMergeEngine")) {
