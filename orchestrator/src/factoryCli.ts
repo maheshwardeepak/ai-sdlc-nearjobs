@@ -33,6 +33,7 @@ import { runApprovedDagOnce } from "./agentRunner.js";
 import { createProjectWorkspace } from "./workspaceManager.js";
 import { createEngineeringClones, createValidationClones } from "./cloneManager.js";
 import { executeAllClones } from "./parallelExecutor.js";
+import { startRuntimeApi } from "./server/runtimeApi.js";
 import { initRuntimeDb, recordFactoryExecution, listFactoryExecutions, recordAgentRun, listAgentRuns, recordVerificationRun, listVerificationRuns } from "./db/runtimeDb.js";
 import { runInfraPreflight } from "./infraPreflight.js";
 import { detectGitRepos } from "./git/submoduleDetector.js";
@@ -149,6 +150,14 @@ switch (command) {
         console.error(error);
         process.exit(1);
       });
+    break;
+  }
+
+  case "runtime-api": {
+    startRuntimeApi().catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
     break;
   }
 
