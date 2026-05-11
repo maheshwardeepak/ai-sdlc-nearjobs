@@ -1,4 +1,6 @@
 import express from "express";
+import fs from "fs";
+import path from "path";
 import {
   initRuntimeDb,
   listFactoryExecutions,
@@ -36,7 +38,24 @@ app.get("/verifications", async (_req, res) => {
 export async function startRuntimeApi() {
   await initRuntimeDb();
 
-  app.listen(port, () => {
+  app.get("/delivery-score", async (_req, res) => {
+  const reportPath = path.resolve(
+    process.cwd(),
+    "artifacts/reports/delivery-score-report.json"
+  );
+
+  if (!fs.existsSync(reportPath)) {
+    return res.status(404).json({
+      success: false,
+      error: "delivery-score-report-not-found"
+    });
+  }
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  res.json(report);
+});
+
+app.listen(port, () => {
     console.log(JSON.stringify({
       success: true,
       service: "ai-sdlc-runtime-api",

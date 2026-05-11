@@ -59,7 +59,7 @@ export default function App() {
       axios.get(`${API_BASE}/executions`),
       axios.get(`${API_BASE}/agents`),
       axios.get(`${API_BASE}/verifications`),
-      axios.get("http://localhost:4000/api/delivery-score")
+      axios.get(`${API_BASE}/delivery-score`)
     ]);
 
     setApiHealthy(Boolean(healthRes.data.success));
