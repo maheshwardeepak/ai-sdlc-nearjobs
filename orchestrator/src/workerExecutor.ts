@@ -89,6 +89,53 @@ export async function executeWorker(
     .split(",")
     .filter(Boolean);
   generatedFiles.push(...generatedSourceFiles);
+  if (execution.role === "backend") {
+    const serverFile = path.join(
+      execution.workspacePath,
+      "backend/src/server.ts"
+    );
+
+    fs.writeFileSync(
+      serverFile,
+      [
+        'import express from "express";',
+        "",
+        "const app = express();",
+        "const port = 3000;",
+        "",
+        'app.get("/health", (_req, res) => {',
+        '  res.json({ success: true, service: "backend" });',
+        "});",
+        "",
+        "app.listen(port, () => {",
+        '  console.log(`Backend running on port ${port}`);',
+        "});",
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(serverFile);
+  }
+
+  if (execution.role === "frontend") {
+    const appFile = path.join(
+      execution.workspacePath,
+      "frontend/src/App.tsx"
+    );
+
+    fs.writeFileSync(
+      appFile,
+      [
+        'export default function App() {',
+        '  return <h1>AI SDLC Factory Frontend</h1>;',
+        '}',
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(appFile);
+  }
+
 
   const aiResult = await executeOpenClawTask({
     workerId: execution.workerId,
