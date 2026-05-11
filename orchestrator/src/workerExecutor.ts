@@ -95,6 +95,36 @@ export async function executeWorker(
       "backend/src/server.ts"
     );
 
+    const backendPackageFile = path.join(
+      execution.workspacePath,
+      "backend/package.json"
+    );
+
+    fs.writeFileSync(
+      backendPackageFile,
+      JSON.stringify(
+        {
+          type: "module",
+          scripts: {
+            dev: "tsx src/server.ts",
+            build: "tsc --noEmit"
+          },
+          dependencies: {
+            express: "^5.2.1"
+          },
+          devDependencies: {
+            "@types/express": "^5.0.6",
+            tsx: "^4.21.0",
+            typescript: "^6.0.3"
+          }
+        },
+        null,
+        2
+      )
+    );
+
+    generatedFiles.push(backendPackageFile);
+
     fs.writeFileSync(
       serverFile,
       [
@@ -122,6 +152,39 @@ export async function executeWorker(
       execution.workspacePath,
       "frontend/src/App.tsx"
     );
+
+    const frontendPackageFile = path.join(
+      execution.workspacePath,
+      "frontend/package.json"
+    );
+
+    fs.writeFileSync(
+      frontendPackageFile,
+      JSON.stringify(
+        {
+          type: "module",
+          scripts: {
+            dev: "vite",
+            build: "tsc --noEmit"
+          },
+          dependencies: {
+            "@vitejs/plugin-react": "^6.0.1",
+            vite: "^8.0.11",
+            react: "^19.2.6",
+            "react-dom": "^19.2.6"
+          },
+          devDependencies: {
+            "@types/react": "^19.2.14",
+            "@types/react-dom": "^19.2.3",
+            typescript: "^6.0.3"
+          }
+        },
+        null,
+        2
+      )
+    );
+
+    generatedFiles.push(frontendPackageFile);
 
     fs.writeFileSync(
       appFile,
