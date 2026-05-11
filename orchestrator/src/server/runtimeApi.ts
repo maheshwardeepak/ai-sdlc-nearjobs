@@ -109,6 +109,26 @@ app.get("/regression-analysis", async (_req, res) => {
   res.json(report);
 });
 
+app.get("/technology-stack", async (_req, res) => {
+  const reportPath = path.resolve(
+    process.cwd(),
+    "artifacts/reports/technology-stack-contract.json"
+  );
+
+  if (!fs.existsSync(reportPath)) {
+    return res.status(404).json({
+      success: false,
+      error: "technology-stack-contract-not-found"
+    });
+  }
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  res.json({
+    success: true,
+    contract: report
+  });
+});
+
 app.listen(port, () => {
     console.log(JSON.stringify({
       success: true,
