@@ -207,13 +207,19 @@ switch (command) {
   }
 
   case "merge-artifacts": {
-    if (!arg) {
-      throw new Error("Project name is required.");
+    const [sourceDir, targetDir, mode] = process.argv.slice(3);
+    if (!sourceDir || !targetDir) {
+      throw new Error("Usage: merge-artifacts <sourceDir> <targetDir> [--apply]");
     }
-    const plan = createMergePlan(arg, false);
-    const result = executeMergePlan(plan);
-    console.log("Artifacts merged.");
+
+    const result = executeArtifactMerge(
+      sourceDir,
+      targetDir,
+      mode !== "--apply"
+    );
+
     console.log(JSON.stringify(result, null, 2));
+    if (!result.success) process.exit(1);
     break;
   }
 
