@@ -45,3 +45,42 @@ export async function initRuntimeDb() {
 
   return { success: true };
 }
+
+export async function recordFactoryExecution(input: {
+  projectName: string | null;
+  status: string;
+  planVersion?: number;
+}) {
+  const result = await runtimeDb.query(
+    `
+    INSERT INTO factory_executions (
+      project_name,
+      status,
+      plan_version
+    )
+    VALUES ($1, $2, $3)
+    RETURNING *
+    `,
+    [
+      input.projectName,
+      input.status,
+      input.planVersion ?? null
+    ]
+  );
+
+  return result.rows[0];
+}
+
+export async function listFactoryExecutions(limit = 20) {
+  const result = await runtimeDb.query(
+    `
+    SELECT *
+    FROM factory_executions
+    ORDER BY created_at DESC
+    LIMIT $1
+    `,
+    [limit]
+  );
+
+  return result.rows;
+}
