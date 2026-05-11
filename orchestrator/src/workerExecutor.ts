@@ -123,6 +123,33 @@ export async function executeWorker(
       )
     );
 
+    const backendTsconfigFile = path.join(
+      execution.workspacePath,
+      "backend/tsconfig.json"
+    );
+
+    fs.writeFileSync(
+      backendTsconfigFile,
+      JSON.stringify(
+        {
+          compilerOptions: {
+            target: "ES2022",
+            module: "NodeNext",
+            moduleResolution: "NodeNext",
+            strict: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            noEmit: true
+          },
+          include: ["src/**/*.ts"]
+        },
+        null,
+        2
+      )
+    );
+
+    generatedFiles.push(backendTsconfigFile);
+
     generatedFiles.push(backendPackageFile);
 
     fs.writeFileSync(
@@ -183,6 +210,33 @@ export async function executeWorker(
         2
       )
     );
+
+    const frontendTsconfigFile = path.join(
+      execution.workspacePath,
+      "frontend/tsconfig.json"
+    );
+
+    fs.writeFileSync(
+      frontendTsconfigFile,
+      JSON.stringify(
+        {
+          compilerOptions: {
+            target: "ES2022",
+            module: "ESNext",
+            moduleResolution: "Bundler",
+            jsx: "react-jsx",
+            strict: true,
+            skipLibCheck: true,
+            noEmit: true
+          },
+          include: ["src/**/*.ts", "src/**/*.tsx"]
+        },
+        null,
+        2
+      )
+    );
+
+    generatedFiles.push(frontendTsconfigFile);
 
     generatedFiles.push(frontendPackageFile);
 
