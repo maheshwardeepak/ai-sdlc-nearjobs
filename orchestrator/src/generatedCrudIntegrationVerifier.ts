@@ -157,7 +157,7 @@ export async function verifyGeneratedCrudIntegration(rootDir: string) {
     results.push(result);
   }
 
-  return {
+  const report = {
     success: results.every(
       (item) =>
         item.dbInitSuccess &&
@@ -168,6 +168,15 @@ export async function verifyGeneratedCrudIntegration(rootDir: string) {
     appsChecked: results.length,
     results
   };
+
+  const reportsDir = path.resolve(process.cwd(), "artifacts/reports");
+  fs.mkdirSync(reportsDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(reportsDir, "generated-crud-verification-report.json"),
+    JSON.stringify(report, null, 2)
+  );
+
+  return report;
 }
 
 if (process.argv[1]?.includes("generatedCrudIntegrationVerifier")) {
