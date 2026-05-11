@@ -92,6 +92,23 @@ app.get("/agent-performance", async (_req, res) => {
   res.json(report);
 });
 
+app.get("/regression-analysis", async (_req, res) => {
+  const reportPath = path.resolve(
+    process.cwd(),
+    "artifacts/reports/regression-analysis-report.json"
+  );
+
+  if (!fs.existsSync(reportPath)) {
+    return res.status(404).json({
+      success: false,
+      error: "regression-analysis-report-not-found"
+    });
+  }
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  res.json(report);
+});
+
 app.listen(port, () => {
     console.log(JSON.stringify({
       success: true,
