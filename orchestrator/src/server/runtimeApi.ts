@@ -129,6 +129,70 @@ app.get("/technology-stack", async (_req, res) => {
   });
 });
 
+function readReport(reportFile: string) {
+  const reportPath = path.resolve(
+    process.cwd(),
+    "artifacts/reports",
+    reportFile
+  );
+
+  if (!fs.existsSync(reportPath)) {
+    return null;
+  }
+
+  return JSON.parse(fs.readFileSync(reportPath, "utf8"));
+}
+
+app.get("/policy-compliance", async (_req, res) => {
+  const report = readReport("policy-compliance-report.json");
+
+  if (!report) {
+    return res.status(404).json({ success: false, error: "policy-compliance-report-not-found" });
+  }
+
+  res.json(report);
+});
+
+app.get("/security-audit", async (_req, res) => {
+  const report = readReport("security-audit-report.json");
+
+  if (!report) {
+    return res.status(404).json({ success: false, error: "security-audit-report-not-found" });
+  }
+
+  res.json(report);
+});
+
+app.get("/secret-scan", async (_req, res) => {
+  const report = readReport("secret-scan-report.json");
+
+  if (!report) {
+    return res.status(404).json({ success: false, error: "secret-scan-report-not-found" });
+  }
+
+  res.json(report);
+});
+
+app.get("/docker-compliance", async (_req, res) => {
+  const report = readReport("docker-compliance-report.json");
+
+  if (!report) {
+    return res.status(404).json({ success: false, error: "docker-compliance-report-not-found" });
+  }
+
+  res.json(report);
+});
+
+app.get("/test-coverage", async (_req, res) => {
+  const report = readReport("test-coverage-report.json");
+
+  if (!report) {
+    return res.status(404).json({ success: false, error: "test-coverage-report-not-found" });
+  }
+
+  res.json(report);
+});
+
 app.listen(port, () => {
     console.log(JSON.stringify({
       success: true,
