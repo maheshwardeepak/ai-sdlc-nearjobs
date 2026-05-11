@@ -75,6 +75,23 @@ app.get("/delivery-score/history", async (_req, res) => {
   });
 });
 
+app.get("/agent-performance", async (_req, res) => {
+  const reportPath = path.resolve(
+    process.cwd(),
+    "artifacts/reports/agent-performance-report.json"
+  );
+
+  if (!fs.existsSync(reportPath)) {
+    return res.status(404).json({
+      success: false,
+      error: "agent-performance-report-not-found"
+    });
+  }
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  res.json(report);
+});
+
 app.listen(port, () => {
     console.log(JSON.stringify({
       success: true,
