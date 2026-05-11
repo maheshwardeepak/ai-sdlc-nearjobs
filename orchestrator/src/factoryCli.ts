@@ -302,6 +302,7 @@ switch (command) {
     const checks = [
       "typecheck",
       "autonomous-health-gate",
+      "validate-stack-contract",
       "generated-crud-verification"
     ];
 
@@ -315,7 +316,9 @@ switch (command) {
           ? { command: "pnpm", args: ["exec", "tsc", "-p", "orchestrator/tsconfig.json", "--noEmit"] }
           : check === "autonomous-health-gate"
             ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "autonomous-health-gate"] }
-            : { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-generated-crud", "runtime/workspaces/crudbackendgenerationtest"] };
+            : check === "validate-stack-contract"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "validate-stack-contract"] }
+              : { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-generated-crud", "runtime/workspaces/crudbackendgenerationtest"] };
 
       const result = await runTask({
         id: `factory-full-${check}`,
