@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { validateArtifacts } from "./artifactValidator.js";
 
 export type MergeCandidate = {
   file: string;
@@ -52,6 +53,23 @@ export function executeArtifactMerge(
   targetDir: string,
   dryRun = true
 ): MergeReport {
+  const validation = validateArtifacts(sourceDir);
+
+  if (!validation.success) {
+    return {
+      success: false,
+      sourceDir,
+      targetDir,
+      candidates: [],
+      conflicts: validation.issues.map((issue) => ({
+        file: issue.file,
+        reason: `artifact-validation-failed:${issue.reason}`
+      })),
+      merged: [],
+      dryRun
+    };
+  }
+
   const files = collectFiles(sourceDir);
 
   const candidates: MergeCandidate[] = [];
