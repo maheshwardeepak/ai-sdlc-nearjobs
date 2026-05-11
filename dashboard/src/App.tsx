@@ -22,6 +22,16 @@ type AgentRun = {
   started_at: string;
 };
 
+
+type DeliveryScore = {
+  success: boolean;
+  score: number;
+  grade: string;
+  checks: Record<string, number>;
+  createdAt: string;
+};
+
+
 type VerificationRun = {
   id: number;
   check_name: string;
@@ -35,19 +45,28 @@ export default function App() {
   const [agents, setAgents] = useState<AgentRun[]>([]);
   const [verifications, setVerifications] = useState<VerificationRun[]>([]);
   const [apiHealthy, setApiHealthy] = useState(false);
+  const [deliveryScore, setDeliveryScore] = useState<DeliveryScore | null>(null);
 
   async function loadDashboard() {
-    const [healthRes, executionsRes, agentsRes, verificationsRes] = await Promise.all([
+    const [
+      healthRes,
+      executionsRes,
+      agentsRes,
+      verificationsRes,
+      deliveryScoreRes
+    ] = await Promise.all([
       axios.get(`${API_BASE}/health`),
       axios.get(`${API_BASE}/executions`),
       axios.get(`${API_BASE}/agents`),
-      axios.get(`${API_BASE}/verifications`)
+      axios.get(`${API_BASE}/verifications`),
+      axios.get("http://localhost:4000/api/delivery-score")
     ]);
 
     setApiHealthy(Boolean(healthRes.data.success));
     setExecutions(executionsRes.data.executions || []);
     setAgents(agentsRes.data.agentRuns || []);
     setVerifications(verificationsRes.data.verificationRuns || []);
+    setDeliveryScore(deliveryScoreRes.data);
   }
 
   useEffect(() => {
@@ -84,6 +103,21 @@ export default function App() {
         <div className="card">
           <span>Verification Runs</span>
           <strong>{verifications.length}</strong>
+        </div>
+
+        <div className="card score-card">
+          <span>Delivery Score</span>
+          <strong>
+            {deliveryScore
+              ? `${deliveryScore.score} (${deliveryScore.grade})`
+              : "--"}
+          </strong>
+
+          <small>
+            {deliveryScore?.createdAt
+              ? new Date(deliveryScore.createdAt).toLocaleString()
+              : ""}
+          </small>
         </div>
       </section>
 
