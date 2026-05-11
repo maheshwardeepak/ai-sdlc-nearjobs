@@ -191,9 +191,14 @@ switch (command) {
   }
 
   case "validate-artifacts": {
-    const results = validateOpenClawArtifacts();
-    console.log("Artifact validation completed.");
-    console.log(JSON.stringify(results, null, 2));
+    const [sourceDir] = process.argv.slice(3);
+    if (!sourceDir) {
+      throw new Error("Usage: validate-artifacts <sourceDir>");
+    }
+
+    const result = validateArtifacts(sourceDir);
+    console.log(JSON.stringify(result, null, 2));
+    if (!result.success) process.exit(1);
     break;
   }
 
