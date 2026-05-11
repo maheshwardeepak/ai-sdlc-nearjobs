@@ -33,7 +33,7 @@ import { runApprovedDagOnce } from "./agentRunner.js";
 import { createProjectWorkspace } from "./workspaceManager.js";
 import { createEngineeringClones, createValidationClones } from "./cloneManager.js";
 import { executeAllClones } from "./parallelExecutor.js";
-import { initRuntimeDb, recordFactoryExecution, listFactoryExecutions, recordAgentRun, listAgentRuns } from "./db/runtimeDb.js";
+import { initRuntimeDb, recordFactoryExecution, listFactoryExecutions, recordAgentRun, listAgentRuns, recordVerificationRun, listVerificationRuns } from "./db/runtimeDb.js";
 import { runInfraPreflight } from "./infraPreflight.js";
 import { detectGitRepos } from "./git/submoduleDetector.js";
 import { generateBranchDiff } from "./git/branchDiff.js";
@@ -53,6 +53,40 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "record-verification-run": {
+    const [checkName, success, logFile] = process.argv.slice(3);
+
+    if (!checkName || success === undefined) {
+      throw new Error("Usage: record-verification-run <checkName> <true|false> [logFile]");
+    }
+
+    recordVerificationRun({
+      checkName,
+      success: success === "true",
+      logFile
+    })
+      .then((result) => {
+        console.log(JSON.stringify(result, null, 2));
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+    break;
+  }
+
+  case "list-verification-runs": {
+    listVerificationRuns()
+      .then((rows) => {
+        console.log(JSON.stringify(rows, null, 2));
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+    break;
+  }
+
   case "record-agent-run": {
     const [agent, role, workerId, status, outputFile] = process.argv.slice(3);
 

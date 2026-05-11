@@ -133,3 +133,45 @@ export async function listAgentRuns(limit = 20) {
 
   return result.rows;
 }
+
+export async function recordVerificationRun(input: {
+  executionId?: number | null;
+  checkName: string;
+  success: boolean;
+  logFile?: string | null;
+}) {
+  const result = await runtimeDb.query(
+    `
+    INSERT INTO verification_runs (
+      execution_id,
+      check_name,
+      success,
+      log_file
+    )
+    VALUES ($1, $2, $3, $4)
+    RETURNING *
+    `,
+    [
+      input.executionId ?? null,
+      input.checkName,
+      input.success,
+      input.logFile ?? null
+    ]
+  );
+
+  return result.rows[0];
+}
+
+export async function listVerificationRuns(limit = 20) {
+  const result = await runtimeDb.query(
+    `
+    SELECT *
+    FROM verification_runs
+    ORDER BY created_at DESC
+    LIMIT $1
+    `,
+    [limit]
+  );
+
+  return result.rows;
+}
