@@ -48,5 +48,6 @@ jobs:
             artifacts/runs
             artifacts/reports/verification-plan.json
             artifacts/reports/verification-result.json
+            artifacts/reports/generated-crud-verification-report.json
             artifacts/reports/merge-report.json
           if-no-files-found: ignore
