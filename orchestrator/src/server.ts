@@ -73,6 +73,25 @@ app.get("/api/runs/:projectSlug/:runId", (req, res) => {
   });
 });
 
+app.get("/api/delivery-score", (_req, res) => {
+  const reportPath = path.join(
+    factoryRoot,
+    "artifacts",
+    "reports",
+    "delivery-score-report.json"
+  );
+
+  if (!fs.existsSync(reportPath)) {
+    return res.status(404).json({
+      success: false,
+      error: "delivery-score-report-not-found"
+    });
+  }
+
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  res.json(report);
+});
+
 app.listen(4000, () => {
   console.log("Orchestrator API running on http://localhost:4000");
 });
