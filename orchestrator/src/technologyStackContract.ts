@@ -89,3 +89,33 @@ export function validateTechnologyStackContract() {
     error: success ? null : "technology-stack-contract-incomplete"
   };
 }
+
+
+export function loadTechnologyStackContract() {
+  const validation = validateTechnologyStackContract();
+
+  if (!validation.success || !validation.contract) {
+    throw new Error(validation.error || "technology-stack-contract-invalid");
+  }
+
+  return validation.contract;
+}
+
+export function assertSupportedDefaultStack() {
+  const contract = loadTechnologyStackContract();
+
+  const supported =
+    contract.backend.language === "TypeScript" &&
+    contract.backend.framework === "Express" &&
+    contract.backend.runtime === "Node.js" &&
+    contract.frontend.language === "TypeScript" &&
+    contract.frontend.framework === "React" &&
+    contract.frontend.runtime === "Vite" &&
+    contract.database.engine === "PostgreSQL";
+
+  if (!supported) {
+    throw new Error("unsupported-technology-stack-contract");
+  }
+
+  return contract;
+}

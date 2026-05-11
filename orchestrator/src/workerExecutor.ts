@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { logger } from "./logger.js";
 import { executeOpenClawTask } from "./openclawAdapter.js";
+import { assertSupportedDefaultStack } from "./technologyStackContract.js";
 import { recordAgentRun } from "./db/runtimeDb.js";
 
 export type WorkerExecution = {
@@ -60,6 +61,7 @@ function writeGeneratedSourceFile(execution: WorkerExecution): string {
 export async function executeWorker(
   execution: WorkerExecution
 ): Promise<WorkerExecutionResult> {
+  const stackContract = assertSupportedDefaultStack();
   logger.info({
     type: "WORKER_EXECUTION_START",
     workerId: execution.workerId,
@@ -79,6 +81,9 @@ export async function executeWorker(
       `WORKER: ${execution.workerId}`,
       `ROLE: ${execution.role}`,
       `OBJECTIVE: ${execution.objective}`,
+      `STACK_BACKEND: ${stackContract.backend.language}/${stackContract.backend.framework}/${stackContract.backend.runtime}`,
+      `STACK_FRONTEND: ${stackContract.frontend.language}/${stackContract.frontend.framework}/${stackContract.frontend.runtime}`,
+      `STACK_DATABASE: ${stackContract.database.engine}`,
       `GENERATED_AT: ${new Date().toISOString()}`
     ].join("\n")
   );
