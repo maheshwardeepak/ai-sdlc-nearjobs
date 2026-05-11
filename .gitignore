@@ -15,3 +15,23 @@ artifacts/releases/*-release-history.json
 artifacts/patch-backups/
 backups/
 backups/
+
+
+
+# Runtime AI outputs
+runtime/openclaw/
+runtime/workspaces/
+runtime/trajectories/clones/
+
+# Runtime reports
+artifacts/reports/
+artifacts/rollback/
+artifacts/runs/
+
+# Generated smoke test projects
+projects/factorysmoketest/
+projects/factorysmoketest2/
+projects/tmp-source-tmp-target/
+
+# Temp directories
+tmp/
