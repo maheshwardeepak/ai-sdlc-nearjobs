@@ -26,6 +26,16 @@ type AgentRun = {
 
 
 
+
+type GovernanceReport = {
+  success: boolean;
+  checks?: Record<string, boolean>;
+  violations?: unknown[];
+  appsChecked?: number;
+  filesScanned?: number;
+};
+
+
 type TechnologyStackContract = {
   backend: {
     language: string;
@@ -93,6 +103,7 @@ export default function App() {
   const [agentPerformance, setAgentPerformance] = useState<AgentPerformance[]>([]);
   const [regressionAnalysis, setRegressionAnalysis] = useState<RegressionAnalysis | null>(null);
   const [technologyStack, setTechnologyStack] = useState<TechnologyStackContract | null>(null);
+  const [governanceReports, setGovernanceReports] = useState<Record<string, GovernanceReport>>({});
 
   async function loadDashboard() {
     const [
@@ -104,7 +115,12 @@ export default function App() {
       deliveryHistoryRes,
       agentPerformanceRes,
       regressionAnalysisRes,
-      technologyStackRes
+      technologyStackRes,
+      policyComplianceRes,
+      securityAuditRes,
+      secretScanRes,
+      dockerComplianceRes,
+      testCoverageRes
     ] = await Promise.all([
       axios.get(`${API_BASE}/health`),
       axios.get(`${API_BASE}/executions`),
@@ -114,7 +130,12 @@ export default function App() {
       axios.get(`${API_BASE}/delivery-score/history`),
       axios.get(`${API_BASE}/agent-performance`),
       axios.get(`${API_BASE}/regression-analysis`),
-      axios.get(`${API_BASE}/technology-stack`)
+      axios.get(`${API_BASE}/technology-stack`),
+      axios.get(`${API_BASE}/policy-compliance`),
+      axios.get(`${API_BASE}/security-audit`),
+      axios.get(`${API_BASE}/secret-scan`),
+      axios.get(`${API_BASE}/docker-compliance`),
+      axios.get(`${API_BASE}/test-coverage`)
     ]);
 
     setApiHealthy(Boolean(healthRes.data.success));
@@ -126,6 +147,13 @@ export default function App() {
     setAgentPerformance(Object.values(agentPerformanceRes.data.agents || {}));
     setRegressionAnalysis(regressionAnalysisRes.data);
     setTechnologyStack(technologyStackRes.data.contract);
+    setGovernanceReports({
+      "Policy Compliance": policyComplianceRes.data,
+      "Security Audit": securityAuditRes.data,
+      "Secret Scan": secretScanRes.data,
+      "Docker Compliance": dockerComplianceRes.data,
+      "Test Coverage": testCoverageRes.data
+    });
   }
 
   useEffect(() => {
@@ -177,6 +205,27 @@ export default function App() {
               ? new Date(deliveryScore.createdAt).toLocaleString()
               : ""}
           </small>
+        </div>
+      </section>
+
+      <section className="panel">
+        <h2>Governance Status</h2>
+        <div className="governance-grid">
+          {Object.entries(governanceReports).map(([name, report]) => (
+            <div key={name}>
+              <span>{name}</span>
+              <strong>{report.success ? "Passed" : "Failed"}</strong>
+              <small>
+                {report.violations
+                  ? `${report.violations.length} violations`
+                  : report.appsChecked !== undefined
+                    ? `${report.appsChecked} apps checked`
+                    : report.filesScanned !== undefined
+                      ? `${report.filesScanned} files scanned`
+                      : ""}
+              </small>
+            </div>
+          ))}
         </div>
       </section>
 
