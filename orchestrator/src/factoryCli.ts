@@ -33,6 +33,7 @@ import { runApprovedDagOnce } from "./agentRunner.js";
 import { createProjectWorkspace } from "./workspaceManager.js";
 import { createEngineeringClones, createValidationClones } from "./cloneManager.js";
 import { executeAllClones } from "./parallelExecutor.js";
+import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { startRuntimeApi } from "./server/runtimeApi.js";
 import { initRuntimeDb, recordFactoryExecution, listFactoryExecutions, recordAgentRun, listAgentRuns, recordVerificationRun, listVerificationRuns } from "./db/runtimeDb.js";
 import { runInfraPreflight } from "./infraPreflight.js";
@@ -211,6 +212,18 @@ switch (command) {
     const approval = approvePlan();
     console.log("Plan approved.");
     console.log(JSON.stringify(approval, null, 2));
+    break;
+  }
+
+  case "verify-generated-apps": {
+    verifyGeneratedApps(arg || "runtime/workspaces")
+      .then((result) => {
+        console.log(JSON.stringify(result, null, 2));
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
     break;
   }
 

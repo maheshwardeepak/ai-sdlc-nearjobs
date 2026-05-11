@@ -195,12 +195,12 @@ export async function executeWorker(
             build: "tsc --noEmit"
           },
           dependencies: {
-            "@vitejs/plugin-react": "^6.0.1",
-            vite: "^8.0.11",
             react: "^19.2.6",
             "react-dom": "^19.2.6"
           },
           devDependencies: {
+            "@vitejs/plugin-react": "^6.0.1",
+            vite: "^8.0.11",
             "@types/react": "^19.2.14",
             "@types/react-dom": "^19.2.3",
             typescript: "^6.0.3"
@@ -225,11 +225,15 @@ export async function executeWorker(
             module: "ESNext",
             moduleResolution: "Bundler",
             jsx: "react-jsx",
+            jsxImportSource: "react",
             strict: true,
             skipLibCheck: true,
-            noEmit: true
+            esModuleInterop: true,
+            allowSyntheticDefaultImports: true,
+            noEmit: true,
+            lib: ["ES2022", "DOM"]
           },
-          include: ["src/**/*.ts", "src/**/*.tsx"]
+          include: ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
         },
         null,
         2
@@ -237,6 +241,19 @@ export async function executeWorker(
     );
 
     generatedFiles.push(frontendTsconfigFile);
+
+    const frontendViteEnvFile = path.join(
+      execution.workspacePath,
+      "frontend/src/vite-env.d.ts"
+    );
+
+    fs.writeFileSync(
+      frontendViteEnvFile,
+      '/// <reference types="vite/client" />\n'
+    );
+
+    generatedFiles.push(frontendViteEnvFile);
+
 
     generatedFiles.push(frontendPackageFile);
 
@@ -251,6 +268,31 @@ export async function executeWorker(
     );
 
     generatedFiles.push(appFile);
+
+
+    const mainFile = path.join(
+      execution.workspacePath,
+      "frontend/src/main.tsx"
+    );
+
+    fs.writeFileSync(
+      mainFile,
+      [
+        'import React from "react";',
+        'import ReactDOM from "react-dom/client";',
+        'import App from "./App";',
+        '',
+        'ReactDOM.createRoot(document.getElementById("root")!).render(',
+        '  <React.StrictMode>',
+        '    <App />',
+        '  </React.StrictMode>',
+        ');',
+        ''
+      ].join("\n")
+    );
+
+    generatedFiles.push(mainFile);
+
   }
 
 
