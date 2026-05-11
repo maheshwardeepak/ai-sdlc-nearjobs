@@ -18,6 +18,28 @@ export type WorkerExecutionResult = {
   aiOutputFile?: string;
 };
 
+function writeGeneratedSourceFile(execution: WorkerExecution): string {
+  const sourceRoot = path.join(execution.workspacePath, "src");
+  fs.mkdirSync(sourceRoot, { recursive: true });
+
+  const fileName = `${execution.role}.generated.ts`;
+  const filePath = path.join(sourceRoot, fileName);
+
+  const content = [
+    `export const role = ${JSON.stringify(execution.role)};`,
+    `export const workerId = ${JSON.stringify(execution.workerId)};`,
+    `export const objective = ${JSON.stringify(execution.objective)};`,
+    "",
+    "export function describeGeneratedWork(): string {",
+    "  return `Generated implementation for ${role} by ${workerId}`;",
+    "}",
+    ""
+  ].join("\n");
+
+  fs.writeFileSync(filePath, content);
+  return filePath;
+}
+
 export async function executeWorker(
   execution: WorkerExecution
 ): Promise<WorkerExecutionResult> {
@@ -45,6 +67,9 @@ export async function executeWorker(
   );
 
   generatedFiles.push(metadataFile);
+
+  const generatedSourceFile = writeGeneratedSourceFile(execution);
+  generatedFiles.push(generatedSourceFile);
 
   const aiResult = await executeOpenClawTask({
     workerId: execution.workerId,
