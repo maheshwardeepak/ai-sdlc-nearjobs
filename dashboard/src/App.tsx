@@ -25,6 +25,28 @@ type AgentRun = {
 
 
 
+
+type TechnologyStackContract = {
+  backend: {
+    language: string;
+    framework: string;
+    runtime: string;
+    packageManager: string;
+  };
+  frontend: {
+    language: string;
+    framework: string;
+    runtime: string;
+    packageManager: string;
+  };
+  database: {
+    engine: string;
+  };
+  confirmed: boolean;
+  createdAt: string;
+};
+
+
 type RegressionAnalysis = {
   success: boolean;
   regressionDetected: boolean;
@@ -70,6 +92,7 @@ export default function App() {
   const [deliveryHistory, setDeliveryHistory] = useState<DeliveryScore[]>([]);
   const [agentPerformance, setAgentPerformance] = useState<AgentPerformance[]>([]);
   const [regressionAnalysis, setRegressionAnalysis] = useState<RegressionAnalysis | null>(null);
+  const [technologyStack, setTechnologyStack] = useState<TechnologyStackContract | null>(null);
 
   async function loadDashboard() {
     const [
@@ -80,7 +103,8 @@ export default function App() {
       deliveryScoreRes,
       deliveryHistoryRes,
       agentPerformanceRes,
-      regressionAnalysisRes
+      regressionAnalysisRes,
+      technologyStackRes
     ] = await Promise.all([
       axios.get(`${API_BASE}/health`),
       axios.get(`${API_BASE}/executions`),
@@ -89,7 +113,8 @@ export default function App() {
       axios.get(`${API_BASE}/delivery-score`),
       axios.get(`${API_BASE}/delivery-score/history`),
       axios.get(`${API_BASE}/agent-performance`),
-      axios.get(`${API_BASE}/regression-analysis`)
+      axios.get(`${API_BASE}/regression-analysis`),
+      axios.get(`${API_BASE}/technology-stack`)
     ]);
 
     setApiHealthy(Boolean(healthRes.data.success));
@@ -100,6 +125,7 @@ export default function App() {
     setDeliveryHistory(deliveryHistoryRes.data.history || []);
     setAgentPerformance(Object.values(agentPerformanceRes.data.agents || {}));
     setRegressionAnalysis(regressionAnalysisRes.data);
+    setTechnologyStack(technologyStackRes.data.contract);
   }
 
   useEffect(() => {
@@ -151,6 +177,38 @@ export default function App() {
               ? new Date(deliveryScore.createdAt).toLocaleString()
               : ""}
           </small>
+        </div>
+      </section>
+
+      <section className="panel">
+        <h2>Technology Stack</h2>
+
+        <div className="stack-grid">
+          <div>
+            <h3>Backend</h3>
+            <p>{technologyStack?.backend.language}</p>
+            <p>{technologyStack?.backend.framework}</p>
+            <p>{technologyStack?.backend.runtime}</p>
+          </div>
+
+          <div>
+            <h3>Frontend</h3>
+            <p>{technologyStack?.frontend.language}</p>
+            <p>{technologyStack?.frontend.framework}</p>
+            <p>{technologyStack?.frontend.runtime}</p>
+          </div>
+
+          <div>
+            <h3>Database</h3>
+            <p>{technologyStack?.database.engine}</p>
+          </div>
+
+          <div>
+            <h3>Contract</h3>
+            <p>
+              {technologyStack?.confirmed ? "Confirmed" : "Pending"}
+            </p>
+          </div>
         </div>
       </section>
 
