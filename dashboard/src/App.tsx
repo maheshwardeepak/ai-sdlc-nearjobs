@@ -24,6 +24,17 @@ type AgentRun = {
 
 
 
+
+type RegressionAnalysis = {
+  success: boolean;
+  regressionDetected: boolean;
+  delta: number;
+  latest: DeliveryScore | null;
+  previous: DeliveryScore | null;
+  createdAt: string;
+};
+
+
 type AgentPerformance = {
   agent: string;
   runs: number;
@@ -58,6 +69,7 @@ export default function App() {
   const [deliveryScore, setDeliveryScore] = useState<DeliveryScore | null>(null);
   const [deliveryHistory, setDeliveryHistory] = useState<DeliveryScore[]>([]);
   const [agentPerformance, setAgentPerformance] = useState<AgentPerformance[]>([]);
+  const [regressionAnalysis, setRegressionAnalysis] = useState<RegressionAnalysis | null>(null);
 
   async function loadDashboard() {
     const [
@@ -67,7 +79,8 @@ export default function App() {
       verificationsRes,
       deliveryScoreRes,
       deliveryHistoryRes,
-      agentPerformanceRes
+      agentPerformanceRes,
+      regressionAnalysisRes
     ] = await Promise.all([
       axios.get(`${API_BASE}/health`),
       axios.get(`${API_BASE}/executions`),
@@ -75,7 +88,8 @@ export default function App() {
       axios.get(`${API_BASE}/verifications`),
       axios.get(`${API_BASE}/delivery-score`),
       axios.get(`${API_BASE}/delivery-score/history`),
-      axios.get(`${API_BASE}/agent-performance`)
+      axios.get(`${API_BASE}/agent-performance`),
+      axios.get(`${API_BASE}/regression-analysis`)
     ]);
 
     setApiHealthy(Boolean(healthRes.data.success));
@@ -85,6 +99,7 @@ export default function App() {
     setDeliveryScore(deliveryScoreRes.data);
     setDeliveryHistory(deliveryHistoryRes.data.history || []);
     setAgentPerformance(Object.values(agentPerformanceRes.data.agents || {}));
+    setRegressionAnalysis(regressionAnalysisRes.data);
   }
 
   useEffect(() => {
@@ -136,6 +151,30 @@ export default function App() {
               ? new Date(deliveryScore.createdAt).toLocaleString()
               : ""}
           </small>
+        </div>
+      </section>
+
+      <section className="panel">
+        <h2>Regression Analysis</h2>
+        <div className="regression-grid">
+          <div>
+            <span>Status</span>
+            <strong>
+              {regressionAnalysis?.regressionDetected ? "Regression Detected" : "Stable"}
+            </strong>
+          </div>
+          <div>
+            <span>Latest</span>
+            <strong>{regressionAnalysis?.latest?.score ?? "--"}</strong>
+          </div>
+          <div>
+            <span>Previous</span>
+            <strong>{regressionAnalysis?.previous?.score ?? "--"}</strong>
+          </div>
+          <div>
+            <span>Delta</span>
+            <strong>{regressionAnalysis?.delta ?? "--"}</strong>
+          </div>
         </div>
       </section>
 
