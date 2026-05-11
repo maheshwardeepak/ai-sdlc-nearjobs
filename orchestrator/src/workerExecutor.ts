@@ -110,10 +110,12 @@ export async function executeWorker(
             build: "tsc --noEmit"
           },
           dependencies: {
-            express: "^5.2.1"
+            express: "^5.2.1",
+            pg: "^8.20.0"
           },
           devDependencies: {
             "@types/express": "^5.0.6",
+            "@types/pg": "^8.20.0",
             tsx: "^4.21.0",
             typescript: "^6.0.3"
           }
@@ -156,13 +158,18 @@ export async function executeWorker(
       serverFile,
       [
         'import express from "express";',
+        'import { usersRouter } from "./routes/users.js";',
         "",
         "const app = express();",
-        "const port = 3000;",
+        "const port = Number(process.env.PORT || 3000);",
+        "",
+        "app.use(express.json());",
         "",
         'app.get("/health", (_req, res) => {',
         '  res.json({ success: true, service: "backend" });',
         "});",
+        "",
+        'app.use("/users", usersRouter);',
         "",
         "app.listen(port, () => {",
         '  console.log(`Backend running on port ${port}`);',
@@ -172,6 +179,128 @@ export async function executeWorker(
     );
 
     generatedFiles.push(serverFile);
+
+    const dbFile = path.join(
+      execution.workspacePath,
+      "backend/src/db/db.ts"
+    );
+
+    fs.mkdirSync(path.dirname(dbFile), { recursive: true });
+
+    fs.writeFileSync(
+      dbFile,
+      [
+        'import pg from "pg";',
+        "",
+        "const { Pool } = pg;",
+        "",
+        "export const pool = new Pool({",
+        '  connectionString: process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/postgres"',
+        "});",
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(dbFile);
+
+    const repositoryFile = path.join(
+      execution.workspacePath,
+      "backend/src/repositories/userRepository.ts"
+    );
+
+    fs.mkdirSync(path.dirname(repositoryFile), { recursive: true });
+
+    fs.writeFileSync(
+      repositoryFile,
+      [
+        'import { pool } from "../db/db.js";',
+        "",
+        "export type User = {",
+        "  id: number;",
+        "  name: string;",
+        "  email: string;",
+        "};",
+        "",
+        "export async function listUsers(): Promise<User[]> {",
+        "  const result = await pool.query<User>('SELECT id, name, email FROM users ORDER BY id ASC');",
+        "  return result.rows;",
+        "}",
+        "",
+        "export async function createUser(input: Omit<User, 'id'>): Promise<User> {",
+        "  const result = await pool.query<User>(",
+        "    'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id, name, email',",
+        "    [input.name, input.email]",
+        "  );",
+        "  return result.rows[0];",
+        "}",
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(repositoryFile);
+
+    const usersRouteFile = path.join(
+      execution.workspacePath,
+      "backend/src/routes/users.ts"
+    );
+
+    fs.writeFileSync(
+      usersRouteFile,
+      [
+        'import { Router } from "express";',
+        'import { createUser, listUsers } from "../repositories/userRepository.js";',
+        "",
+        "export const usersRouter = Router();",
+        "",
+        'usersRouter.get("/", async (_req, res, next) => {',
+        "  try {",
+        "    res.json({ success: true, users: await listUsers() });",
+        "  } catch (error) {",
+        "    next(error);",
+        "  }",
+        "});",
+        "",
+        'usersRouter.post("/", async (req, res, next) => {',
+        "  try {",
+        "    const { name, email } = req.body;",
+        "    if (!name || !email) {",
+        '      res.status(400).json({ success: false, error: "name-and-email-required" });',
+        "      return;",
+        "    }",
+        "",
+        "    const user = await createUser({ name, email });",
+        "    res.status(201).json({ success: true, user });",
+        "  } catch (error) {",
+        "    next(error);",
+        "  }",
+        "});",
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(usersRouteFile);
+
+    const sqlFile = path.join(
+      execution.workspacePath,
+      "backend/sql/init.sql"
+    );
+
+    fs.mkdirSync(path.dirname(sqlFile), { recursive: true });
+
+    fs.writeFileSync(
+      sqlFile,
+      [
+        "CREATE TABLE IF NOT EXISTS users (",
+        "  id SERIAL PRIMARY KEY,",
+        "  name TEXT NOT NULL,",
+        "  email TEXT NOT NULL UNIQUE",
+        ");",
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(sqlFile);
+
   }
 
   if (execution.role === "frontend") {
