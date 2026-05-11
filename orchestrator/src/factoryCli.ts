@@ -35,6 +35,7 @@ import { createEngineeringClones, createValidationClones } from "./cloneManager.
 import { executeAllClones } from "./parallelExecutor.js";
 import { createDeliveryScore } from "./deliveryScore.js";
 import { createAgentPerformanceReport } from "./agentPerformanceScore.js";
+import { createRegressionAnalysis } from "./regressionAnalysis.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
 import { verifyGeneratedCrudIntegration } from "./generatedCrudIntegrationVerifier.js";
@@ -252,6 +253,12 @@ switch (command) {
         console.error(error);
         process.exit(1);
       });
+    break;
+  }
+
+  case "regression-analysis": {
+    const result = createRegressionAnalysis();
+    console.log(JSON.stringify(result, null, 2));
     break;
   }
 
