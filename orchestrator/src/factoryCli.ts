@@ -253,6 +253,55 @@ switch (command) {
     break;
   }
 
+  case "verify-factory-full": {
+    const checks = [
+      "typecheck",
+      "autonomous-health-gate",
+      "generated-crud-verification"
+    ];
+
+    const { runTask } = await import("./taskRuntime.js");
+
+    const results = [];
+
+    for (const check of checks) {
+      const command =
+        check === "typecheck"
+          ? { command: "pnpm", args: ["exec", "tsc", "-p", "orchestrator/tsconfig.json", "--noEmit"] }
+          : check === "autonomous-health-gate"
+            ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "autonomous-health-gate"] }
+            : { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-generated-crud", "runtime/workspaces/crudbackendgenerationtest"] };
+
+      const result = await runTask({
+        id: `factory-full-${check}`,
+        name: `Factory full verification ${check}`,
+        cwd: process.cwd(),
+        command: command.command,
+        args: command.args
+      });
+
+      results.push({
+        check,
+        success: result.success,
+        logFile: result.logFile
+      });
+    }
+
+    const output = {
+      success: results.every((result) => result.success),
+      checks,
+      results
+    };
+
+    console.log(JSON.stringify(output, null, 2));
+
+    if (!output.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
   case "verify-incremental": {
     executeIncrementalVerification(arg || "main")
       .then((result) => {

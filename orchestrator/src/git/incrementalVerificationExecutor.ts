@@ -46,6 +46,18 @@ function commandForCheck(check: string): { command: string; args: string[] } | n
         args: ["audit", "--audit-level", "high"]
       };
 
+    case "generated-crud-verification":
+      return {
+        command: "pnpm",
+        args: [
+          "exec",
+          "tsx",
+          "orchestrator/src/factoryCli.ts",
+          "verify-generated-crud",
+          "runtime/workspaces/crudbackendgenerationtest"
+        ]
+      };
+
     case "ci-workflow-validation":
       return {
         command: "pnpm",
