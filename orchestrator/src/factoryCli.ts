@@ -334,6 +334,7 @@ switch (command) {
       "autonomous-health-gate",
       "validate-stack-contract",
       "validate-policy",
+      "verify-policy-compliance",
       "generated-crud-verification"
     ];
 
@@ -351,6 +352,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "validate-stack-contract"] }
               : check === "validate-policy"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "validate-policy"] }
+              : check === "verify-policy-compliance"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-policy-compliance", "runtime/workspaces/crudbackendgenerationtest"] }
               : { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-generated-crud", "runtime/workspaces/crudbackendgenerationtest"] };
 
       const result = await runTask({
