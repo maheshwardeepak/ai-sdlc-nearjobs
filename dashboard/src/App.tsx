@@ -46,6 +46,7 @@ export default function App() {
   const [verifications, setVerifications] = useState<VerificationRun[]>([]);
   const [apiHealthy, setApiHealthy] = useState(false);
   const [deliveryScore, setDeliveryScore] = useState<DeliveryScore | null>(null);
+  const [deliveryHistory, setDeliveryHistory] = useState<DeliveryScore[]>([]);
 
   async function loadDashboard() {
     const [
@@ -53,13 +54,15 @@ export default function App() {
       executionsRes,
       agentsRes,
       verificationsRes,
-      deliveryScoreRes
+      deliveryScoreRes,
+      deliveryHistoryRes
     ] = await Promise.all([
       axios.get(`${API_BASE}/health`),
       axios.get(`${API_BASE}/executions`),
       axios.get(`${API_BASE}/agents`),
       axios.get(`${API_BASE}/verifications`),
-      axios.get(`${API_BASE}/delivery-score`)
+      axios.get(`${API_BASE}/delivery-score`),
+      axios.get(`${API_BASE}/delivery-score/history`)
     ]);
 
     setApiHealthy(Boolean(healthRes.data.success));
@@ -67,6 +70,7 @@ export default function App() {
     setAgents(agentsRes.data.agentRuns || []);
     setVerifications(verificationsRes.data.verificationRuns || []);
     setDeliveryScore(deliveryScoreRes.data);
+    setDeliveryHistory(deliveryHistoryRes.data.history || []);
   }
 
   useEffect(() => {
@@ -118,6 +122,19 @@ export default function App() {
               ? new Date(deliveryScore.createdAt).toLocaleString()
               : ""}
           </small>
+        </div>
+      </section>
+
+      <section className="panel">
+        <h2>Delivery Score History</h2>
+        <div className="score-history">
+          {deliveryHistory.slice(-10).map((item) => (
+            <div className="score-pill" key={item.createdAt}>
+              <strong>{item.score}</strong>
+              <span>{item.grade}</span>
+              <small>{new Date(item.createdAt).toLocaleString()}</small>
+            </div>
+          ))}
         </div>
       </section>
 
