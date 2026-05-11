@@ -33,7 +33,7 @@ import { runApprovedDagOnce } from "./agentRunner.js";
 import { createProjectWorkspace } from "./workspaceManager.js";
 import { createEngineeringClones, createValidationClones } from "./cloneManager.js";
 import { executeAllClones } from "./parallelExecutor.js";
-import { initRuntimeDb, recordFactoryExecution, listFactoryExecutions } from "./db/runtimeDb.js";
+import { initRuntimeDb, recordFactoryExecution, listFactoryExecutions, recordAgentRun, listAgentRuns } from "./db/runtimeDb.js";
 import { runInfraPreflight } from "./infraPreflight.js";
 import { detectGitRepos } from "./git/submoduleDetector.js";
 import { generateBranchDiff } from "./git/branchDiff.js";
@@ -53,6 +53,42 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "record-agent-run": {
+    const [agent, role, workerId, status, outputFile] = process.argv.slice(3);
+
+    if (!agent || !status) {
+      throw new Error("Usage: record-agent-run <agent> <role> <workerId> <status> [outputFile]");
+    }
+
+    recordAgentRun({
+      agent,
+      role,
+      workerId,
+      status,
+      outputFile
+    })
+      .then((result) => {
+        console.log(JSON.stringify(result, null, 2));
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+    break;
+  }
+
+  case "list-agent-runs": {
+    listAgentRuns()
+      .then((rows) => {
+        console.log(JSON.stringify(rows, null, 2));
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+    break;
+  }
+
   case "record-execution": {
     const projectName = arg || null;
     recordFactoryExecution({

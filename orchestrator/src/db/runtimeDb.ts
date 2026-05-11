@@ -84,3 +84,52 @@ export async function listFactoryExecutions(limit = 20) {
 
   return result.rows;
 }
+
+export async function recordAgentRun(input: {
+  executionId?: number | null;
+  agent: string;
+  role?: string | null;
+  workerId?: string | null;
+  status: string;
+  outputFile?: string | null;
+}) {
+  const result = await runtimeDb.query(
+    `
+    INSERT INTO agent_runs (
+      execution_id,
+      agent,
+      role,
+      worker_id,
+      status,
+      output_file,
+      finished_at
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, now())
+    RETURNING *
+    `,
+    [
+      input.executionId ?? null,
+      input.agent,
+      input.role ?? null,
+      input.workerId ?? null,
+      input.status,
+      input.outputFile ?? null
+    ]
+  );
+
+  return result.rows[0];
+}
+
+export async function listAgentRuns(limit = 20) {
+  const result = await runtimeDb.query(
+    `
+    SELECT *
+    FROM agent_runs
+    ORDER BY started_at DESC
+    LIMIT $1
+    `,
+    [limit]
+  );
+
+  return result.rows;
+}
