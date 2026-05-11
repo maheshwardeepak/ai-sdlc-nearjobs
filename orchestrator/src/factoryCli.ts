@@ -39,6 +39,7 @@ import { generateBranchDiff } from "./git/branchDiff.js";
 import { createIncrementalVerificationPlan } from "./git/incrementalVerificationPlanner.js";
 import { executeIncrementalVerification } from "./git/incrementalVerificationExecutor.js";
 import { executeArtifactMerge } from "./merge/artifactMergeEngine.js";
+import { validateArtifacts } from "./merge/artifactValidator.js";
 import { validateOpenClawArtifacts } from "./artifactValidator.js";
 import { createMergePlan, executeMergePlan } from "./mergeEngine.js";
 import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
