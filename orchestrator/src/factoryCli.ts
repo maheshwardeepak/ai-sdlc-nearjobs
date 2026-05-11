@@ -33,6 +33,7 @@ import { runApprovedDagOnce } from "./agentRunner.js";
 import { createProjectWorkspace } from "./workspaceManager.js";
 import { createEngineeringClones, createValidationClones } from "./cloneManager.js";
 import { executeAllClones } from "./parallelExecutor.js";
+import { initRuntimeDb } from "./db/runtimeDb.js";
 import { runInfraPreflight } from "./infraPreflight.js";
 import { detectGitRepos } from "./git/submoduleDetector.js";
 import { generateBranchDiff } from "./git/branchDiff.js";
@@ -52,6 +53,18 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "init-db": {
+    initRuntimeDb()
+      .then((result) => {
+        console.log(JSON.stringify(result, null, 2));
+      })
+      .catch((error) => {
+        console.error(error);
+        process.exit(1);
+      });
+    break;
+  }
+
   case "init": {
     const state = loadState();
     saveState(state);
