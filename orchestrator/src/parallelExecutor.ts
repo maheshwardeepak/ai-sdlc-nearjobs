@@ -9,11 +9,17 @@ export async function executeAllClones(projectName: string) {
     .readdirSync(CLONES_ROOT)
     .filter((file) => file.endsWith(".json"));
 
-  const clones = cloneFiles.map((file) =>
-    JSON.parse(
-      fs.readFileSync(path.join(CLONES_ROOT, file), "utf8")
+  const normalizedProjectName = projectName.toLowerCase();
+
+  const clones = cloneFiles
+    .map((file) =>
+      JSON.parse(
+        fs.readFileSync(path.join(CLONES_ROOT, file), "utf8")
+      )
     )
-  );
+    .filter((clone) =>
+      String(clone.projectName).toLowerCase() === normalizedProjectName
+    );
 
   const results = await Promise.all(
     clones.map((clone) =>
