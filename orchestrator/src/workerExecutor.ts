@@ -19,25 +19,42 @@ export type WorkerExecutionResult = {
 };
 
 function writeGeneratedSourceFile(execution: WorkerExecution): string {
-  const sourceRoot = path.join(execution.workspacePath, "src");
-  fs.mkdirSync(sourceRoot, { recursive: true });
+  const roleLayouts: Record<string, string[]> = {
+    backend: ["backend/src/routes", "backend/src/services", "backend/tests"],
+    frontend: ["frontend/src/components", "frontend/src/pages", "frontend/src/api"],
+    database: ["database/migrations", "database/seeds"],
+    tests: ["tests/unit", "tests/integration"],
+    build: ["build/scripts"],
+    api: ["api/contracts", "api/smoke"],
+    playwright: ["playwright/tests"],
+    security: ["security/checks"]
+  };
 
-  const fileName = `${execution.role}.generated.ts`;
-  const filePath = path.join(sourceRoot, fileName);
+  const dirs = roleLayouts[execution.role] || [`${execution.role}/src`];
 
-  const content = [
-    `export const role = ${JSON.stringify(execution.role)};`,
-    `export const workerId = ${JSON.stringify(execution.workerId)};`,
-    `export const objective = ${JSON.stringify(execution.objective)};`,
-    "",
-    "export function describeGeneratedWork(): string {",
-    "  return `Generated implementation for ${role} by ${workerId}`;",
-    "}",
-    ""
-  ].join("\n");
+  const generatedFiles: string[] = [];
 
-  fs.writeFileSync(filePath, content);
-  return filePath;
+  for (const dir of dirs) {
+    const fullDir = path.join(execution.workspacePath, dir);
+    fs.mkdirSync(fullDir, { recursive: true });
+
+    const filePath = path.join(fullDir, `${execution.role}.generated.ts`);
+    const content = [
+      `export const role = ${JSON.stringify(execution.role)};`,
+      `export const workerId = ${JSON.stringify(execution.workerId)};`,
+      `export const objective = ${JSON.stringify(execution.objective)};`,
+      "",
+      "export function describeGeneratedWork(): string {",
+      "  return `Generated structured implementation for ${role} by ${workerId}`;",
+      "}",
+      ""
+    ].join("\n");
+
+    fs.writeFileSync(filePath, content);
+    generatedFiles.push(filePath);
+  }
+
+  return generatedFiles.join(",");
 }
 
 export async function executeWorker(
@@ -68,8 +85,10 @@ export async function executeWorker(
 
   generatedFiles.push(metadataFile);
 
-  const generatedSourceFile = writeGeneratedSourceFile(execution);
-  generatedFiles.push(generatedSourceFile);
+  const generatedSourceFiles = writeGeneratedSourceFile(execution)
+    .split(",")
+    .filter(Boolean);
+  generatedFiles.push(...generatedSourceFiles);
 
   const aiResult = await executeOpenClawTask({
     workerId: execution.workerId,
