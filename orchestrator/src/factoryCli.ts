@@ -37,6 +37,7 @@ import { runInfraPreflight } from "./infraPreflight.js";
 import { detectGitRepos } from "./git/submoduleDetector.js";
 import { generateBranchDiff } from "./git/branchDiff.js";
 import { createIncrementalVerificationPlan } from "./git/incrementalVerificationPlanner.js";
+import { analyzeDependencyImpact } from "./git/dependencyImpactGraph.js";
 import { executeIncrementalVerification } from "./git/incrementalVerificationExecutor.js";
 import { executeArtifactMerge } from "./merge/artifactMergeEngine.js";
 import { validateArtifacts } from "./merge/artifactValidator.js";
@@ -102,6 +103,13 @@ switch (command) {
         console.error(error);
         process.exit(1);
       });
+    break;
+  }
+
+  case "impact-graph": {
+    const changedProjects = process.argv.slice(3);
+    const result = analyzeDependencyImpact(changedProjects);
+    console.log(JSON.stringify(result, null, 2));
     break;
   }
 
