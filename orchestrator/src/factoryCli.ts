@@ -41,6 +41,7 @@ import { verifyPolicyCompliance } from "./policyComplianceVerifier.js";
 import { verifySecurityAudit } from "./securityAuditVerifier.js";
 import { verifySecretScanning } from "./secretScanningVerifier.js";
 import { verifyDockerCompliance } from "./dockerComplianceVerifier.js";
+import { verifyTestCoverage } from "./testCoverageVerifier.js";
 import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -264,6 +265,18 @@ switch (command) {
 
   case "validate-stack-contract": {
     const result = validateTechnologyStackContract();
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+  case "verify-test-coverage": {
+    const result = verifyTestCoverage(arg || "runtime/workspaces");
+
     console.log(JSON.stringify(result, null, 2));
 
     if (!result.success) {
