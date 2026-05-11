@@ -39,3 +39,11 @@ tmp/
 # Dependencies
 node_modules/
 **/node_modules/
+
+# dependencies
+node_modules/
+**/node_modules/
+
+# runtime artifacts
+artifacts/runs/*.json
+artifacts/plans/approval-state.json
