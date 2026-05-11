@@ -55,6 +55,26 @@ export async function startRuntimeApi() {
   res.json(report);
 });
 
+app.get("/delivery-score/history", async (_req, res) => {
+  const historyPath = path.resolve(
+    process.cwd(),
+    "artifacts/reports/delivery-score-history.json"
+  );
+
+  if (!fs.existsSync(historyPath)) {
+    return res.json({
+      success: true,
+      history: []
+    });
+  }
+
+  const history = JSON.parse(fs.readFileSync(historyPath, "utf8"));
+  res.json({
+    success: true,
+    history
+  });
+});
+
 app.listen(port, () => {
     console.log(JSON.stringify({
       success: true,
