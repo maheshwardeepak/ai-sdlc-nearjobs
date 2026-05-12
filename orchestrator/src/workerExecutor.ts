@@ -4,6 +4,16 @@ import { logger } from "./logger.js";
 import { executeOpenClawTask } from "./openclawAdapter.js";
 import { assertSupportedDefaultStack } from "./technologyStackContract.js";
 import { recordAgentRun } from "./db/runtimeDb.js";
+import { extractArtifactsFromMarkdown, writeExtractedArtifacts } from "./aiArtifactExtractor.js";
+
+
+function safeWriteFile(
+  filePath: string,
+  content: string | NodeJS.ArrayBufferView
+): void {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, content);
+}
 
 export type WorkerExecution = {
   workerId: string;
@@ -51,7 +61,7 @@ function writeGeneratedSourceFile(execution: WorkerExecution): string {
       ""
     ].join("\n");
 
-    fs.writeFileSync(filePath, content);
+    safeWriteFile(filePath, content);
     generatedFiles.push(filePath);
   }
 
@@ -75,7 +85,7 @@ export async function executeWorker(
     `${execution.role}.metadata.txt`
   );
 
-  fs.writeFileSync(
+  safeWriteFile(
     metadataFile,
     [
       `WORKER: ${execution.workerId}`,
@@ -90,22 +100,23 @@ export async function executeWorker(
 
   generatedFiles.push(metadataFile);
 
-  const generatedSourceFiles = writeGeneratedSourceFile(execution)
-    .split(",")
-    .filter(Boolean);
-  generatedFiles.push(...generatedSourceFiles);
+  let fallbackSourceFiles: string[] = [];
   if (execution.role === "backend") {
     const serverFile = path.join(
       execution.workspacePath,
       "backend/src/server.ts"
     );
 
+    fs.mkdirSync(path.dirname(serverFile), { recursive: true });
+
     const backendPackageFile = path.join(
       execution.workspacePath,
       "backend/package.json"
     );
 
-    fs.writeFileSync(
+    fs.mkdirSync(path.dirname(backendPackageFile), { recursive: true });
+
+    safeWriteFile(
       backendPackageFile,
       JSON.stringify(
         {
@@ -135,7 +146,9 @@ export async function executeWorker(
       "backend/tsconfig.json"
     );
 
-    fs.writeFileSync(
+    fs.mkdirSync(path.dirname(backendTsconfigFile), { recursive: true });
+
+    safeWriteFile(
       backendTsconfigFile,
       JSON.stringify(
         {
@@ -159,7 +172,7 @@ export async function executeWorker(
 
     generatedFiles.push(backendPackageFile);
 
-    fs.writeFileSync(
+    safeWriteFile(
       serverFile,
       [
         'import express from "express";',
@@ -191,7 +204,7 @@ export async function executeWorker(
       "backend/Dockerfile"
     );
 
-    fs.writeFileSync(
+    safeWriteFile(
       backendDockerfile,
       [
         "FROM node:22-alpine",
@@ -219,7 +232,7 @@ export async function executeWorker(
       "backend/docker-compose.yml"
     );
 
-    fs.writeFileSync(
+    safeWriteFile(
       backendCompose,
       [
         "services:",
@@ -240,7 +253,7 @@ export async function executeWorker(
 
     fs.mkdirSync(path.dirname(dbFile), { recursive: true });
 
-    fs.writeFileSync(
+    safeWriteFile(
       dbFile,
       [
         'import pg from "pg";',
@@ -263,7 +276,7 @@ export async function executeWorker(
 
     fs.mkdirSync(path.dirname(repositoryFile), { recursive: true });
 
-    fs.writeFileSync(
+    safeWriteFile(
       repositoryFile,
       [
         'import { pool } from "../db/db.js";',
@@ -297,7 +310,7 @@ export async function executeWorker(
       "backend/src/routes/users.ts"
     );
 
-    fs.writeFileSync(
+    safeWriteFile(
       usersRouteFile,
       [
         'import { Router } from "express";',
@@ -340,7 +353,7 @@ export async function executeWorker(
 
     fs.mkdirSync(path.dirname(sqlFile), { recursive: true });
 
-    fs.writeFileSync(
+    safeWriteFile(
       sqlFile,
       [
         "CREATE TABLE IF NOT EXISTS users (",
@@ -367,7 +380,9 @@ export async function executeWorker(
       "frontend/package.json"
     );
 
-    fs.writeFileSync(
+    fs.mkdirSync(path.dirname(frontendPackageFile), { recursive: true });
+
+    safeWriteFile(
       frontendPackageFile,
       JSON.stringify(
         {
@@ -385,7 +400,12 @@ export async function executeWorker(
             vite: "^8.0.11",
             "@types/react": "^19.2.14",
             "@types/react-dom": "^19.2.3",
-            typescript: "^6.0.3"
+            typescript: "^6.0.3",
+            vitest: "^2.1.9",
+            jsdom: "^24.1.3",
+            "@testing-library/jest-dom": "^6.9.1",
+            "@testing-library/react": "^16.3.2",
+            "@testing-library/user-event": "^14.6.1"
           }
         },
         null,
@@ -398,7 +418,9 @@ export async function executeWorker(
       "frontend/tsconfig.json"
     );
 
-    fs.writeFileSync(
+    fs.mkdirSync(path.dirname(frontendTsconfigFile), { recursive: true });
+
+    safeWriteFile(
       frontendTsconfigFile,
       JSON.stringify(
         {
@@ -429,7 +451,7 @@ export async function executeWorker(
       "frontend/src/vite-env.d.ts"
     );
 
-    fs.writeFileSync(
+    safeWriteFile(
       frontendViteEnvFile,
       '/// <reference types="vite/client" />\n'
     );
@@ -439,7 +461,9 @@ export async function executeWorker(
 
     generatedFiles.push(frontendPackageFile);
 
-    fs.writeFileSync(
+    fs.mkdirSync(path.dirname(appFile), { recursive: true });
+
+    safeWriteFile(
       appFile,
       [
         'export default function App() {',
@@ -457,7 +481,7 @@ export async function executeWorker(
       "frontend/src/main.tsx"
     );
 
-    fs.writeFileSync(
+    safeWriteFile(
       mainFile,
       [
         'import React from "react";',
@@ -481,7 +505,7 @@ export async function executeWorker(
       "frontend/Dockerfile"
     );
 
-    fs.writeFileSync(
+    safeWriteFile(
       frontendDockerfile,
       [
         "FROM node:22-alpine",
@@ -509,7 +533,7 @@ export async function executeWorker(
       "frontend/docker-compose.yml"
     );
 
-    fs.writeFileSync(
+    safeWriteFile(
       frontendCompose,
       [
         "services:",
@@ -525,6 +549,49 @@ export async function executeWorker(
 
   }
 
+
+  const roleSpecificRequirements =
+    execution.role === "frontend"
+      ? `
+FRONTEND REQUIREMENTS:
+- Generate a REAL React + TypeScript application.
+- Generate real UI components, not metadata files.
+- Generate real pages, forms, API client, typed models, loading state, empty state, and error state.
+- Integrate with backend endpoints GET /users and POST /users.
+- Use accessible labels, buttons, semantic HTML, and responsive layout.
+- Do not emit role/objective/workerId metadata placeholder modules as implementation.
+- Do not emit files whose only logic is describeGeneratedWork().
+- Do not emit placeholder generated.ts files.
+- Do not only describe the implementation.
+
+REQUIRED FRONTEND FILES:
+\`\`\`file:src/App.tsx
+// complete React app
+\`\`\`
+
+\`\`\`file:src/types.ts
+// User and API response types
+\`\`\`
+
+\`\`\`file:src/api/client.ts
+// getUsers and createUser implementation
+\`\`\`
+
+\`\`\`file:src/components/UserForm.tsx
+// real create-user form
+\`\`\`
+
+\`\`\`file:src/components/UserList.tsx
+// real user list component
+\`\`\`
+
+\`\`\`file:src/pages/HomePage.tsx
+// real page composing form and list
+\`\`\`
+
+All required files must contain complete working implementation code.
+`
+      : "";
 
   const aiResult = await executeOpenClawTask({
     workerId: execution.workerId,
@@ -544,8 +611,67 @@ Requirements:
 - secure coding
 - include validation
 - include tests
+${roleSpecificRequirements}
+
+IMPORTANT OUTPUT FORMAT:
+When you provide code, emit files using this exact format:
+
+\`\`\`file:src/example.ts
+export const example = true;
+\`\`\`
+
+Rules:
+- Every code artifact must use a file: fenced code block.
+- File paths must be relative to the ${execution.role} app root.
+- Do not only describe code.
+- Emit complete files.
 `
   });
+
+  if (aiResult.outputFile && fs.existsSync(aiResult.outputFile)) {
+    const markdown = fs.readFileSync(aiResult.outputFile, "utf8");
+    const artifacts = extractArtifactsFromMarkdown(markdown);
+    const extractedFiles = writeExtractedArtifacts(
+      execution.workspacePath,
+      execution.role,
+      artifacts
+    );
+
+    generatedFiles.push(...extractedFiles);
+
+    logger.info({
+      type: "AI_ARTIFACT_EXTRACTION_COMPLETE",
+      workerId: execution.workerId,
+      role: execution.role,
+      extractedFiles: extractedFiles.length
+    });
+
+    if (extractedFiles.length === 0) {
+      fallbackSourceFiles = writeGeneratedSourceFile(execution)
+        .split(",")
+        .filter(Boolean);
+      generatedFiles.push(...fallbackSourceFiles);
+
+      logger.info({
+        type: "AI_ARTIFACT_FALLBACK_USED",
+        workerId: execution.workerId,
+        role: execution.role,
+        fallbackFiles: fallbackSourceFiles.length
+      });
+    }
+  } else {
+    fallbackSourceFiles = writeGeneratedSourceFile(execution)
+      .split(",")
+      .filter(Boolean);
+    generatedFiles.push(...fallbackSourceFiles);
+
+    logger.info({
+      type: "AI_ARTIFACT_FALLBACK_USED",
+      workerId: execution.workerId,
+      role: execution.role,
+      fallbackFiles: fallbackSourceFiles.length
+    });
+  }
 
   logger.info({
     type: "WORKER_EXECUTION_COMPLETE",
