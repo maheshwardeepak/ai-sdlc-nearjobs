@@ -404,22 +404,25 @@ export async function executeWorker(
           type: "module",
           scripts: {
             dev: "vite",
-            build: "tsc --noEmit"
+            build: "tsc -b && vite build",
+            preview: "vite preview",
+            test: "vitest run"
           },
           dependencies: {
-            react: "^19.2.6",
-            "react-dom": "^19.2.6"
+            react: "^18.3.1",
+            "react-dom": "^18.3.1"
           },
           devDependencies: {
-            "@vitejs/plugin-react": "^6.0.1",
-            vite: "^8.0.11",
-            "@types/react": "^19.2.14",
-            "@types/react-dom": "^19.2.3",
-            typescript: "^6.0.3",
+            "@vitejs/plugin-react": "^4.7.0",
+            vite: "^5.4.21",
+            typescript: "^5.9.3",
             vitest: "^2.1.9",
             jsdom: "^24.1.3",
+            "@types/node": "^20.19.40",
+            "@types/react": "^18.3.28",
+            "@types/react-dom": "^18.3.7",
             "@testing-library/jest-dom": "^6.9.1",
-            "@testing-library/react": "^16.3.2",
+            "@testing-library/react": "^14.3.1",
             "@testing-library/user-event": "^14.6.1"
           }
         },
@@ -441,18 +444,23 @@ export async function executeWorker(
         {
           compilerOptions: {
             target: "ES2022",
-            module: "ESNext",
-            moduleResolution: "Bundler",
-            jsx: "react-jsx",
-            jsxImportSource: "react",
-            strict: true,
+            useDefineForClassFields: true,
+            lib: ["DOM", "DOM.Iterable", "ES2022"],
+            allowJs: false,
             skipLibCheck: true,
             esModuleInterop: true,
             allowSyntheticDefaultImports: true,
+            strict: true,
+            forceConsistentCasingInFileNames: true,
+            module: "ESNext",
+            moduleResolution: "bundler",
+            resolveJsonModule: true,
+            isolatedModules: true,
             noEmit: true,
-            lib: ["ES2022", "DOM"]
+            jsx: "react-jsx",
+            types: ["node", "vitest/globals", "@testing-library/jest-dom"]
           },
-          include: ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
+          include: ["src"]
         },
         null,
         2
@@ -460,6 +468,57 @@ export async function executeWorker(
     );
 
     generatedFiles.push(frontendTsconfigFile);
+
+    const frontendViteConfigFile = path.join(
+      execution.workspacePath,
+      "frontend/vite.config.ts"
+    );
+
+    safeWriteFile(
+      frontendViteConfigFile,
+      [
+        "import { defineConfig } from 'vite';",
+        "import react from '@vitejs/plugin-react';",
+        "",
+        "export default defineConfig({",
+        "  plugins: [react()],",
+        "  test: {",
+        "    globals: true,",
+        "    environment: 'jsdom',",
+        "    setupFiles: './src/setupTests.ts'",
+        "  }",
+        "});",
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(frontendViteConfigFile);
+
+    const frontendIndexHtmlFile = path.join(
+      execution.workspacePath,
+      "frontend/index.html"
+    );
+
+    safeWriteFile(
+      frontendIndexHtmlFile,
+      [
+        "<!doctype html>",
+        "<html lang=\"en\">",
+        "  <head>",
+        "    <meta charset=\"UTF-8\" />",
+        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+        "    <title>AI SDLC Generated App</title>",
+        "  </head>",
+        "  <body>",
+        "    <div id=\"root\"></div>",
+        "    <script type=\"module\" src=\"/src/main.tsx\"></script>",
+        "  </body>",
+        "</html>",
+        ""
+      ].join("\n")
+    );
+
+    generatedFiles.push(frontendIndexHtmlFile);
 
     const frontendViteEnvFile = path.join(
       execution.workspacePath,
