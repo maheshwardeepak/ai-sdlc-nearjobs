@@ -539,6 +539,7 @@ switch (command) {
       "release-gate",
       "deploy",
       "observability-report",
+      "rollback",
       "generate-remediation-plan",
       "execute-self-healing"
     ];
@@ -577,6 +578,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "deploy", "local-docker"] }
               : check === "observability-report"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "observability-report", "local-docker"] }
+              : check === "rollback"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "rollback", "full-system"] }
               : check === "generate-remediation-plan"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "generate-remediation-plan"] }
               : check === "execute-self-healing"
