@@ -44,6 +44,7 @@ import { verifyDockerCompliance } from "./dockerComplianceVerifier.js";
 import { verifyTestCoverage } from "./testCoverageVerifier.js";
 import { evaluateReleaseGate } from "./releaseGateEngine.js";
 import { generateSbom } from "./sbomGenerator.js";
+import { verifySbomPolicy } from "./sbomPolicyVerifier.js";
 import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -267,6 +268,18 @@ switch (command) {
 
   case "validate-stack-contract": {
     const result = validateTechnologyStackContract();
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+  case "verify-sbom-policy": {
+    const result = verifySbomPolicy();
+
     console.log(JSON.stringify(result, null, 2));
 
     if (!result.success) {
