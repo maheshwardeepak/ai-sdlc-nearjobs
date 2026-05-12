@@ -504,6 +504,7 @@ switch (command) {
       "generate-sbom",
       "verify-sbom-policy",
       "release-gate",
+      "deploy",
       "generate-remediation-plan",
       "execute-self-healing"
     ];
@@ -538,6 +539,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-test-execution", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "release-gate"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "release-gate"] }
+              : check === "deploy"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "deploy", "local-docker"] }
               : check === "generate-remediation-plan"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "generate-remediation-plan"] }
               : check === "execute-self-healing"
