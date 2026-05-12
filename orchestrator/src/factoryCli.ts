@@ -488,7 +488,8 @@ switch (command) {
       "generate-sbom",
       "verify-sbom-policy",
       "release-gate",
-      "generate-remediation-plan"
+      "generate-remediation-plan",
+      "execute-self-healing"
     ];
 
     const { runTask } = await import("./taskRuntime.js");
@@ -523,6 +524,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "release-gate"] }
               : check === "generate-remediation-plan"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "generate-remediation-plan"] }
+              : check === "execute-self-healing"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "execute-self-healing"] }
               : check === "generate-sbom"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "generate-sbom", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "verify-sbom-policy"
