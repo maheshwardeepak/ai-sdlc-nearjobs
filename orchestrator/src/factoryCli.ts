@@ -431,6 +431,8 @@ switch (command) {
       "verify-docker-compliance",
       "verify-test-coverage",
       "generated-crud-verification",
+      "generate-sbom",
+      "verify-sbom-policy",
       "release-gate"
     ];
 
@@ -460,6 +462,10 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-test-coverage", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "release-gate"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "release-gate"] }
+              : check === "generate-sbom"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "generate-sbom", "runtime/workspaces/dockercompliancegenerationtest"] }
+              : check === "verify-sbom-policy"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-sbom-policy"] }
               : { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-generated-crud", "runtime/workspaces/crudbackendgenerationtest"] };
 
       const result = await runTask({
