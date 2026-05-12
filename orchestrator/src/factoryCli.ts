@@ -46,6 +46,7 @@ import { evaluateReleaseGate } from "./releaseGateEngine.js";
 import { generateSbom } from "./sbomGenerator.js";
 import { verifySbomPolicy } from "./sbomPolicyVerifier.js";
 import { verifyTestExecution } from "./testExecutionVerifier.js";
+import { verifySast } from "./sastVerifier.js";
 import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -269,6 +270,20 @@ switch (command) {
 
   case "validate-stack-contract": {
     const result = validateTechnologyStackContract();
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+  case "verify-sast": {
+    const result = verifySast(
+      arg || "runtime/workspaces"
+    );
+
     console.log(JSON.stringify(result, null, 2));
 
     if (!result.success) {
