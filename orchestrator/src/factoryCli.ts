@@ -48,6 +48,7 @@ import { verifySbomPolicy } from "./sbomPolicyVerifier.js";
 import { verifyTestExecution } from "./testExecutionVerifier.js";
 import { verifySast } from "./sastVerifier.js";
 import { generateRemediationPlan } from "./remediationEngine.js";
+import { executeSelfHealing } from "./selfHealingEngine.js";
 import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -271,6 +272,18 @@ switch (command) {
 
   case "validate-stack-contract": {
     const result = validateTechnologyStackContract();
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+  case "execute-self-healing": {
+    const result = executeSelfHealing();
+
     console.log(JSON.stringify(result, null, 2));
 
     if (!result.success) {
