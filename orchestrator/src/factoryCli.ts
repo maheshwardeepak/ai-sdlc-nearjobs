@@ -43,6 +43,7 @@ import { verifySecretScanning } from "./secretScanningVerifier.js";
 import { verifyDockerCompliance } from "./dockerComplianceVerifier.js";
 import { verifyTestCoverage } from "./testCoverageVerifier.js";
 import { evaluateReleaseGate } from "./releaseGateEngine.js";
+import { generateSbom } from "./sbomGenerator.js";
 import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -271,6 +272,16 @@ switch (command) {
     if (!result.success) {
       process.exit(1);
     }
+
+    break;
+  }
+
+  case "generate-sbom": {
+    const result = generateSbom(
+      arg || "runtime/workspaces"
+    );
+
+    console.log(JSON.stringify(result, null, 2));
 
     break;
   }
