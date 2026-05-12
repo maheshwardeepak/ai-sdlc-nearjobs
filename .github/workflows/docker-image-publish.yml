@@ -3,6 +3,10 @@ name: Docker Image Publish
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   docker-publish:
     runs-on: ubuntu-latest
@@ -28,8 +32,29 @@ jobs:
       - name: Typecheck orchestrator
         run: pnpm exec tsc -p orchestrator/tsconfig.json --noEmit
 
-      - name: Generate Docker build verification
+      - name: Verify Docker builds
         run: pnpm exec tsx orchestrator/src/factoryCli.ts verify-docker-build runtime/workspaces/dockercompliancegenerationtest
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag and push backend image
+        run: |
+          docker tag ai-sdlc-generated-backend ghcr.io/${{ github.repository }}/generated-backend:${{ github.sha }}
+          docker tag ai-sdlc-generated-backend ghcr.io/${{ github.repository }}/generated-backend:latest
+          docker push ghcr.io/${{ github.repository }}/generated-backend:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}/generated-backend:latest
+
+      - name: Tag and push frontend image
+        run: |
+          docker tag ai-sdlc-generated-frontend ghcr.io/${{ github.repository }}/generated-frontend:${{ github.sha }}
+          docker tag ai-sdlc-generated-frontend ghcr.io/${{ github.repository }}/generated-frontend:latest
+          docker push ghcr.io/${{ github.repository }}/generated-frontend:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}/generated-frontend:latest
 
       - name: Upload Docker build report
         uses: actions/upload-artifact@v4
