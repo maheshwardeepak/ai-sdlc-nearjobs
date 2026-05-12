@@ -42,6 +42,7 @@ import { verifySecurityAudit } from "./securityAuditVerifier.js";
 import { verifySecretScanning } from "./secretScanningVerifier.js";
 import { verifyDockerCompliance } from "./dockerComplianceVerifier.js";
 import { verifyDockerBuild } from "./dockerBuildVerifier.js";
+import { verifyContainerRuntime } from "./containerRuntimeVerifier.js";
 import { verifyTestCoverage } from "./testCoverageVerifier.js";
 import { evaluateReleaseGate } from "./releaseGateEngine.js";
 import { generateSbom } from "./sbomGenerator.js";
@@ -417,6 +418,18 @@ switch (command) {
 
   case "verify-test-coverage": {
     const result = verifyTestCoverage(arg || "runtime/workspaces");
+
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+  case "verify-container-runtime": {
+    const result = verifyContainerRuntime();
 
     console.log(JSON.stringify(result, null, 2));
 
