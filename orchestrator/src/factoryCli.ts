@@ -474,7 +474,8 @@ switch (command) {
       "generated-crud-verification",
       "generate-sbom",
       "verify-sbom-policy",
-      "release-gate"
+      "release-gate",
+      "generate-remediation-plan"
     ];
 
     const { runTask } = await import("./taskRuntime.js");
@@ -507,6 +508,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-test-execution", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "release-gate"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "release-gate"] }
+              : check === "generate-remediation-plan"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "generate-remediation-plan"] }
               : check === "generate-sbom"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "generate-sbom", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "verify-sbom-policy"
