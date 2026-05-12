@@ -445,6 +445,7 @@ switch (command) {
       "verify-secret-scan",
       "verify-docker-compliance",
       "verify-test-coverage",
+      "verify-test-execution",
       "generated-crud-verification",
       "generate-sbom",
       "verify-sbom-policy",
@@ -475,6 +476,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-docker-compliance", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "verify-test-coverage"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-test-coverage", "runtime/workspaces/dockercompliancegenerationtest"] }
+              : check === "verify-test-execution"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-test-execution", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "release-gate"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "release-gate"] }
               : check === "generate-sbom"
