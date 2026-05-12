@@ -75,6 +75,7 @@ import { validateArtifacts } from "./merge/artifactValidator.js";
 import { validateOpenClawArtifacts } from "./artifactValidator.js";
 import { createMergePlan, executeMergePlan } from "./mergeEngine.js";
 import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
+import { architecturePlanExists, generateArchitecturePlan } from "./architecturePlan.js";
 
 
 import { loadState, saveState } from "./state.js";
@@ -110,8 +111,9 @@ switch (command) {
       database: contract.database
     });
     const approval = invalidateApprovalForStackChange(stackFingerprint);
+    const architecturePlan = generateArchitecturePlan();
 
-    console.log(JSON.stringify({ success: true, contract, approval }, null, 2));
+    console.log(JSON.stringify({ success: true, contract, approval, architecturePlan }, null, 2));
     break;
   }
 
@@ -235,6 +237,12 @@ switch (command) {
   }
 
   case "init": {
+    if (!architecturePlanExists()) {
+      throw new Error(
+        "Architecture plan must be generated before requesting approval."
+      );
+    }
+
     const state = loadState();
     saveState(state);
     createRunPlan();
