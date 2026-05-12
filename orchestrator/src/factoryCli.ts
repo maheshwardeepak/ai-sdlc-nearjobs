@@ -104,7 +104,12 @@ switch (command) {
 
     const parsed = JSON.parse(payload);
     const contract = createTechnologyStackContract(parsed);
-    const approval = invalidateApprovalForStackChange(JSON.stringify(contract));
+    const stackFingerprint = JSON.stringify({
+      backend: contract.backend,
+      frontend: contract.frontend,
+      database: contract.database
+    });
+    const approval = invalidateApprovalForStackChange(stackFingerprint);
 
     console.log(JSON.stringify({ success: true, contract, approval }, null, 2));
     break;
@@ -248,16 +253,22 @@ switch (command) {
   case "request-approval": {
     const stackValidation = validateTechnologyStackContract();
 
-    if (!stackValidation.success) {
+    if (!stackValidation.success || !stackValidation.contract) {
       throw new Error(
         "Technology stack must be confirmed before requesting approval."
       );
     }
 
+    const confirmedStack = stackValidation.contract;
+
     const state = loadState();
     const approval = requestApproval(
       state.planVersion + 1,
-      JSON.stringify(stackValidation.contract)
+      JSON.stringify({
+        backend: confirmedStack.backend,
+        frontend: confirmedStack.frontend,
+        database: confirmedStack.database
+      })
     );
     console.log("Plan approval requested.");
     console.log(JSON.stringify(approval, null, 2));
