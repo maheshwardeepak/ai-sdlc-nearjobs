@@ -285,10 +285,12 @@ switch (command) {
   }
 
   case "rollback": {
-    const result = executeRollback(
-      (arg as "backend" | "frontend" | "full-system") ||
-      "full-system"
-    );
+    const rollbackTarget = String(arg || "full-system").split(" ")[0] as
+      | "backend"
+      | "frontend"
+      | "full-system";
+
+    const result = executeRollback(rollbackTarget);
 
     console.log(JSON.stringify(result, null, 2));
 
