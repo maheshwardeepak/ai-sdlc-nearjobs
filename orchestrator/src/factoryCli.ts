@@ -546,6 +546,7 @@ switch (command) {
       "verify-secret-scan",
       "verify-sast",
       "verify-docker-compliance",
+      "verify-docker-build",
       "verify-test-coverage",
       "verify-test-execution",
       "generated-crud-verification",
@@ -583,6 +584,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-sast", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "verify-docker-compliance"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-docker-compliance", "runtime/workspaces/dockercompliancegenerationtest"] }
+              : check === "verify-docker-build"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-docker-build", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "verify-test-coverage"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-test-coverage", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "verify-test-execution"
