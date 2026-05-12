@@ -47,6 +47,7 @@ import { generateSbom } from "./sbomGenerator.js";
 import { verifySbomPolicy } from "./sbomPolicyVerifier.js";
 import { verifyTestExecution } from "./testExecutionVerifier.js";
 import { verifySast } from "./sastVerifier.js";
+import { generateRemediationPlan } from "./remediationEngine.js";
 import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -275,6 +276,14 @@ switch (command) {
     if (!result.success) {
       process.exit(1);
     }
+
+    break;
+  }
+
+  case "generate-remediation-plan": {
+    const result = generateRemediationPlan();
+
+    console.log(JSON.stringify(result, null, 2));
 
     break;
   }
