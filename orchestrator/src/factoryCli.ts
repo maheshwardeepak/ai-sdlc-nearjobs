@@ -76,6 +76,7 @@ import { validateOpenClawArtifacts } from "./artifactValidator.js";
 import { createMergePlan, executeMergePlan } from "./mergeEngine.js";
 import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
 import { architecturePlanExists, generateArchitecturePlan } from "./architecturePlan.js";
+import { generateStackInfra } from "./stackInfraGenerator.js";
 
 
 import { loadState, saveState } from "./state.js";
@@ -94,6 +95,14 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "generate-stack-infra": {
+    requireConfirmedTechnologyStackForCommand("generate-stack-infra");
+
+    const result = generateStackInfra(arg || "artifacts/infra");
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
   case "confirm-stack": {
     const payload = process.argv.slice(3).join(" ");
 
