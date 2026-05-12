@@ -47,3 +47,7 @@ node_modules/
 # runtime artifacts
 artifacts/runs/*.json
 artifacts/plans/approval-state.json
+
+# Runtime orchestration artifacts
+artifacts/runs/*.json
+artifacts/plans/*.json
