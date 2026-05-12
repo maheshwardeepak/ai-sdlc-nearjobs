@@ -79,6 +79,16 @@ import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
 
 import { loadState, saveState } from "./state.js";
 
+function requireConfirmedTechnologyStackForCommand(commandName: string): void {
+  const stackValidation = validateTechnologyStackContract();
+
+  if (!stackValidation.success) {
+    throw new Error(
+      `Technology stack must be confirmed before running ${commandName}.`
+    );
+  }
+}
+
 const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
@@ -773,6 +783,8 @@ switch (command) {
   }
 
   case "create-workspace": {
+    requireConfirmedTechnologyStackForCommand("create-workspace");
+
     if (!arg) {
       throw new Error("Project name is required.");
     }
@@ -783,6 +795,8 @@ switch (command) {
   }
 
   case "create-clones": {
+    requireConfirmedTechnologyStackForCommand("create-clones");
+
     if (!arg) {
       throw new Error("Project name is required.");
     }
@@ -796,6 +810,8 @@ switch (command) {
   }
 
   case "execute-clones": {
+    requireConfirmedTechnologyStackForCommand("execute-clones");
+
     if (!arg) {
       throw new Error("Project name is required.");
     }
@@ -1104,6 +1120,8 @@ management:
 
 
   case "run-approved": {
+    requireConfirmedTechnologyStackForCommand("run-approved");
+
     const results = runApprovedDagOnce();
     console.log("Approved DAG execution completed.");
     console.log(JSON.stringify(results, null, 2));
