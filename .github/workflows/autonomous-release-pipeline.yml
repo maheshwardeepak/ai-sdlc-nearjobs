@@ -1,0 +1,77 @@
+name: Autonomous Release Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  autonomous-release:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ai_sdlc_factory
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      RUNTIME_DATABASE_URL: postgres://postgres:postgres@localhost:55432/ai_sdlc_factory
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.0.8
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Typecheck orchestrator
+        run: pnpm exec tsc -p orchestrator/tsconfig.json --noEmit
+
+      - name: Build dashboard
+        run: pnpm --dir dashboard build
+
+      - name: Run autonomous full verification
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts verify-factory-full
+
+      - name: Refresh delivery score
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts delivery-score
+
+      - name: Run regression analysis
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts regression-analysis
+
+      - name: Run release gate
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts release-gate
+
+      - name: Run local pipeline simulation
+        run: pnpm exec tsx orchestrator/src/factoryCli.ts verify-local-pipeline
+
+      - name: Upload governance reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: autonomous-governance-reports
+          path: |
+            artifacts/reports/*.json
+            runtime/tasks/*.log
