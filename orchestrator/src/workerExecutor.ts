@@ -5,6 +5,7 @@ import { executeOpenClawTask } from "./openclawAdapter.js";
 import { assertSupportedDefaultStack } from "./technologyStackContract.js";
 import { recordAgentRun } from "./db/runtimeDb.js";
 import { extractArtifactsFromMarkdown, writeExtractedArtifacts } from "./aiArtifactExtractor.js";
+import { stabilizeGeneratedApp } from "./generatedAppStabilizer.js";
 
 
 function safeWriteFile(
@@ -718,6 +719,15 @@ Rules:
       workerId: execution.workerId,
       role: execution.role,
       extractedFiles: extractedFiles.length
+    });
+
+    const stabilized = stabilizeGeneratedApp(execution.workspacePath, execution.role);
+
+    logger.info({
+      type: "GENERATED_APP_STABILIZATION_COMPLETE",
+      workerId: execution.workerId,
+      role: execution.role,
+      stabilized
     });
 
     if (extractedFiles.length === 0) {
