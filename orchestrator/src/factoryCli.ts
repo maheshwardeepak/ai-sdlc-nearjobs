@@ -55,7 +55,10 @@ import { executeSelfHealing } from "./selfHealingEngine.js";
 import { executeDeployment } from "./deploymentEngine.js";
 import { generateObservabilityReport } from "./observabilityEngine.js";
 import { executeRollback } from "./rollbackEngine.js";
-import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
+import {
+  createTechnologyStackContract,
+  validateTechnologyStackContract
+} from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
 import { verifyGeneratedCrudIntegration } from "./generatedCrudIntegrationVerifier.js";
@@ -80,6 +83,22 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "confirm-stack": {
+    const payload = process.argv.slice(3).join(" ");
+
+    if (!payload) {
+      throw new Error(
+        'Usage: confirm-stack \'{"backend":{...},"frontend":{...},"database":{...}}\''
+      );
+    }
+
+    const parsed = JSON.parse(payload);
+    const contract = createTechnologyStackContract(parsed);
+
+    console.log(JSON.stringify({ success: true, contract }, null, 2));
+    break;
+  }
+
   case "record-verification-run": {
     const [checkName, success, logFile] = process.argv.slice(3);
 
@@ -216,6 +235,14 @@ switch (command) {
   }
 
   case "request-approval": {
+    const stackValidation = validateTechnologyStackContract();
+
+    if (!stackValidation.success) {
+      throw new Error(
+        "Technology stack must be confirmed before requesting approval."
+      );
+    }
+
     const state = loadState();
     const approval = requestApproval(state.planVersion + 1);
     console.log("Plan approval requested.");
@@ -532,7 +559,7 @@ switch (command) {
   }
 
   case "stack-contract": {
-    const result = createDefaultTechnologyStackContract();
+    const result = validateTechnologyStackContract();
     console.log(JSON.stringify(result, null, 2));
     break;
   }

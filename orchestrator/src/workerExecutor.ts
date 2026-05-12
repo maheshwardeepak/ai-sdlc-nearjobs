@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { logger } from "./logger.js";
 import { executeOpenClawTask } from "./openclawAdapter.js";
-import { assertSupportedDefaultStack } from "./technologyStackContract.js";
+import { ensureTechnologyStackConfirmed } from "./technologyStackContract.js";
 import { recordAgentRun } from "./db/runtimeDb.js";
 import { extractArtifactsFromMarkdown, writeExtractedArtifacts } from "./aiArtifactExtractor.js";
 import { stabilizeGeneratedApp } from "./generatedAppStabilizer.js";
@@ -72,7 +72,7 @@ function writeGeneratedSourceFile(execution: WorkerExecution): string {
 export async function executeWorker(
   execution: WorkerExecution
 ): Promise<WorkerExecutionResult> {
-  const stackContract = assertSupportedDefaultStack();
+  const stackContract = ensureTechnologyStackConfirmed();
   logger.info({
     type: "WORKER_EXECUTION_START",
     workerId: execution.workerId,

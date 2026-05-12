@@ -21,66 +21,54 @@ export type TechnologyStackContract = {
   createdAt: string;
 };
 
-export function createDefaultTechnologyStackContract(): TechnologyStackContract {
-  const contract: TechnologyStackContract = {
-    backend: {
-      language: "TypeScript",
-      framework: "Express",
-      runtime: "Node.js",
-      packageManager: "npm"
-    },
-    frontend: {
-      language: "TypeScript",
-      framework: "React",
-      runtime: "Vite",
-      packageManager: "npm"
-    },
-    database: {
-      engine: "PostgreSQL"
-    },
+const STACK_CONTRACT_PATH = path.resolve(
+  process.cwd(),
+  "artifacts/reports/technology-stack-contract.json"
+);
+
+export function createTechnologyStackContract(
+  contract: Omit<TechnologyStackContract, "createdAt" | "confirmed">
+): TechnologyStackContract {
+  const finalContract: TechnologyStackContract = {
+    ...contract,
     confirmed: true,
     createdAt: new Date().toISOString()
   };
 
-  const reportsDir = path.resolve(process.cwd(), "artifacts/reports");
+  const reportsDir = path.dirname(STACK_CONTRACT_PATH);
   fs.mkdirSync(reportsDir, { recursive: true });
 
   fs.writeFileSync(
-    path.join(reportsDir, "technology-stack-contract.json"),
-    JSON.stringify(contract, null, 2)
+    STACK_CONTRACT_PATH,
+    JSON.stringify(finalContract, null, 2)
   );
 
-  return contract;
+  return finalContract;
 }
-
-if (process.argv[1]?.includes("technologyStackContract")) {
-  console.log(JSON.stringify(createDefaultTechnologyStackContract(), null, 2));
-}
-
 
 export function validateTechnologyStackContract() {
-  const contractPath = path.resolve(
-    process.cwd(),
-    "artifacts/reports/technology-stack-contract.json"
-  );
-
-  if (!fs.existsSync(contractPath)) {
+  if (!fs.existsSync(STACK_CONTRACT_PATH)) {
     return {
       success: false,
+      contract: null,
       error: "technology-stack-contract-not-found"
     };
   }
 
   const contract = JSON.parse(
-    fs.readFileSync(contractPath, "utf8")
+    fs.readFileSync(STACK_CONTRACT_PATH, "utf8")
   ) as TechnologyStackContract;
 
   const success =
     Boolean(contract.confirmed) &&
     Boolean(contract.backend?.language) &&
     Boolean(contract.backend?.framework) &&
+    Boolean(contract.backend?.runtime) &&
+    Boolean(contract.backend?.packageManager) &&
     Boolean(contract.frontend?.language) &&
     Boolean(contract.frontend?.framework) &&
+    Boolean(contract.frontend?.runtime) &&
+    Boolean(contract.frontend?.packageManager) &&
     Boolean(contract.database?.engine);
 
   return {
@@ -89,7 +77,6 @@ export function validateTechnologyStackContract() {
     error: success ? null : "technology-stack-contract-incomplete"
   };
 }
-
 
 export function loadTechnologyStackContract() {
   const validation = validateTechnologyStackContract();
@@ -101,21 +88,26 @@ export function loadTechnologyStackContract() {
   return validation.contract;
 }
 
-export function assertSupportedDefaultStack() {
-  const contract = loadTechnologyStackContract();
+export function ensureTechnologyStackConfirmed() {
+  const validation = validateTechnologyStackContract();
 
-  const supported =
-    contract.backend.language === "TypeScript" &&
-    contract.backend.framework === "Express" &&
-    contract.backend.runtime === "Node.js" &&
-    contract.frontend.language === "TypeScript" &&
-    contract.frontend.framework === "React" &&
-    contract.frontend.runtime === "Vite" &&
-    contract.database.engine === "PostgreSQL";
-
-  if (!supported) {
-    throw new Error("unsupported-technology-stack-contract");
+  if (!validation.success || !validation.contract) {
+    throw new Error(
+      [
+        "Technology stack confirmation required.",
+        "Missing required selections:",
+        "- backend language/framework/runtime/packageManager",
+        "- frontend language/framework/runtime/packageManager",
+        "- database engine"
+      ].join("\n")
+    );
   }
 
-  return contract;
+  return validation.contract;
+}
+
+if (process.argv[1]?.includes("technologyStackContract")) {
+  console.log(
+    JSON.stringify(validateTechnologyStackContract(), null, 2)
+  );
 }
