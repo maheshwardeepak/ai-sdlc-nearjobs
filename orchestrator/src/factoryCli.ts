@@ -51,6 +51,7 @@ import { generateRemediationPlan } from "./remediationEngine.js";
 import { executeSelfHealing } from "./selfHealingEngine.js";
 import { executeDeployment } from "./deploymentEngine.js";
 import { generateObservabilityReport } from "./observabilityEngine.js";
+import { executeRollback } from "./rollbackEngine.js";
 import { createDefaultTechnologyStackContract, validateTechnologyStackContract } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -274,6 +275,21 @@ switch (command) {
 
   case "validate-stack-contract": {
     const result = validateTechnologyStackContract();
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+  case "rollback": {
+    const result = executeRollback(
+      (arg as "backend" | "frontend" | "full-system") ||
+      "full-system"
+    );
+
     console.log(JSON.stringify(result, null, 2));
 
     if (!result.success) {
