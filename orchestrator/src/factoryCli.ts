@@ -520,6 +520,7 @@ switch (command) {
       "verify-sbom-policy",
       "release-gate",
       "deploy",
+      "observability-report",
       "generate-remediation-plan",
       "execute-self-healing"
     ];
@@ -556,6 +557,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "release-gate"] }
               : check === "deploy"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "deploy", "local-docker"] }
+              : check === "observability-report"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "observability-report", "local-docker"] }
               : check === "generate-remediation-plan"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "generate-remediation-plan"] }
               : check === "execute-self-healing"
