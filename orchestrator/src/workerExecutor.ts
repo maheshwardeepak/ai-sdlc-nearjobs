@@ -126,14 +126,29 @@ export async function executeWorker(
             build: "tsc --noEmit"
           },
           dependencies: {
-            express: "^5.2.1",
-            pg: "^8.20.0"
+            express: "^4.22.1",
+            pg: "^8.20.0",
+            zod: "^3.25.76",
+            helmet: "^7.2.0",
+            "pino-http": "^8.6.1",
+            pino: "^8.21.0",
+            ioredis: "^5.10.1",
+            bullmq: "^5.76.7",
+            uuid: "^9.0.1"
           },
           devDependencies: {
-            "@types/express": "^5.0.6",
+            "@types/express": "^4.17.25",
             "@types/pg": "^8.20.0",
+            "@types/node": "^20.19.40",
+            "@types/jest": "^29.5.14",
+            "@types/uuid": "^9.0.8",
             tsx: "^4.21.0",
-            typescript: "^6.0.3"
+            typescript: "^5.9.3",
+            jest: "^29.7.0",
+            "ts-jest": "^29.4.9",
+            "ioredis-mock": "^8.13.1",
+            supertest: "^7.2.0",
+            "@types/supertest": "^6.0.3"
           }
         },
         null,
