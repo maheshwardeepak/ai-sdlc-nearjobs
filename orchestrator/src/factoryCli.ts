@@ -27,7 +27,7 @@ import { applySafeRepoPatches } from "./safeRepoPatchEngine.js";
 import { runAutonomousFailureRepair } from "./failureRepairEngine.js";
 import { runCleanRebuildGate } from "./cleanRebuildGate.js";
 import { runSecurityGate } from "./securityGate.js";
-import { approvePlan, requestApproval, requestRevision } from "./approval.js";
+import { approvePlan, invalidateApprovalForStackChange, requestApproval, requestRevision } from "./approval.js";
 import { createRunPlan, loadDag, validateDag } from "./dagExecutor.js";
 import { runApprovedDagOnce } from "./agentRunner.js";
 import { createProjectWorkspace } from "./workspaceManager.js";
@@ -104,8 +104,9 @@ switch (command) {
 
     const parsed = JSON.parse(payload);
     const contract = createTechnologyStackContract(parsed);
+    const approval = invalidateApprovalForStackChange(JSON.stringify(contract));
 
-    console.log(JSON.stringify({ success: true, contract }, null, 2));
+    console.log(JSON.stringify({ success: true, contract, approval }, null, 2));
     break;
   }
 
@@ -254,7 +255,10 @@ switch (command) {
     }
 
     const state = loadState();
-    const approval = requestApproval(state.planVersion + 1);
+    const approval = requestApproval(
+      state.planVersion + 1,
+      JSON.stringify(stackValidation.contract)
+    );
     console.log("Plan approval requested.");
     console.log(JSON.stringify(approval, null, 2));
     break;
