@@ -406,7 +406,8 @@ switch (command) {
       "verify-secret-scan",
       "verify-docker-compliance",
       "verify-test-coverage",
-      "generated-crud-verification"
+      "generated-crud-verification",
+      "release-gate"
     ];
 
     const { runTask } = await import("./taskRuntime.js");
@@ -433,6 +434,8 @@ switch (command) {
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-docker-compliance", "runtime/workspaces/dockercompliancegenerationtest"] }
               : check === "verify-test-coverage"
               ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-test-coverage", "runtime/workspaces/dockercompliancegenerationtest"] }
+              : check === "release-gate"
+              ? { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "release-gate"] }
               : { command: "pnpm", args: ["exec", "tsx", "orchestrator/src/factoryCli.ts", "verify-generated-crud", "runtime/workspaces/crudbackendgenerationtest"] };
 
       const result = await runTask({
