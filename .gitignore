@@ -51,3 +51,6 @@ artifacts/plans/approval-state.json
 # Runtime orchestration artifacts
 artifacts/runs/*.json
 artifacts/plans/*.json
+
+# Generated stack infrastructure artifacts
+artifacts/infra/
