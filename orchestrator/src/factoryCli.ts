@@ -923,7 +923,7 @@ switch (command) {
         "## Start Command",
         `\`\`\`bash`,
         `pnpm exec tsx orchestrator/src/factoryCli.ts start-autonomous-project ${arg}`,
-        `\`\``,
+        `\`\`\``,
         ""
       ].join("\n")
     );
