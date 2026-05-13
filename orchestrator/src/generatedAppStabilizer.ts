@@ -32,6 +32,28 @@ function sanitizeTsFiles(root: string): void {
   }
 }
 
+
+function removeExpressArtifacts(backendRoot: string): void {
+  const routesRoot = path.join(backendRoot, "src/routes");
+
+  if (!fs.existsSync(routesRoot)) return;
+
+  for (const file of fs.readdirSync(routesRoot)) {
+    const full = path.join(routesRoot, file);
+
+    if (!full.endsWith(".ts")) continue;
+
+    const text = fs.readFileSync(full, "utf8");
+
+    if (
+      text.includes("from 'express'") ||
+      text.includes('from "express"')
+    ) {
+      fs.unlinkSync(full);
+    }
+  }
+}
+
 function stabilizeExpressRoutes(backendRoot: string): void {
   const routesRoot = path.join(backendRoot, "src/routes");
   if (!fs.existsSync(routesRoot)) return;
@@ -238,6 +260,75 @@ function stabilizeFrontend(frontendRoot: string): void {
   safeWrite(pkgPath, JSON.stringify(pkg, null, 2));
 }
 
+
+function reconcileNodeDependencies(appRoot: string): void {
+  const pkgPath = path.join(appRoot, "package.json");
+
+  if (!fs.existsSync(pkgPath)) return;
+
+  const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
+  pkg.dependencies = pkg.dependencies || {};
+  pkg.devDependencies = pkg.devDependencies || {};
+
+  const sourceRoot = path.join(appRoot, "src");
+  if (!fs.existsSync(sourceRoot)) return;
+
+  const importMap: Record<string, string> = {
+    helmet: "^7.2.0",
+    compression: "^1.8.1",
+    "pino-http": "^9.0.0",
+    dotenv: "^16.6.1",
+    "express-rate-limit": "^7.5.1",
+    argon2: "^0.31.2",
+    jsonwebtoken: "^9.0.3",
+    uuid: "^9.0.1",
+    openai: "^4.104.0",
+    ioredis: "^5.10.1",
+    zod: "^3.25.76",
+    cors: "^2.8.6",
+    express: "^4.22.2",
+    pg: "^8.20.0",
+    pino: "^8.21.0"
+  };
+
+  const devImportMap: Record<string, string> = {
+    "@types/compression": "^1.8.1",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/uuid": "^9.0.8",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.25",
+    "@types/pg": "^8.20.0",
+    "@types/node": "^20.19.40",
+    typescript: "^5.9.3"
+  };
+
+  const files = fs.readdirSync(sourceRoot, { recursive: true })
+    .filter((file) => String(file).endsWith(".ts"))
+    .map((file) => path.join(sourceRoot, String(file)));
+
+  const source = files
+    .map((file) => fs.readFileSync(file, "utf8"))
+    .join("\n");
+
+  for (const [dependency, version] of Object.entries(importMap)) {
+    if (
+      source.includes(`from '${dependency}'`) ||
+      source.includes(`from "${dependency}"`) ||
+      source.includes(`require('${dependency}')`) ||
+      source.includes(`require("${dependency}")`)
+    ) {
+      pkg.dependencies[dependency] = pkg.dependencies[dependency] || version;
+    }
+  }
+
+  for (const [dependency, version] of Object.entries(devImportMap)) {
+    pkg.devDependencies[dependency] = pkg.devDependencies[dependency] || version;
+  }
+
+  safeWrite(pkgPath, JSON.stringify(pkg, null, 2));
+}
+
+
 export function stabilizeGeneratedApp(workerPath: string, role: string): string[] {
   const touched: string[] = [];
 
@@ -248,6 +339,7 @@ export function stabilizeGeneratedApp(workerPath: string, role: string): string[
 
   if (role === "backend") {
     sanitizeTsFiles(path.join(workerPath, "backend/src"));
+    reconcileNodeDependencies(path.join(workerPath, "backend"));
     stabilizeExpressRoutes(path.join(workerPath, "backend"));
     stabilizeFastifyBackend(path.join(workerPath, "backend"));
     touched.push("backend");
