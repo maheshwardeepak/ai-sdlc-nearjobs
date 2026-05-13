@@ -1,3 +1,4 @@
+import fs from "fs";
 import { synthesizeProject } from "./projectSynthesizer.js";
 import { applyRepoPatches } from "./repoPatchEngine.js";
 import { runBuildPipeline } from "./buildExecutor.js";
@@ -57,7 +58,8 @@ import { generateObservabilityReport } from "./observabilityEngine.js";
 import { executeRollback } from "./rollbackEngine.js";
 import {
   createTechnologyStackContract,
-  validateTechnologyStackContract
+  validateTechnologyStackContract,
+  loadTechnologyStackContract
 } from "./technologyStackContract.js";
 import { verifyGeneratedApps } from "./generatedAppBuildVerifier.js";
 import { verifyGeneratedBackendRuntime } from "./generatedBackendRuntimeVerifier.js";
@@ -853,7 +855,85 @@ switch (command) {
   }
 
 
-  case "run-autonomous-project": {
+
+  case "prepare-autonomous-project": {
+    if (!arg) {
+      throw new Error('Usage: prepare-autonomous-project "ProjectName"');
+    }
+
+    requireConfirmedTechnologyStackForCommand("prepare-autonomous-project");
+
+    const projectSlug = arg.toLowerCase();
+    const dashboardDir = `artifacts/autonomous-runs/${projectSlug}`;
+
+    fs.mkdirSync(dashboardDir, { recursive: true });
+
+    const stack = loadTechnologyStackContract();
+
+    const dashboard = {
+      project: arg,
+      projectSlug,
+      status: "READY_TO_RUN",
+      stack,
+      approved: true,
+      createdAt: new Date().toISOString(),
+      nextCommand: `pnpm exec tsx orchestrator/src/factoryCli.ts start-autonomous-project ${arg}`,
+      steps: [
+        "Create project workspace",
+        "Create agent clones",
+        "Execute AI agents",
+        "Run self-healing build loop",
+        "Generate stack-specific infrastructure",
+        "Verify Docker runtime",
+        "Print final app URLs and report"
+      ],
+      urls: {
+        backend: "http://localhost:3000",
+        frontend: "http://localhost:5173"
+      }
+    };
+
+    fs.writeFileSync(
+      `${dashboardDir}/dashboard.json`,
+      JSON.stringify(dashboard, null, 2)
+    );
+
+    fs.writeFileSync(
+      `${dashboardDir}/run-plan.md`,
+      [
+        `# Autonomous Run Plan: ${arg}`,
+        "",
+        "## Status",
+        "READY_TO_RUN",
+        "",
+        "## Stack",
+        `- Backend: ${stack.backend.language} / ${stack.backend.framework}`,
+        `- Frontend: ${stack.frontend.language} / ${stack.frontend.framework}`,
+        `- Database: ${stack.database.engine}`,
+        "",
+        "## Execution Steps",
+        "1. Create project workspace",
+        "2. Create agent clones",
+        "3. Execute AI agents",
+        "4. Run self-healing build loop",
+        "5. Generate stack-specific infrastructure",
+        "6. Verify Docker runtime",
+        "7. Print final app URLs and report",
+        "",
+        "## Start Command",
+        `\`\`\`bash`,
+        `pnpm exec tsx orchestrator/src/factoryCli.ts start-autonomous-project ${arg}`,
+        `\`\``,
+        ""
+      ].join("\n")
+    );
+
+    console.log("Autonomous project dashboard prepared.");
+    console.log(JSON.stringify(dashboard, null, 2));
+    break;
+  }
+
+  case "start-autonomous-project": {
     if (!arg) {
       throw new Error('Usage: run-autonomous-project "ProjectName"');
     }
