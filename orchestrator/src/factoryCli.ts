@@ -77,6 +77,7 @@ import { createMergePlan, executeMergePlan } from "./mergeEngine.js";
 import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
 import { architecturePlanExists, generateArchitecturePlan } from "./architecturePlan.js";
 import { generateStackInfra } from "./stackInfraGenerator.js";
+import { runSelfHealingBuildLoop } from "./selfHealingBuildLoop.js";
 
 
 import { loadState, saveState } from "./state.js";
@@ -95,6 +96,18 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "self-healing-build": {
+    const workspaceRoot = arg || "runtime/workspaces";
+    const result = runSelfHealingBuildLoop(workspaceRoot);
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
   case "generate-stack-infra": {
     requireConfirmedTechnologyStackForCommand("generate-stack-infra");
 
