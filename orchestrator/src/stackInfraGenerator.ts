@@ -16,6 +16,27 @@ function write(filePath: string, content: string): string {
 }
 
 function backendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract>): string {
+  if (
+    stack.backend.language === "Java" &&
+    stack.backend.framework === "Spring Boot"
+  ) {
+    return [
+      "FROM maven:3.9.9-eclipse-temurin-21-alpine AS build",
+      "WORKDIR /app",
+      "COPY pom.xml ./",
+      "RUN mvn -q -DskipTests dependency:go-offline",
+      "COPY src ./src",
+      "RUN mvn -q -DskipTests package",
+      "",
+      "FROM eclipse-temurin:21-jre-alpine",
+      "WORKDIR /app",
+      "COPY --from=build /app/target/*.jar app.jar",
+      "EXPOSE 3000",
+      "CMD [\"java\", \"-jar\", \"app.jar\"]",
+      ""
+    ].join("\n");
+  }
+
   if (stack.backend.language === "Go") {
     return [
       "FROM golang:1.23-alpine AS builder",
