@@ -35,18 +35,18 @@ function backendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract>
   }
 
   return [
-    "FROM node:20-alpine AS deps",
+    "FROM node:22-alpine AS deps",
     "WORKDIR /app",
     "COPY package.json pnpm-lock.yaml* ./",
     "RUN corepack enable && pnpm install --frozen-lockfile=false",
     "",
-    "FROM node:20-alpine AS build",
+    "FROM node:22-alpine AS build",
     "WORKDIR /app",
     "COPY --from=deps /app/node_modules ./node_modules",
     "COPY . .",
     "RUN corepack enable && pnpm run build",
     "",
-    "FROM node:20-alpine",
+    "FROM node:22-alpine",
     "WORKDIR /app",
     "COPY --from=build /app .",
     "EXPOSE 3000",
@@ -58,18 +58,18 @@ function backendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract>
 function frontendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract>): string {
   if (stack.frontend.framework === "Next.js") {
     return [
-      "FROM node:20-alpine AS deps",
+      "FROM node:22-alpine AS deps",
       "WORKDIR /app",
       "COPY package.json pnpm-lock.yaml* ./",
       "RUN corepack enable && pnpm install --frozen-lockfile=false",
       "",
-      "FROM node:20-alpine AS build",
+      "FROM node:22-alpine AS build",
       "WORKDIR /app",
       "COPY --from=deps /app/node_modules ./node_modules",
       "COPY . .",
       "RUN corepack enable && pnpm run build",
       "",
-      "FROM node:20-alpine",
+      "FROM node:22-alpine",
       "WORKDIR /app",
       "COPY --from=build /app .",
       "EXPOSE 3000",
@@ -79,12 +79,12 @@ function frontendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract
   }
 
   return [
-    "FROM node:20-alpine AS deps",
+    "FROM node:22-alpine AS deps",
     "WORKDIR /app",
     "COPY package.json pnpm-lock.yaml* ./",
     "RUN corepack enable && pnpm install --frozen-lockfile=false",
     "",
-    "FROM node:20-alpine AS build",
+    "FROM node:22-alpine AS build",
     "WORKDIR /app",
     "COPY --from=deps /app/node_modules ./node_modules",
     "COPY . .",
