@@ -76,7 +76,7 @@ import { validateOpenClawArtifacts } from "./artifactValidator.js";
 import { createMergePlan, executeMergePlan } from "./mergeEngine.js";
 import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
 import { architecturePlanExists, generateArchitecturePlan } from "./architecturePlan.js";
-import { generateStackInfra } from "./stackInfraGenerator.js";
+import { generateStackInfra, generateStackInfraForWorkspace } from "./stackInfraGenerator.js";
 import { runSelfHealingBuildLoop } from "./selfHealingBuildLoop.js";
 import { verifyDockerRuntime } from "./dockerRuntimeVerifier.js";
 
@@ -118,6 +118,18 @@ switch (command) {
       process.exit(1);
     }
 
+    break;
+  }
+
+  case "generate-stack-infra-for-workspace": {
+    if (!arg) {
+      throw new Error("Usage: generate-stack-infra-for-workspace <workspaceRoot>");
+    }
+
+    requireConfirmedTechnologyStackForCommand("generate-stack-infra-for-workspace");
+
+    const result = generateStackInfraForWorkspace(arg);
+    console.log(JSON.stringify(result, null, 2));
     break;
   }
 

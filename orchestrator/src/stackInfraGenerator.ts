@@ -214,3 +214,73 @@ export function generateStackInfra(outputRoot = "artifacts/infra"): StackInfraOu
 
   return output;
 }
+
+function findWorkerAppRoot(workspaceRoot: string, appName: "backend" | "frontend"): string | null {
+  const workersRoot = path.join(workspaceRoot, "workers");
+
+  if (!fs.existsSync(workersRoot)) {
+    return null;
+  }
+
+  for (const worker of fs.readdirSync(workersRoot, { withFileTypes: true })) {
+    if (!worker.isDirectory()) continue;
+
+    const appRoot = path.join(workersRoot, worker.name, appName);
+    const packageJson = path.join(appRoot, "package.json");
+
+    if (fs.existsSync(packageJson)) {
+      return appRoot;
+    }
+  }
+
+  return null;
+}
+
+export function generateStackInfraForWorkspace(
+  workspaceRootInput: string
+): StackInfraOutput {
+  const stack = loadTechnologyStackContract();
+  const workspaceRoot = path.resolve(process.cwd(), workspaceRootInput);
+
+  const backendRoot = findWorkerAppRoot(workspaceRoot, "backend");
+  const frontendRoot = findWorkerAppRoot(workspaceRoot, "frontend");
+
+  if (!backendRoot) {
+    throw new Error(`Generated backend app not found in ${workspaceRoot}`);
+  }
+
+  if (!frontendRoot) {
+    throw new Error(`Generated frontend app not found in ${workspaceRoot}`);
+  }
+
+  const generatedFiles: string[] = [];
+
+  generatedFiles.push(write(path.join(backendRoot, "Dockerfile"), backendDockerfile(stack)));
+  generatedFiles.push(write(path.join(frontendRoot, "Dockerfile"), frontendDockerfile(stack)));
+
+  const compose = dockerCompose(stack)
+    .replace("build: ./backend", `build: ${path.relative(workspaceRoot, backendRoot)}`)
+    .replace("build: ./frontend", `build: ${path.relative(workspaceRoot, frontendRoot)}`);
+
+  generatedFiles.push(write(path.join(workspaceRoot, "docker-compose.yml"), compose));
+
+  generatedFiles.push(
+    write(
+      path.join(workspaceRoot, "build-commands.json"),
+      JSON.stringify({ commands: buildCommands(stack) }, null, 2)
+    )
+  );
+
+  const output = {
+    success: true,
+    stack,
+    generatedFiles,
+    createdAt: new Date().toISOString()
+  };
+
+  generatedFiles.push(
+    write(path.join(workspaceRoot, "stack-infra-report.json"), JSON.stringify(output, null, 2))
+  );
+
+  return output;
+}
