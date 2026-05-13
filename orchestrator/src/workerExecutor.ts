@@ -816,7 +816,25 @@ export async function executeWorker(
   }
 
 
-  const roleSpecificRequirements =
+  const stackSpecificRequirements = `
+APPROVED TECHNOLOGY STACK:
+- Backend: ${stackContract.backend.language} / ${stackContract.backend.framework} / ${stackContract.backend.runtime} / ${stackContract.backend.packageManager}
+- Frontend: ${stackContract.frontend.language} / ${stackContract.frontend.framework} / ${stackContract.frontend.runtime} / ${stackContract.frontend.packageManager}
+- Database: ${stackContract.database.engine}
+
+STACK COMPLIANCE RULES:
+- You MUST generate code only for the approved stack.
+- If role is backend, use ONLY ${stackContract.backend.language} and ${stackContract.backend.framework}.
+- If role is frontend, use ONLY ${stackContract.frontend.language} and ${stackContract.frontend.framework}.
+- If role is database, use ONLY ${stackContract.database.engine}.
+- Do NOT generate Express/Node/TypeScript backend unless backend stack explicitly says TypeScript/Express.
+- Do NOT generate Spring Boot unless backend stack explicitly says Java/Spring Boot.
+- Do NOT generate files from another backend framework.
+- Required backend build system must be ${stackContract.backend.packageManager}.
+- Required frontend package manager must be ${stackContract.frontend.packageManager}.
+`;
+
+const roleSpecificRequirements =
     execution.role === "frontend"
       ? `
 FRONTEND REQUIREMENTS:
@@ -877,6 +895,8 @@ Requirements:
 - secure coding
 - include validation
 - include tests
+${stackSpecificRequirements}
+
 ${roleSpecificRequirements}
 
 IMPORTANT OUTPUT FORMAT:
