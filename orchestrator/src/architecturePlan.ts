@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { loadTechnologyStackContract } from "./technologyStackContract.js";
+import { generateStackInfra } from "./stackInfraGenerator.js";
 
 export type ArchitecturePlan = {
   generatedAt: string;
@@ -11,6 +12,13 @@ export type ArchitecturePlan = {
   dockerStrategy: string[];
   validationGates: string[];
   deploymentStrategy: string[];
+  infra: {
+    outputPath: string;
+    dockerComposePath: string;
+    backendDockerfilePath: string;
+    frontendDockerfilePath: string;
+    buildCommandsPath: string;
+  };
 };
 
 const PLAN_PATH = path.resolve(
@@ -26,6 +34,8 @@ export function generateArchitecturePlan(): ArchitecturePlan {
       "Cannot generate architecture plan without confirmed technology stack."
     );
   }
+
+  const infra = generateStackInfra("artifacts/infra");
 
   const plan: ArchitecturePlan = {
     generatedAt: new Date().toISOString(),
@@ -73,7 +83,15 @@ export function generateArchitecturePlan(): ArchitecturePlan {
       "containerized deployment",
       "rollback support",
       "runtime observability"
-    ]
+    ],
+
+    infra: {
+      outputPath: "artifacts/infra",
+      dockerComposePath: "artifacts/infra/docker-compose.yml",
+      backendDockerfilePath: "artifacts/infra/backend/Dockerfile",
+      frontendDockerfilePath: "artifacts/infra/frontend/Dockerfile",
+      buildCommandsPath: "artifacts/infra/build-commands.json"
+    }
   };
 
   fs.mkdirSync(path.dirname(PLAN_PATH), { recursive: true });
