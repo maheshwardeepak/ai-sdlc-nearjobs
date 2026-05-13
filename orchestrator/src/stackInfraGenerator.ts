@@ -247,6 +247,26 @@ function frontendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract
 }
 
 function composeDatabase(stack: ReturnType<typeof loadTechnologyStackContract>, ports: RuntimePorts): string[] {
+  if (stack.database.engine === "SQLite") {
+    return [];
+  }
+
+  if (stack.database.engine === "MongoDB") {
+    return [
+      "  database:",
+      "    image: mongo:7",
+      "    environment:",
+      "      MONGO_INITDB_DATABASE: app",
+      "    ports:",
+      `      - "${ports.postgres}:27017"`,
+      "    healthcheck:",
+      "      test: [\"CMD\", \"mongosh\", \"--eval\", \"db.adminCommand('ping')\"]",
+      "      interval: 10s",
+      "      timeout: 5s",
+      "      retries: 5"
+    ];
+  }
+
   if (stack.database.engine === "MySQL") {
     return [
       "  database:",
@@ -257,7 +277,7 @@ function composeDatabase(stack: ReturnType<typeof loadTechnologyStackContract>, 
       "      MYSQL_USER: app",
       "      MYSQL_PASSWORD: app",
       "    ports:",
-      '      - "3306:3306"',
+      `      - "${ports.postgres}:3306"`,
       "    healthcheck:",
       "      test: [\"CMD\", \"mysqladmin\", \"ping\", \"-h\", \"localhost\"]",
       "      interval: 10s",
