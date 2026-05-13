@@ -109,6 +109,62 @@ function backendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract>
     ].join("\n");
   }
 
+
+  if (
+    stack.backend.language === "Python" &&
+    stack.backend.framework === "FastAPI"
+  ) {
+    return [
+      "FROM python:3.12-alpine",
+      "WORKDIR /app",
+      "COPY requirements.txt ./",
+      "RUN pip install --no-cache-dir -r requirements.txt",
+      "COPY . .",
+      "EXPOSE 3000",
+      'CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3000"]',
+      ""
+    ].join("\\n");
+  }
+
+
+  if (
+    stack.backend.language === "C#" &&
+    stack.backend.framework === "ASP.NET Core"
+  ) {
+    return [
+      "FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build",
+      "WORKDIR /src",
+      "COPY . .",
+      "RUN dotnet publish -c Release -o /app/publish",
+      "",
+      "FROM mcr.microsoft.com/dotnet/aspnet:8.0",
+      "WORKDIR /app",
+      "COPY --from=build /app/publish .",
+      "EXPOSE 3000",
+      'ENV ASPNETCORE_URLS=http://+:3000',
+      'CMD ["dotnet", "App.dll"]',
+      ""
+    ].join("\\n");
+  }
+
+
+  if (
+    stack.backend.language === "TypeScript" &&
+    stack.backend.framework === "NestJS"
+  ) {
+    return [
+      "FROM node:22-alpine",
+      "WORKDIR /app",
+      "COPY package.json pnpm-lock.yaml* ./",
+      "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm install --frozen-lockfile=false",
+      "COPY . .",
+      "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm run build",
+      "EXPOSE 3000",
+      'CMD ["pnpm", "start:prod"]',
+      ""
+    ].join("\\n");
+  }
+
   if (stack.backend.language === "Go") {
     return [
       "FROM golang:1.23-alpine AS builder",
@@ -275,10 +331,39 @@ function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>, po
 }
 
 function buildCommands(stack: ReturnType<typeof loadTechnologyStackContract>): string[] {
-  const backend =
-    stack.backend.language === "Go"
-      ? "cd backend && go mod tidy && go build ./..."
-      : "cd backend && pnpm install && pnpm run build";
+  let backend = "cd backend && pnpm install && pnpm run build";
+
+  if (
+    stack.backend.language === "Java" &&
+    stack.backend.framework === "Spring Boot"
+  ) {
+    backend = "cd backend && mvn -q -DskipTests package";
+  }
+
+  if (
+    stack.backend.language === "TypeScript" &&
+    stack.backend.framework === "NestJS"
+  ) {
+    backend = "cd backend && pnpm install && pnpm run build";
+  }
+
+  if (
+    stack.backend.language === "Python" &&
+    stack.backend.framework === "FastAPI"
+  ) {
+    backend = "cd backend && pip install -r requirements.txt";
+  }
+
+  if (stack.backend.language === "Go") {
+    backend = "cd backend && go mod tidy && go build ./...";
+  }
+
+  if (
+    stack.backend.language === "C#" &&
+    stack.backend.framework === "ASP.NET Core"
+  ) {
+    backend = "cd backend && dotnet publish -c Release";
+  }
 
   const frontend =
     stack.frontend.framework === "Next.js"
