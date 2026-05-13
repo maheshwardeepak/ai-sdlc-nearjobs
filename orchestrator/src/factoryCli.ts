@@ -852,6 +852,83 @@ switch (command) {
     break;
   }
 
+
+  case "run-autonomous-project": {
+    if (!arg) {
+      throw new Error('Usage: run-autonomous-project "ProjectName"');
+    }
+
+    requireConfirmedTechnologyStackForCommand("run-autonomous-project");
+
+    console.log("========================================");
+    console.log("AUTONOMOUS AI SDLC FACTORY RUN STARTED");
+    console.log("Project:", arg);
+    console.log("========================================");
+
+    console.log("[1/7] Creating project workspace...");
+    const workspace = createProjectWorkspace(arg);
+    console.log(JSON.stringify(workspace, null, 2));
+
+    console.log("[2/7] Creating agent clones...");
+    const clones = [
+      ...createEngineeringClones(arg),
+      ...createValidationClones(arg)
+    ];
+    console.log(JSON.stringify(clones, null, 2));
+
+    console.log("[3/7] Executing agent clones...");
+    const cloneResults = await executeAllClones(arg);
+    console.log(JSON.stringify(cloneResults, null, 2));
+
+    const workspaceRoot = `runtime/workspaces/${arg.toLowerCase()}`;
+
+    console.log("[4/7] Running self-healing build loop...");
+    const healing = runSelfHealingBuildLoop(workspaceRoot);
+    console.log(JSON.stringify(healing, null, 2));
+
+    console.log("[5/7] Generating stack-specific infrastructure...");
+    const infra = generateStackInfraForWorkspace(workspaceRoot);
+    console.log(JSON.stringify(infra, null, 2));
+
+    console.log("[6/7] Verifying Docker runtime...");
+    const docker = verifyDockerRuntime(workspaceRoot);
+    console.log(JSON.stringify(docker, null, 2));
+
+    console.log("[7/7] Final autonomous run summary...");
+
+    const success = healing.success && infra.success && docker.success;
+
+    const finalReport = {
+      project: arg,
+      workspaceRoot,
+      success,
+      completedAt: new Date().toISOString(),
+      urls: {
+        backend: "http://localhost:3000",
+        frontend: "http://localhost:5173"
+      },
+      stages: {
+        workspace,
+        clones,
+        cloneResults,
+        healing,
+        infra,
+        docker
+      }
+    };
+
+    console.log("========================================");
+    console.log(success ? "AUTONOMOUS RUN PASSED" : "AUTONOMOUS RUN FAILED");
+    console.log("========================================");
+    console.log(JSON.stringify(finalReport, null, 2));
+
+    if (!success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
   case "create-workspace": {
     requireConfirmedTechnologyStackForCommand("create-workspace");
 
