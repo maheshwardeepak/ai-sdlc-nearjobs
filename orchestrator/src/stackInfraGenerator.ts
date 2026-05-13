@@ -2,6 +2,78 @@ import fs from "fs";
 import path from "path";
 import { loadTechnologyStackContract } from "./technologyStackContract.js";
 
+
+const PORT_REGISTRY_PATH = path.resolve(
+  process.cwd(),
+  "runtime/port-registry.json"
+);
+
+type RuntimePorts = {
+  backend: number;
+  frontend: number;
+  postgres: number;
+  redis: number;
+};
+
+function loadPortRegistry(): Record<string, RuntimePorts> {
+  if (!fs.existsSync(PORT_REGISTRY_PATH)) {
+    return {};
+  }
+
+  return JSON.parse(fs.readFileSync(PORT_REGISTRY_PATH, "utf8"));
+}
+
+function savePortRegistry(registry: Record<string, RuntimePorts>): void {
+  fs.mkdirSync(path.dirname(PORT_REGISTRY_PATH), { recursive: true });
+
+  fs.writeFileSync(
+    PORT_REGISTRY_PATH,
+    JSON.stringify(registry, null, 2)
+  );
+}
+
+function allocatePorts(projectName: string): RuntimePorts {
+  const registry = loadPortRegistry();
+
+  if (registry[projectName]) {
+    return registry[projectName];
+  }
+
+  const usedPorts = new Set<number>();
+
+  Object.values(registry).forEach((ports) => {
+    usedPorts.add(ports.backend);
+    usedPorts.add(ports.frontend);
+    usedPorts.add(ports.postgres);
+    usedPorts.add(ports.redis);
+  });
+
+  const nextFree = (start: number): number => {
+    let port = start;
+
+    while (usedPorts.has(port)) {
+      port++;
+    }
+
+    usedPorts.add(port);
+    return port;
+  };
+
+  const ports: RuntimePorts = {
+    backend: nextFree(3000),
+    frontend: nextFree(5173),
+    postgres: nextFree(5432),
+    redis: nextFree(6379)
+  };
+
+  registry[projectName] = ports;
+
+  savePortRegistry(registry);
+
+  return ports;
+}
+
+
 export type StackInfraOutput = {
   success: boolean;
   stack: unknown;
@@ -118,7 +190,7 @@ function frontendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract
   ].join("\n");
 }
 
-function composeDatabase(stack: ReturnType<typeof loadTechnologyStackContract>): string[] {
+function composeDatabase(stack: ReturnType<typeof loadTechnologyStackContract>, ports: RuntimePorts): string[] {
   if (stack.database.engine === "MySQL") {
     return [
       "  database:",
@@ -146,7 +218,7 @@ function composeDatabase(stack: ReturnType<typeof loadTechnologyStackContract>):
     "      POSTGRES_USER: app",
     "      POSTGRES_PASSWORD: app",
     "    ports:",
-    '      - "5432:5432"',
+    `      - "${ports.postgres}:5432"`,
     "    healthcheck:",
     "      test: [\"CMD-SHELL\", \"pg_isready -U app -d app\"]",
     "      interval: 10s",
@@ -155,8 +227,11 @@ function composeDatabase(stack: ReturnType<typeof loadTechnologyStackContract>):
   ];
 }
 
-function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>): string {
-  const frontendPort = stack.frontend.framework === "Next.js" ? "3001:3000" : "5173:80";
+function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>, ports: RuntimePorts): string {
+  const frontendPort =
+    stack.frontend.framework === "Next.js"
+      ? `${ports.frontend}:3000`
+      : `${ports.frontend}:80`;
 
   return [
     "services:",
@@ -173,7 +248,7 @@ function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>): s
     "      JWT_ISSUER: ai-sdlc-factory",
     "      JWT_AUDIENCE: ai-sdlc-clients",
     "    ports:",
-    '      - "3000:3000"',
+    `      - "${ports.backend}:3000"`,
     "    depends_on:",
     "      database:",
     "        condition: service_healthy",
@@ -183,18 +258,18 @@ function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>): s
     "  frontend:",
     "    build: ./frontend",
     "    environment:",
-    "      API_BASE_URL: http://localhost:3000",
+    `      API_BASE_URL: http://localhost:${ports.backend}`,
     "    ports:",
     `      - "${frontendPort}"`,
     "    depends_on:",
     "      - backend",
     "",
-    ...composeDatabase(stack),
+    ...composeDatabase(stack, ports),
     "",
     "  redis:",
     "    image: redis:7-alpine",
     "    ports:",
-    '      - "6379:6379"',
+    `      - "${ports.redis}:6379"`,
     ""
   ].join("\n");
 }
@@ -223,10 +298,12 @@ export function generateStackInfra(outputRoot = "artifacts/infra"): StackInfraOu
   const stack = loadTechnologyStackContract();
   const root = path.resolve(process.cwd(), outputRoot);
   const generatedFiles: string[] = [];
+  const projectName = path.basename(root).toLowerCase();
+  const ports = allocatePorts(projectName);
 
   generatedFiles.push(write(path.join(root, "backend/Dockerfile"), backendDockerfile(stack)));
   generatedFiles.push(write(path.join(root, "frontend/Dockerfile"), frontendDockerfile(stack)));
-  generatedFiles.push(write(path.join(root, "docker-compose.yml"), dockerCompose(stack)));
+  generatedFiles.push(write(path.join(root, "docker-compose.yml"), dockerCompose(stack, ports)));
   generatedFiles.push(
     write(
       path.join(root, "build-commands.json"),
@@ -286,6 +363,8 @@ export function generateStackInfraForWorkspace(
 ): StackInfraOutput {
   const stack = loadTechnologyStackContract();
   const workspaceRoot = path.resolve(process.cwd(), workspaceRootInput);
+  const projectName = path.basename(workspaceRoot).toLowerCase();
+  const ports = allocatePorts(projectName);
 
   const backendRoot = findWorkerAppRoot(workspaceRoot, "backend");
   const frontendRoot = findWorkerAppRoot(workspaceRoot, "frontend");
@@ -303,7 +382,7 @@ export function generateStackInfraForWorkspace(
   generatedFiles.push(write(path.join(backendRoot, "Dockerfile"), backendDockerfile(stack)));
   generatedFiles.push(write(path.join(frontendRoot, "Dockerfile"), frontendDockerfile(stack)));
 
-  const compose = dockerCompose(stack)
+  const compose = dockerCompose(stack, ports)
     .replace("build: ./backend", `build: ${path.relative(workspaceRoot, backendRoot)}`)
     .replace("build: ./frontend", `build: ${path.relative(workspaceRoot, frontendRoot)}`);
 

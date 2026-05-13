@@ -50,7 +50,9 @@ export function requestRevision(note: string): ApprovalState {
   const approval = loadApprovalState();
   approval.status = "REVISION_REQUESTED";
   approval.revisionRequested = true;
-  approval.revisionNotes.push(note);
+  if (!approval.revisionNotes.includes(note)) {
+    approval.revisionNotes.push(note);
+  }
   approval.approved = false;
   approval.approvedAt = null;
 
@@ -81,9 +83,11 @@ export function invalidateApprovalForStackChange(
   approval.approved = false;
   approval.approvedAt = null;
   approval.revisionRequested = true;
-  approval.revisionNotes.push(
-    "Technology stack changed. Architecture regeneration required."
-  );
+  const note = "Technology stack changed. Architecture regeneration required.";
+
+  if (!approval.revisionNotes.includes(note)) {
+    approval.revisionNotes.push(note);
+  }
   approval.stackFingerprint = stackFingerprint;
 
   fs.mkdirSync(path.dirname(APPROVAL_PATH), { recursive: true });

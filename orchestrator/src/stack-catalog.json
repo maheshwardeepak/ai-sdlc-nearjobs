@@ -1,0 +1,66 @@
+{
+  "backend": [
+    {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "runtime": "JVM",
+      "packageManager": "maven"
+    },
+    {
+      "language": "TypeScript",
+      "framework": "NestJS",
+      "runtime": "Node.js",
+      "packageManager": "pnpm"
+    },
+    {
+      "language": "Python",
+      "framework": "FastAPI",
+      "runtime": "Python",
+      "packageManager": "pip"
+    },
+    {
+      "language": "Go",
+      "framework": "Gin",
+      "runtime": "Go",
+      "packageManager": "go"
+    },
+    {
+      "language": "C#",
+      "framework": "ASP.NET Core",
+      "runtime": ".NET",
+      "packageManager": "dotnet"
+    }
+  ],
+  "frontend": [
+    {
+      "language": "TypeScript",
+      "framework": "React",
+      "runtime": "Vite",
+      "packageManager": "pnpm"
+    },
+    {
+      "language": "TypeScript",
+      "framework": "Next.js",
+      "runtime": "Node.js",
+      "packageManager": "pnpm"
+    },
+    {
+      "language": "TypeScript",
+      "framework": "Vue",
+      "runtime": "Vite",
+      "packageManager": "pnpm"
+    },
+    {
+      "language": "TypeScript",
+      "framework": "Angular",
+      "runtime": "Node.js",
+      "packageManager": "pnpm"
+    }
+  ],
+  "database": [
+    { "engine": "PostgreSQL" },
+    { "engine": "MySQL" },
+    { "engine": "MongoDB" },
+    { "engine": "SQLite" }
+  ]
+}

@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import stackCatalog from "./stack-catalog.json" with { type: "json" };
 
 export type TechnologyStackContract = {
   backend: {
@@ -26,6 +27,40 @@ const STACK_CONTRACT_PATH = path.resolve(
   "artifacts/reports/technology-stack-contract.json"
 );
 
+
+function sameObject(expected: Record<string, string>, actual: Record<string, string>): boolean {
+  return Object.entries(expected).every(([key, value]) => actual?.[key] === value);
+}
+
+function validateAgainstCatalog(contract: TechnologyStackContract): string | null {
+  const backendSupported = stackCatalog.backend.some((item) =>
+    sameObject(item, contract.backend)
+  );
+
+  if (!backendSupported) {
+    return `unsupported-backend-stack: ${contract.backend.language}/${contract.backend.framework}/${contract.backend.runtime}/${contract.backend.packageManager}`;
+  }
+
+  const frontendSupported = stackCatalog.frontend.some((item) =>
+    sameObject(item, contract.frontend)
+  );
+
+  if (!frontendSupported) {
+    return `unsupported-frontend-stack: ${contract.frontend.language}/${contract.frontend.framework}/${contract.frontend.runtime}/${contract.frontend.packageManager}`;
+  }
+
+  const databaseSupported = stackCatalog.database.some((item) =>
+    item.engine === contract.database.engine
+  );
+
+  if (!databaseSupported) {
+    return `unsupported-database-stack: ${contract.database.engine}`;
+  }
+
+  return null;
+}
+
+
 export function createTechnologyStackContract(
   contract: Omit<TechnologyStackContract, "createdAt" | "confirmed">
 ): TechnologyStackContract {
@@ -34,6 +69,12 @@ export function createTechnologyStackContract(
     confirmed: true,
     createdAt: new Date().toISOString()
   };
+
+  const catalogError = validateAgainstCatalog(finalContract);
+
+  if (catalogError) {
+    throw new Error(catalogError);
+  }
 
   const reportsDir = path.dirname(STACK_CONTRACT_PATH);
   fs.mkdirSync(reportsDir, { recursive: true });
@@ -59,7 +100,7 @@ export function validateTechnologyStackContract() {
     fs.readFileSync(STACK_CONTRACT_PATH, "utf8")
   ) as TechnologyStackContract;
 
-  const success =
+  const hasRequiredFields =
     Boolean(contract.confirmed) &&
     Boolean(contract.backend?.language) &&
     Boolean(contract.backend?.framework) &&
@@ -71,10 +112,20 @@ export function validateTechnologyStackContract() {
     Boolean(contract.frontend?.packageManager) &&
     Boolean(contract.database?.engine);
 
+  if (!hasRequiredFields) {
+    return {
+      success: false,
+      contract,
+      error: "technology-stack-contract-incomplete"
+    };
+  }
+
+  const catalogError = validateAgainstCatalog(contract);
+
   return {
-    success,
+    success: !catalogError,
     contract,
-    error: success ? null : "technology-stack-contract-incomplete"
+    error: catalogError
   };
 }
 

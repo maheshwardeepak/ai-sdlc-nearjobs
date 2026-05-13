@@ -154,6 +154,17 @@ switch (command) {
 
     const parsed = JSON.parse(payload);
     const contract = createTechnologyStackContract(parsed);
+    const validation = validateTechnologyStackContract();
+
+    if (!validation.success) {
+      console.log(JSON.stringify({
+        success: false,
+        error: validation.error,
+        contract
+      }, null, 2));
+      process.exit(1);
+    }
+
     const stackFingerprint = JSON.stringify({
       backend: contract.backend,
       frontend: contract.frontend,
