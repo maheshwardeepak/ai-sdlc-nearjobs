@@ -38,19 +38,19 @@ function backendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract>
     "FROM node:22-alpine AS deps",
     "WORKDIR /app",
     "COPY package.json pnpm-lock.yaml* ./",
-    "RUN corepack enable && pnpm install --frozen-lockfile=false",
+    "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm install --frozen-lockfile=false",
     "",
     "FROM node:22-alpine AS build",
     "WORKDIR /app",
-    "COPY --from=deps /app/node_modules ./node_modules",
     "COPY . .",
-    "RUN corepack enable && pnpm run build",
+    "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm install --frozen-lockfile=false",
+    "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm run build",
     "",
     "FROM node:22-alpine",
     "WORKDIR /app",
     "COPY --from=build /app .",
     "EXPOSE 3000",
-    "CMD [\"pnpm\", \"run\", \"dev\"]",
+    "CMD [\"sh\", \"-c\", \"corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm run dev\"]",
     ""
   ].join("\n");
 }
@@ -61,13 +61,13 @@ function frontendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract
       "FROM node:22-alpine AS deps",
       "WORKDIR /app",
       "COPY package.json pnpm-lock.yaml* ./",
-      "RUN corepack enable && pnpm install --frozen-lockfile=false",
+      "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm install --frozen-lockfile=false",
       "",
       "FROM node:22-alpine AS build",
       "WORKDIR /app",
       "COPY --from=deps /app/node_modules ./node_modules",
       "COPY . .",
-      "RUN corepack enable && pnpm run build",
+      "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm run build",
       "",
       "FROM node:22-alpine",
       "WORKDIR /app",
@@ -82,13 +82,13 @@ function frontendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract
     "FROM node:22-alpine AS deps",
     "WORKDIR /app",
     "COPY package.json pnpm-lock.yaml* ./",
-    "RUN corepack enable && pnpm install --frozen-lockfile=false",
+    "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm install --frozen-lockfile=false",
     "",
     "FROM node:22-alpine AS build",
     "WORKDIR /app",
-    "COPY --from=deps /app/node_modules ./node_modules",
     "COPY . .",
-    "RUN corepack enable && pnpm run build",
+    "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm install --frozen-lockfile=false",
+    "RUN corepack enable && corepack prepare pnpm@10.17.1 --activate && pnpm run build",
     "",
     "FROM nginx:1.27-alpine",
     "COPY --from=build /app/dist /usr/share/nginx/html",
@@ -146,11 +146,18 @@ function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>): s
     "      DATABASE_NAME: app",
     "      DATABASE_USER: app",
     "      DATABASE_PASSWORD: app",
+    "      DATABASE_URL: postgresql://app:app@database:5432/app",
+    "      REDIS_URL: redis://redis:6379",
+    "      JWT_SECRET: development-super-secret-jwt-key-32chars",
+    "      JWT_ISSUER: ai-sdlc-factory",
+    "      JWT_AUDIENCE: ai-sdlc-clients",
     "    ports:",
     '      - "3000:3000"',
     "    depends_on:",
     "      database:",
     "        condition: service_healthy",
+    "      redis:",
+    "        condition: service_started",
     "",
     "  frontend:",
     "    build: ./frontend",
@@ -162,6 +169,11 @@ function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>): s
     "      - backend",
     "",
     ...composeDatabase(stack),
+    "",
+    "  redis:",
+    "    image: redis:7-alpine",
+    "    ports:",
+    '      - "6379:6379"',
     ""
   ].join("\n");
 }
@@ -226,9 +238,21 @@ function findWorkerAppRoot(workspaceRoot: string, appName: "backend" | "frontend
     if (!worker.isDirectory()) continue;
 
     const appRoot = path.join(workersRoot, worker.name, appName);
-    const packageJson = path.join(appRoot, "package.json");
 
-    if (fs.existsSync(packageJson)) {
+    const markers = [
+      "package.json",
+      "pom.xml",
+      "build.gradle",
+      "go.mod",
+      "pyproject.toml",
+      "Cargo.toml"
+    ];
+
+    const found = markers.some((marker) =>
+      fs.existsSync(path.join(appRoot, marker))
+    );
+
+    if (found) {
       return appRoot;
     }
   }
