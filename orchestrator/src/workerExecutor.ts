@@ -30,6 +30,194 @@ export type WorkerExecutionResult = {
   aiOutputFile?: string;
 };
 
+
+function isSpringBootBackend(stackContract: ReturnType<typeof ensureTechnologyStackConfirmed>): boolean {
+  return (
+    stackContract.backend.language === "Java" &&
+    stackContract.backend.framework === "Spring Boot"
+  );
+}
+
+function writeSpringBootBackend(execution: WorkerExecution): string[] {
+  const files: string[] = [];
+
+  const backendRoot = path.join(execution.workspacePath, "backend");
+
+  const write = (relativePath: string, content: string) => {
+    const file = path.join(backendRoot, relativePath);
+    safeWriteFile(file, content);
+    files.push(file);
+  };
+
+  write(
+    "pom.xml",
+    [
+      '<project xmlns="http://maven.apache.org/POM/4.0.0"',
+      '         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+      '         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">',
+      "  <modelVersion>4.0.0</modelVersion>",
+      "  <parent>",
+      "    <groupId>org.springframework.boot</groupId>",
+      "    <artifactId>spring-boot-starter-parent</artifactId>",
+      "    <version>3.3.5</version>",
+      "  </parent>",
+      "  <groupId>com.aifactory</groupId>",
+      "  <artifactId>ai-chatbot-platform</artifactId>",
+      "  <version>1.0.0</version>",
+      "  <properties>",
+      "    <java.version>21</java.version>",
+      "  </properties>",
+      "  <dependencies>",
+      "    <dependency>",
+      "      <groupId>org.springframework.boot</groupId>",
+      "      <artifactId>spring-boot-starter-web</artifactId>",
+      "    </dependency>",
+      "    <dependency>",
+      "      <groupId>org.springframework.boot</groupId>",
+      "      <artifactId>spring-boot-starter-actuator</artifactId>",
+      "    </dependency>",
+      "    <dependency>",
+      "      <groupId>org.springframework.boot</groupId>",
+      "      <artifactId>spring-boot-starter-validation</artifactId>",
+      "    </dependency>",
+      "    <dependency>",
+      "      <groupId>org.springframework.boot</groupId>",
+      "      <artifactId>spring-boot-starter-data-jpa</artifactId>",
+      "    </dependency>",
+      "    <dependency>",
+      "      <groupId>org.postgresql</groupId>",
+      "      <artifactId>postgresql</artifactId>",
+      "      <scope>runtime</scope>",
+      "    </dependency>",
+      "  </dependencies>",
+      "  <build>",
+      "    <plugins>",
+      "      <plugin>",
+      "        <groupId>org.springframework.boot</groupId>",
+      "        <artifactId>spring-boot-maven-plugin</artifactId>",
+      "      </plugin>",
+      "    </plugins>",
+      "  </build>",
+      "</project>",
+      ""
+    ].join("\n")
+  );
+
+  write(
+    "src/main/java/com/aifactory/chatbot/AiChatbotPlatformApplication.java",
+    [
+      "package com.aifactory.chatbot;",
+      "",
+      "import org.springframework.boot.SpringApplication;",
+      "import org.springframework.boot.autoconfigure.SpringBootApplication;",
+      "",
+      "@SpringBootApplication",
+      "public class AiChatbotPlatformApplication {",
+      "  public static void main(String[] args) {",
+      "    SpringApplication.run(AiChatbotPlatformApplication.class, args);",
+      "  }",
+      "}",
+      ""
+    ].join("\n")
+  );
+
+  write(
+    "src/main/java/com/aifactory/chatbot/controller/HealthController.java",
+    [
+      "package com.aifactory.chatbot.controller;",
+      "",
+      "import java.util.Map;",
+      "import org.springframework.web.bind.annotation.GetMapping;",
+      "import org.springframework.web.bind.annotation.RestController;",
+      "",
+      "@RestController",
+      "public class HealthController {",
+      "  @GetMapping(\"/health\")",
+      "  public Map<String, Object> health() {",
+      "    return Map.of(\"success\", true, \"service\", \"spring-boot-backend\");",
+      "  }",
+      "}",
+      ""
+    ].join("\n")
+  );
+
+  write(
+    "src/main/java/com/aifactory/chatbot/controller/ChatbotController.java",
+    [
+      "package com.aifactory.chatbot.controller;",
+      "",
+      "import java.util.List;",
+      "import java.util.Map;",
+      "import org.springframework.web.bind.annotation.GetMapping;",
+      "import org.springframework.web.bind.annotation.PostMapping;",
+      "import org.springframework.web.bind.annotation.RequestBody;",
+      "import org.springframework.web.bind.annotation.RequestMapping;",
+      "import org.springframework.web.bind.annotation.RestController;",
+      "",
+      "@RestController",
+      "@RequestMapping(\"/api/chatbots\")",
+      "public class ChatbotController {",
+      "  @GetMapping",
+      "  public Map<String, Object> list() {",
+      "    return Map.of(\"success\", true, \"chatbots\", List.of());",
+      "  }",
+      "",
+      "  @PostMapping",
+      "  public Map<String, Object> create(@RequestBody Map<String, Object> input) {",
+      "    return Map.of(\"success\", true, \"chatbot\", input);",
+      "  }",
+      "}",
+      ""
+    ].join("\n")
+  );
+
+  write(
+    "src/main/resources/application.yml",
+    [
+      "server:",
+      "  port: ${PORT:3000}",
+      "",
+      "spring:",
+      "  datasource:",
+      "    url: ${DATABASE_URL:jdbc:postgresql://database:5432/app}",
+      "    username: ${DATABASE_USER:app}",
+      "    password: ${DATABASE_PASSWORD:app}",
+      "  jpa:",
+      "    hibernate:",
+      "      ddl-auto: update",
+      "management:",
+      "  endpoints:",
+      "    web:",
+      "      exposure:",
+      "        include: health,info",
+      ""
+    ].join("\n")
+  );
+
+  write(
+    "Dockerfile",
+    [
+      "FROM maven:3.9.9-eclipse-temurin-21-alpine AS build",
+      "WORKDIR /app",
+      "COPY pom.xml ./",
+      "RUN mvn -q -DskipTests dependency:go-offline",
+      "COPY src ./src",
+      "RUN mvn -q -DskipTests package",
+      "",
+      "FROM eclipse-temurin:21-jre-alpine",
+      "WORKDIR /app",
+      "COPY --from=build /app/target/*.jar app.jar",
+      "EXPOSE 3000",
+      'HEALTHCHECK CMD wget --spider -q http://localhost:3000/health || exit 1',
+      'CMD ["java", "-jar", "app.jar"]',
+      ""
+    ].join("\n")
+  );
+
+  return files;
+}
+
+
 function writeGeneratedSourceFile(execution: WorkerExecution): string {
   const roleLayouts: Record<string, string[]> = {
     backend: ["backend/src/routes", "backend/src/services", "backend/tests"],
@@ -102,7 +290,10 @@ export async function executeWorker(
   generatedFiles.push(metadataFile);
 
   let fallbackSourceFiles: string[] = [];
-  if (execution.role === "backend") {
+  if (execution.role === "backend" && isSpringBootBackend(stackContract)) {
+    const springFiles = writeSpringBootBackend(execution);
+    generatedFiles.push(...springFiles);
+  } else if (execution.role === "backend") {
     const serverFile = path.join(
       execution.workspacePath,
       "backend/src/server.ts"
