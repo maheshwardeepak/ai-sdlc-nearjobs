@@ -865,6 +865,16 @@ switch (command) {
       .then((results) => {
         console.log("Parallel clone execution completed.");
         console.log(JSON.stringify(results, null, 2));
+
+        const workspaceRoot = `runtime/workspaces/${arg.toLowerCase()}`;
+        const healing = runSelfHealingBuildLoop(workspaceRoot);
+
+        console.log("Self-healing build loop completed.");
+        console.log(JSON.stringify(healing, null, 2));
+
+        if (!healing.success) {
+          process.exit(1);
+        }
       })
       .catch(console.error);
 
