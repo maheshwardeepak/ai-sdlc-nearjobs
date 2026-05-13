@@ -1,15 +1,40 @@
 import axios from "axios";
+import fs from "fs";
+import path from "path";
+import { loadTechnologyStackContract } from "./technologyStackContract.js";
 
-export async function validateRuntime() {
-  const checks: {
-    name: string;
-    success: boolean;
-    url: string;
-    status?: number;
-    data?: unknown;
-    error?: string;
-    code?: string;
-  }[] = [];
+export type RuntimeCheck = {
+  name: string;
+  success: boolean;
+  url: string;
+  status?: number;
+  data?: unknown;
+  error?: string;
+  code?: string;
+};
+
+function endpointForStack(): Array<{ name: string; url: string }> {
+  const stack = loadTechnologyStackContract();
+
+  const frontendUrl =
+    stack.frontend.framework === "Next.js"
+      ? "http://localhost:3001"
+      : "http://localhost:5173";
+
+  return [
+    {
+      name: "backend-health",
+      url: "http://localhost:3000/health"
+    },
+    {
+      name: "frontend",
+      url: frontendUrl
+    }
+  ];
+}
+
+export async function validateRuntime(): Promise<RuntimeCheck[]> {
+  const checks: RuntimeCheck[] = [];
 
   async function check(name: string, url: string) {
     try {
@@ -36,8 +61,24 @@ export async function validateRuntime() {
     }
   }
 
-  await check("backend-health", "http://localhost:8080/actuator/health");
-  await check("frontend", "http://localhost:3000");
+  for (const endpoint of endpointForStack()) {
+    await check(endpoint.name, endpoint.url);
+  }
+
+  const reportsDir = path.resolve(process.cwd(), "artifacts/reports");
+  fs.mkdirSync(reportsDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(reportsDir, "runtime-validation-report.json"),
+    JSON.stringify(
+      {
+        success: checks.every((check) => check.success),
+        checks,
+        createdAt: new Date().toISOString()
+      },
+      null,
+      2
+    )
+  );
 
   return checks;
 }
