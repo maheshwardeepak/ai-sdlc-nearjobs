@@ -25,6 +25,7 @@ function sanitizeTsFiles(root: string): void {
       .replace(/z\.stri…\((\d+),/g, "z.string().min($1,")
       .replace(/z\.stri…l\(\)/g, "z.string().optional()")
       .replace(/z\.stri…ult\(/g, "z.string().default(")
+      .replace(/z\.stri…/g, "z.string")
       .replace(/proces…CRET/g, "process.env.JWT_SECRET");
 
     fs.writeFileSync(full, text);
@@ -61,6 +62,79 @@ function stabilizeExpressRoutes(backendRoot: string): void {
     }
   }
 }
+
+
+function stabilizeFastifyBackend(backendRoot: string): void {
+  const appFile = path.join(backendRoot, "src/http/app.ts");
+  if (fs.existsSync(appFile)) {
+    let text = fs.readFileSync(appFile, "utf8");
+
+    text = text.replace(
+      "import Fastify, { FastifyInstance } from 'fastify';",
+      "import Fastify, { type FastifyInstance, type RawServerDefault } from 'fastify';"
+    );
+
+    text = text.replace(
+      "import Fastify, { type FastifyInstance } from 'fastify';",
+      "import Fastify, { type FastifyInstance, type RawServerDefault } from 'fastify';"
+    );
+
+    text = text.replace("import { getLogger } from '../logging/logger';\n", "");
+    text = text.replace("    logger: getLogger(),\n", "    logger: true,\n");
+
+    text = text.replace(
+      "  const app = Fastify({ http2: false,",
+      "  const app: FastifyInstance<RawServerDefault> = Fastify({"
+    );
+
+    text = text.replace(
+      "  const app = Fastify({",
+      "  const app: FastifyInstance<RawServerDefault> = Fastify({"
+    );
+
+    fs.writeFileSync(appFile, text);
+  }
+
+  const routesFile = path.join(backendRoot, "src/http/routes.ts");
+  if (fs.existsSync(routesFile)) {
+    let text = fs.readFileSync(routesFile, "utf8");
+
+    text = text.replace(
+      "import type { FastifyInstance } from 'fastify';",
+      "import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';"
+    );
+
+    text = text.replace(
+      "    async (req, reply) => {",
+      "    async (req: FastifyRequest, reply: FastifyReply) => {"
+    );
+
+    text = text.replace(
+      "        await req.jwtVerify();",
+      "        await (req as FastifyRequest & { jwtVerify: () => Promise<void> }).jwtVerify();"
+    );
+
+    text = text.replace(
+      "        const payload = req.user as JwtPayload;",
+      "        const payload = (req as FastifyRequest & { user: JwtPayload }).user;"
+    );
+
+    fs.writeFileSync(routesFile, text);
+  }
+
+  const userRepoFile = path.join(backendRoot, "src/repositories/userRepository.ts");
+  if (fs.existsSync(userRepoFile)) {
+    let text = fs.readFileSync(userRepoFile, "utf8");
+
+    text = text.replace(
+      "  return result.rows[0];",
+      "  const user = result.rows[0];\n  if (!user) {\n    throw new Error('User creation failed: no row returned');\n  }\n  return user;"
+    );
+
+    fs.writeFileSync(userRepoFile, text);
+  }
+}
+
 
 function stabilizeFrontend(frontendRoot: string): void {
   if (!fs.existsSync(frontendRoot)) return;
@@ -175,6 +249,7 @@ export function stabilizeGeneratedApp(workerPath: string, role: string): string[
   if (role === "backend") {
     sanitizeTsFiles(path.join(workerPath, "backend/src"));
     stabilizeExpressRoutes(path.join(workerPath, "backend"));
+    stabilizeFastifyBackend(path.join(workerPath, "backend"));
     touched.push("backend");
   }
 
