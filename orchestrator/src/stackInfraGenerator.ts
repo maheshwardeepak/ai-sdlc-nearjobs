@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import net from "net";
 import { loadTechnologyStackContract } from "./technologyStackContract.js";
 
 
@@ -7,6 +8,44 @@ const PORT_REGISTRY_PATH = path.resolve(
   process.cwd(),
   "runtime/port-registry.json"
 );
+
+
+function isPortAvailable(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const server = net.createServer();
+
+    server.once("error", () => {
+      resolve(false);
+    });
+
+    server.once("listening", () => {
+      server.close(() => resolve(true));
+    });
+
+    server.listen(port, "0.0.0.0");
+  });
+}
+
+async function findAvailablePort(
+  start: number,
+  usedPorts: Set<number>
+): Promise<number> {
+  let port = start;
+
+  while (true) {
+    const available =
+      !usedPorts.has(port) &&
+      await isPortAvailable(port);
+
+    if (available) {
+      usedPorts.add(port);
+      return port;
+    }
+
+    port++;
+  }
+}
+
 
 type RuntimePorts = {
   backend: number;
@@ -32,7 +71,7 @@ function savePortRegistry(registry: Record<string, RuntimePorts>): void {
   );
 }
 
-function allocatePorts(projectName: string): RuntimePorts {
+async function allocatePorts(projectName: string): Promise<RuntimePorts> {
   const registry = loadPortRegistry();
 
   if (registry[projectName]) {
@@ -48,22 +87,11 @@ function allocatePorts(projectName: string): RuntimePorts {
     usedPorts.add(ports.redis);
   });
 
-  const nextFree = (start: number): number => {
-    let port = start;
-
-    while (usedPorts.has(port)) {
-      port++;
-    }
-
-    usedPorts.add(port);
-    return port;
-  };
-
   const ports: RuntimePorts = {
-    backend: nextFree(3000),
-    frontend: nextFree(5173),
-    postgres: nextFree(5432),
-    redis: nextFree(6379)
+    backend: await findAvailablePort(3000, usedPorts),
+    frontend: await findAvailablePort(5173, usedPorts),
+    postgres: await findAvailablePort(5432, usedPorts),
+    redis: await findAvailablePort(6379, usedPorts)
   };
 
   registry[projectName] = ports;
@@ -96,9 +124,9 @@ function backendDockerfile(stack: ReturnType<typeof loadTechnologyStackContract>
       "FROM maven:3.9.9-eclipse-temurin-21-alpine AS build",
       "WORKDIR /app",
       "COPY pom.xml ./",
-      "RUN mvn -q -DskipTests dependency:go-offline",
+      "RUN mvn -q dependency:go-offline",
       "COPY src ./src",
-      "RUN mvn -q -DskipTests package",
+      "RUN mvn -q package",
       "",
       "FROM eclipse-temurin:21-jre-alpine",
       "WORKDIR /app",
@@ -303,11 +331,49 @@ function composeDatabase(stack: ReturnType<typeof loadTechnologyStackContract>, 
   ];
 }
 
+
+function databaseUrl(stack: ReturnType<typeof loadTechnologyStackContract>): string {
+  if (stack.database.engine === "MySQL") {
+    return "jdbc:mysql://database:3306/app";
+  }
+
+  if (stack.database.engine === "MongoDB") {
+    return "mongodb://database:27017/app";
+  }
+
+  if (stack.database.engine === "SQLite") {
+    return "file:./data/app.db";
+  }
+
+  return "jdbc:postgresql://database:5432/app";
+}
+
+function backendDependsOn(stack: ReturnType<typeof loadTechnologyStackContract>): string[] {
+  if (stack.database.engine === "SQLite") {
+    return [
+      "    depends_on:",
+      "      redis:",
+      "        condition: service_started"
+    ];
+  }
+
+  return [
+    "    depends_on:",
+    "      database:",
+    "        condition: service_healthy",
+    "      redis:",
+    "        condition: service_started"
+  ];
+}
+
+
 function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>, ports: RuntimePorts): string {
   const frontendPort =
     stack.frontend.framework === "Next.js"
       ? `${ports.frontend}:3000`
       : `${ports.frontend}:80`;
+  const dbUrl = databaseUrl(stack);
+  const backendDependencies = backendDependsOn(stack);
 
   return [
     "services:",
@@ -318,18 +384,14 @@ function dockerCompose(stack: ReturnType<typeof loadTechnologyStackContract>, po
     "      DATABASE_NAME: app",
     "      DATABASE_USER: app",
     "      DATABASE_PASSWORD: app",
-    "      DATABASE_URL: postgresql://app:app@database:5432/app",
+    `      DATABASE_URL: ${dbUrl}`,
     "      REDIS_URL: redis://redis:6379",
     "      JWT_SECRET: development-super-secret-jwt-key-32chars",
     "      JWT_ISSUER: ai-sdlc-factory",
     "      JWT_AUDIENCE: ai-sdlc-clients",
     "    ports:",
     `      - "${ports.backend}:3000"`,
-    "    depends_on:",
-    "      database:",
-    "        condition: service_healthy",
-    "      redis:",
-    "        condition: service_started",
+    ...backendDependencies,
     "",
     "  frontend:",
     "    build: ./frontend",
@@ -357,7 +419,7 @@ function buildCommands(stack: ReturnType<typeof loadTechnologyStackContract>): s
     stack.backend.language === "Java" &&
     stack.backend.framework === "Spring Boot"
   ) {
-    backend = "cd backend && mvn -q -DskipTests package";
+    backend = "cd backend && mvn -q package";
   }
 
   if (
@@ -399,12 +461,12 @@ function buildCommands(stack: ReturnType<typeof loadTechnologyStackContract>): s
   ];
 }
 
-export function generateStackInfra(outputRoot = "artifacts/infra"): StackInfraOutput {
+export async function generateStackInfra(outputRoot = "artifacts/infra"): Promise<StackInfraOutput> {
   const stack = loadTechnologyStackContract();
   const root = path.resolve(process.cwd(), outputRoot);
   const generatedFiles: string[] = [];
   const projectName = path.basename(root).toLowerCase();
-  const ports = allocatePorts(projectName);
+  const ports = await allocatePorts(projectName);
 
   generatedFiles.push(write(path.join(root, "backend/Dockerfile"), backendDockerfile(stack)));
   generatedFiles.push(write(path.join(root, "frontend/Dockerfile"), frontendDockerfile(stack)));
@@ -463,13 +525,13 @@ function findWorkerAppRoot(workspaceRoot: string, appName: "backend" | "frontend
   return null;
 }
 
-export function generateStackInfraForWorkspace(
+export async function generateStackInfraForWorkspace(
   workspaceRootInput: string
-): StackInfraOutput {
+): Promise<StackInfraOutput> {
   const stack = loadTechnologyStackContract();
   const workspaceRoot = path.resolve(process.cwd(), workspaceRootInput);
   const projectName = path.basename(workspaceRoot).toLowerCase();
-  const ports = allocatePorts(projectName);
+  const ports = await allocatePorts(projectName);
 
   const backendRoot = findWorkerAppRoot(workspaceRoot, "backend");
   const frontendRoot = findWorkerAppRoot(workspaceRoot, "frontend");

@@ -1,0 +1,40 @@
+{
+  "project": "AiChatbotPlatform",
+  "projectSlug": "aichatbotplatform",
+  "status": "READY_TO_RUN",
+  "stack": {
+    "backend": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "runtime": "JVM",
+      "packageManager": "maven"
+    },
+    "frontend": {
+      "language": "TypeScript",
+      "framework": "React",
+      "runtime": "Vite",
+      "packageManager": "pnpm"
+    },
+    "database": {
+      "engine": "PostgreSQL"
+    },
+    "confirmed": true,
+    "createdAt": "2026-05-13T10:07:56.312Z"
+  },
+  "approved": true,
+  "createdAt": "2026-05-13T10:42:46.891Z",
+  "nextCommand": "pnpm exec tsx orchestrator/src/factoryCli.ts start-autonomous-project AiChatbotPlatform",
+  "steps": [
+    "Create project workspace",
+    "Create agent clones",
+    "Execute AI agents",
+    "Run self-healing build loop",
+    "Generate stack-specific infrastructure",
+    "Verify Docker runtime",
+    "Print final app URLs and report"
+  ],
+  "urls": {
+    "backend": "http://localhost:3000",
+    "frontend": "http://localhost:5173"
+  }
+}

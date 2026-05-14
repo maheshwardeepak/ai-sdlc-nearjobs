@@ -329,6 +329,48 @@ function reconcileNodeDependencies(appRoot: string): void {
 }
 
 
+
+function stabilizeSpringBootBackend(backendRoot: string): void {
+  const pomPath = path.join(backendRoot, "pom.xml");
+
+  if (!fs.existsSync(pomPath)) return;
+
+  let pom = fs.readFileSync(pomPath, "utf8");
+
+  if (!pom.includes("spring-boot-starter-actuator")) {
+    pom = pom.replace(
+      "</dependencies>",
+      [
+        "    <dependency>",
+        "      <groupId>org.springframework.boot</groupId>",
+        "      <artifactId>spring-boot-starter-actuator</artifactId>",
+        "    </dependency>",
+        "  </dependencies>"
+      ].join("\n")
+    );
+
+    safeWrite(pomPath, pom);
+  }
+
+  safeWrite(
+    path.join(backendRoot, "src/main/resources/application.properties"),
+    [
+      "server.port=3000",
+      "",
+      "spring.datasource.url=${DATABASE_URL}",
+      "spring.datasource.username=${DATABASE_USER}",
+      "spring.datasource.password=${DATABASE_PASSWORD}",
+      "spring.jpa.hibernate.ddl-auto=update",
+      "spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect",
+      "",
+      "management.endpoints.web.exposure.include=health,info",
+      "management.endpoint.health.show-details=always",
+      ""
+    ].join("\n")
+  );
+}
+
+
 export function stabilizeGeneratedApp(workerPath: string, role: string): string[] {
   const touched: string[] = [];
 
@@ -342,6 +384,7 @@ export function stabilizeGeneratedApp(workerPath: string, role: string): string[
     reconcileNodeDependencies(path.join(workerPath, "backend"));
     stabilizeExpressRoutes(path.join(workerPath, "backend"));
     stabilizeFastifyBackend(path.join(workerPath, "backend"));
+    stabilizeSpringBootBackend(path.join(workerPath, "backend"));
     touched.push("backend");
   }
 

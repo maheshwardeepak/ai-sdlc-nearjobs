@@ -81,6 +81,7 @@ import { architecturePlanExists, generateArchitecturePlan } from "./architecture
 import { generateStackInfra, generateStackInfraForWorkspace } from "./stackInfraGenerator.js";
 import { runSelfHealingBuildLoop } from "./selfHealingBuildLoop.js";
 import { verifyDockerRuntime } from "./dockerRuntimeVerifier.js";
+import { verifyRuntimeHealth } from "./runtimeHealthVerifier.js";
 
 
 import { loadState, saveState } from "./state.js";
@@ -102,9 +103,19 @@ switch (command) {
   case "verify-docker-runtime": {
     const result = verifyDockerRuntime(arg || "artifacts/infra");
 
-    console.log(JSON.stringify(result, null, 2));
-
     if (!result.success) {
+      console.log(JSON.stringify(result, null, 2));
+      process.exit(1);
+    }
+
+    const health = await verifyRuntimeHealth();
+
+    console.log(JSON.stringify({
+      ...result,
+      runtimeHealth: health
+    }, null, 2));
+
+    if (!health.success) {
       process.exit(1);
     }
 
@@ -130,7 +141,7 @@ switch (command) {
 
     requireConfirmedTechnologyStackForCommand("generate-stack-infra-for-workspace");
 
-    const result = generateStackInfraForWorkspace(arg);
+    const result = await generateStackInfraForWorkspace(arg);
     console.log(JSON.stringify(result, null, 2));
     break;
   }
@@ -138,7 +149,7 @@ switch (command) {
   case "generate-stack-infra": {
     requireConfirmedTechnologyStackForCommand("generate-stack-infra");
 
-    const result = generateStackInfra(arg || "artifacts/infra");
+    const result = await generateStackInfra(arg || "artifacts/infra");
     console.log(JSON.stringify(result, null, 2));
     break;
   }
@@ -978,7 +989,7 @@ switch (command) {
     console.log(JSON.stringify(healing, null, 2));
 
     console.log("[5/7] Generating stack-specific infrastructure...");
-    const infra = generateStackInfraForWorkspace(workspaceRoot);
+    const infra = await generateStackInfraForWorkspace(workspaceRoot);
     console.log(JSON.stringify(infra, null, 2));
 
     console.log("[6/7] Verifying Docker runtime...");

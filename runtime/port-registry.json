@@ -1,0 +1,14 @@
+{
+  "infra": {
+    "backend": 3001,
+    "frontend": 5174,
+    "postgres": 5433,
+    "redis": 6380
+  },
+  "autonomousstackvalidation": {
+    "backend": 3000,
+    "frontend": 5173,
+    "postgres": 5434,
+    "redis": 6381
+  }
+}
