@@ -98,7 +98,15 @@ function findGeneratedRoots(workspaceRoot: string): Array<{ role: string; root: 
     const backend = path.join(workerRoot, "backend");
     const frontend = path.join(workerRoot, "frontend");
 
-    if (fs.existsSync(path.join(backend, "package.json"))) {
+    if (
+      fs.existsSync(path.join(backend, "package.json")) ||
+      fs.existsSync(path.join(backend, "pom.xml")) ||
+      fs.existsSync(path.join(backend, "go.mod")) ||
+      fs.existsSync(path.join(backend, "requirements.txt")) ||
+      fs.existsSync(path.join(backend, "pyproject.toml")) ||
+      fs.existsSync(path.join(backend, "build.gradle")) ||
+      fs.existsSync(path.join(backend, "*.csproj"))
+    ) {
       roots.push({ role: "backend", root: backend });
     }
 
@@ -110,10 +118,32 @@ function findGeneratedRoots(workspaceRoot: string): Array<{ role: string; root: 
   return roots;
 }
 
-function commandForRole(role: string): string {
-  return role === "backend"
-    ? "pnpm install && pnpm run build"
-    : "pnpm install && pnpm run build";
+function commandForRoot(role: string, root: string): string {
+  if (role === "frontend") {
+    return "pnpm add -D vitest jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/node @types/react @types/react-dom --ignore-workspace && pnpm install --frozen-lockfile=false && pnpm run build";
+  }
+
+  if (fs.existsSync(path.join(root, "pom.xml"))) {
+    return "mvn -q package";
+  }
+
+  if (fs.existsSync(path.join(root, "go.mod"))) {
+    return "go mod tidy && go build ./...";
+  }
+
+  if (
+    fs.existsSync(path.join(root, "requirements.txt")) ||
+    fs.existsSync(path.join(root, "pyproject.toml"))
+  ) {
+    return "python -m compileall .";
+  }
+
+  const csproj = fs.readdirSync(root).find((file) => file.endsWith(".csproj"));
+  if (csproj) {
+    return "dotnet publish -c Release";
+  }
+
+  return "pnpm add -D vitest jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/node @types/react @types/react-dom --ignore-workspace && pnpm install --frozen-lockfile=false && pnpm run build";
 }
 
 export function runSelfHealingBuildLoop(
@@ -127,7 +157,7 @@ export function runSelfHealingBuildLoop(
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       stabilizeGeneratedApp(path.dirname(root.root), root.role);
 
-      const command = commandForRole(root.role);
+      const command = commandForRoot(root.role, root.root);
       const result = run(command, root.root);
       const failureClasses = result.success
         ? []
@@ -148,8 +178,14 @@ export function runSelfHealingBuildLoop(
     }
   }
 
+  const finalByCwd = new Map<string, boolean>();
+
+  for (const attempt of attempts) {
+    finalByCwd.set(attempt.cwd, attempt.success);
+  }
+
   const output: SelfHealingBuildResult = {
-    success: attempts.every((attempt) => attempt.success),
+    success: [...finalByCwd.values()].every(Boolean),
     attempts,
     createdAt: new Date().toISOString()
   };
