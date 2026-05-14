@@ -1,4 +1,6 @@
 import { execSync } from "node:child_process";
+import { classifyRuntimeFailure } from "./runtimeFailureClassifier.js";
+import { repairStrategies } from "./runtimeRepairStrategies.js";
 
 export type RuntimeHealthResult = {
   success: boolean;
@@ -9,6 +11,8 @@ export type RuntimeHealthResult = {
     redis: boolean;
   };
   logs: string[];
+  failureClassification?: ReturnType<typeof classifyRuntimeFailure>;
+  repairStrategies?: ReturnType<typeof repairStrategies>;
 };
 
 
@@ -89,9 +93,19 @@ export async function verifyRuntimeHealth(): Promise<RuntimeHealthResult> {
     redis: redis.success
   };
 
+  const success = Object.values(checks).every(Boolean);
+
+  const failureClassification = success
+    ? undefined
+    : classifyRuntimeFailure(logs.join("\n"));
+
   return {
-    success: Object.values(checks).every(Boolean),
+    success,
     checks,
-    logs
+    logs,
+    failureClassification,
+    repairStrategies: failureClassification
+      ? repairStrategies(failureClassification.classes)
+      : undefined
   };
 }
