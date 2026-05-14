@@ -918,6 +918,20 @@ switch (command) {
 
     requireConfirmedTechnologyStackForCommand("prepare-autonomous-project");
 
+    const readiness = runFactoryReadinessCheck();
+
+    if (!readiness.success) {
+      console.log(JSON.stringify({
+        success: false,
+        stage: "factory-readiness-check",
+        readiness
+      }, null, 2));
+
+      process.exit(1);
+    }
+
+
+
     const projectSlug = arg.toLowerCase();
     const dashboardDir = `artifacts/autonomous-runs/${projectSlug}`;
 
@@ -1066,6 +1080,20 @@ switch (command) {
 
   case "create-workspace": {
     requireConfirmedTechnologyStackForCommand("create-workspace");
+
+    const readiness = runFactoryReadinessCheck();
+
+    if (!readiness.success) {
+      console.log(JSON.stringify({
+        success: false,
+        stage: "factory-readiness-check",
+        readiness
+      }, null, 2));
+
+      process.exit(1);
+    }
+
+
 
     if (!arg) {
       throw new Error("Project name is required.");
