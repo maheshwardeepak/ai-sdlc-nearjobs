@@ -82,6 +82,8 @@ import { generateStackInfra, generateStackInfraForWorkspace } from "./stackInfra
 import { runSelfHealingBuildLoop } from "./selfHealingBuildLoop.js";
 import { verifyDockerRuntime } from "./dockerRuntimeVerifier.js";
 import { verifyRuntimeHealth } from "./runtimeHealthVerifier.js";
+import { executeRepairStrategies } from "./runtimeRepairExecutor.js";
+import { validateRuntimeContracts } from "./runtimeContractValidator.js";
 
 
 import { loadState, saveState } from "./state.js";
@@ -141,8 +143,25 @@ switch (command) {
 
     requireConfirmedTechnologyStackForCommand("generate-stack-infra-for-workspace");
 
+    const validation = validateRuntimeContracts(arg);
+
+    if (!validation.success) {
+      console.log(JSON.stringify({
+        success: false,
+        stage: "runtime-contract-validation",
+        validation
+      }, null, 2));
+
+      process.exit(1);
+    }
+
     const result = await generateStackInfraForWorkspace(arg);
-    console.log(JSON.stringify(result, null, 2));
+
+    console.log(JSON.stringify({
+      validation,
+      ...result
+    }, null, 2));
+
     break;
   }
 
