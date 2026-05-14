@@ -81,6 +81,7 @@ import { architecturePlanExists, generateArchitecturePlan } from "./architecture
 import { generateStackInfra, generateStackInfraForWorkspace } from "./stackInfraGenerator.js";
 import { runSelfHealingBuildLoop } from "./selfHealingBuildLoop.js";
 import { runFactoryReadinessCheck } from "./factoryReadinessCheck.js";
+import { runFactoryFinalProof } from "./factoryFinalProof.js";
 import { verifyDockerRuntime } from "./dockerRuntimeVerifier.js";
 import { verifyRuntimeHealth } from "./runtimeHealthVerifier.js";
 import { executeRepairStrategies } from "./runtimeRepairExecutor.js";
@@ -103,6 +104,23 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "factory-final-proof": {
+    if (!arg) {
+      throw new Error("Usage: factory-final-proof <workspaceRoot>");
+    }
+
+    const result = runFactoryFinalProof(arg);
+
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+
   case "factory-readiness-check": {
     const result = runFactoryReadinessCheck();
 
