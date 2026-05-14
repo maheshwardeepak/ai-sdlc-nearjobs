@@ -1039,13 +1039,13 @@ switch (command) {
     const infra = await generateStackInfraForWorkspace(workspaceRoot);
     console.log(JSON.stringify(infra, null, 2));
 
-    console.log("[6/7] Verifying Docker runtime...");
-    const docker = verifyDockerRuntime(workspaceRoot);
-    console.log(JSON.stringify(docker, null, 2));
+    console.log("[6/7] Running self-healing runtime convergence...");
+    const runtimeHealing = await runSelfHealingRuntimeLoop(arg.toLowerCase());
+    console.log(JSON.stringify(runtimeHealing, null, 2));
 
     console.log("[7/7] Final autonomous run summary...");
 
-    const success = healing.success && infra.success && docker.success;
+    const success = healing.success && infra.success && runtimeHealing.success;
 
     const finalReport = {
       project: arg,
@@ -1062,7 +1062,7 @@ switch (command) {
         cloneResults,
         healing,
         infra,
-        docker
+        runtimeHealing
       }
     };
 
