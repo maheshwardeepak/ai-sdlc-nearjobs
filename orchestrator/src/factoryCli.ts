@@ -109,7 +109,7 @@ switch (command) {
       throw new Error("Usage: factory-final-proof <workspaceRoot>");
     }
 
-    const result = runFactoryFinalProof(arg);
+    const result = await runFactoryFinalProof(arg);
 
     console.log(JSON.stringify(result, null, 2));
 
