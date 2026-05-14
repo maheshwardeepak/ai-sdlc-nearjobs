@@ -80,6 +80,7 @@ import { regenerateInvalidArtifacts } from "./regenerationEngine.js";
 import { architecturePlanExists, generateArchitecturePlan } from "./architecturePlan.js";
 import { generateStackInfra, generateStackInfraForWorkspace } from "./stackInfraGenerator.js";
 import { runSelfHealingBuildLoop } from "./selfHealingBuildLoop.js";
+import { runFactoryReadinessCheck } from "./factoryReadinessCheck.js";
 import { verifyDockerRuntime } from "./dockerRuntimeVerifier.js";
 import { verifyRuntimeHealth } from "./runtimeHealthVerifier.js";
 import { executeRepairStrategies } from "./runtimeRepairExecutor.js";
@@ -102,6 +103,19 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "factory-readiness-check": {
+    const result = runFactoryReadinessCheck();
+
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+
   case "verify-docker-runtime": {
     const result = verifyDockerRuntime(arg || "artifacts/infra");
 
