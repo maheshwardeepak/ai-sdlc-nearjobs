@@ -83,6 +83,8 @@ import { runSelfHealingBuildLoop } from "./selfHealingBuildLoop.js";
 import { runFactoryReadinessCheck } from "./factoryReadinessCheck.js";
 import { runFactoryFinalProof } from "./factoryFinalProof.js";
 import { runEnterpriseReadinessCheck } from "./enterpriseReadinessCheck.js";
+import { loadStackProofMatrix } from "./stackProofMatrix.js";
+import { assertCurrentStackProven } from "./provenStackGuard.js";
 import { verifyDockerRuntime } from "./dockerRuntimeVerifier.js";
 import { verifyRuntimeHealth } from "./runtimeHealthVerifier.js";
 import { executeRepairStrategies } from "./runtimeRepairExecutor.js";
@@ -112,6 +114,14 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "stack-proof-matrix": {
+    const matrix = loadStackProofMatrix();
+
+    console.log(JSON.stringify(matrix, null, 2));
+    break;
+  }
+
+
   case "enterprise-readiness-check": {
     const result = runEnterpriseReadinessCheck();
 
@@ -202,6 +212,7 @@ switch (command) {
     }
 
     assertProjectPlanApproved(arg);
+    assertCurrentStackProven();
 
     const result = await runAllProjectPhases(arg);
 
