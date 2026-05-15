@@ -1,5 +1,8 @@
 import { runProjectPhase } from "./projectPhaseRunner.js";
 import { appendProjectPhaseRunHistory } from "./projectPhaseRunHistory.js";
+import { repairPhaseFailure } from "./phaseFailureRepairAgent.js";
+import { validateFactoryAfterSelfRepair } from "./factorySelfRepairValidator.js";
+import { appendSelfRepairHistory } from "./selfRepairHistory.js";
 
 export type ProjectPhaseRetryResult = {
   success: boolean;
@@ -34,6 +37,33 @@ export async function runProjectPhaseWithRetry(
         phaseId,
         attempts
       };
+    }
+
+    const repair = await repairPhaseFailure({
+      projectName,
+      phaseId,
+      phaseName: result.phaseName,
+      workspaceRoot: `runtime/workspaces/${projectName.toLowerCase().replace(/[^a-z0-9]+/g, "")}`,
+      failureOutput: result.output
+    });
+
+    appendSelfRepairHistory({
+      project: projectName,
+      phaseId,
+      success: repair.success,
+      writtenFiles: repair.writtenFiles || [],
+      outputFile: repair.outputFile || null,
+      createdAt: new Date().toISOString()
+    });
+
+    if (repair.success) {
+      const validation = validateFactoryAfterSelfRepair();
+
+      if (!validation.success) {
+        throw new Error(
+          `Factory self-repair validation failed: ${validation.output}`
+        );
+      }
     }
   }
 

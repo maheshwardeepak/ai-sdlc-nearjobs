@@ -30,6 +30,41 @@ export type PhaseRunnerResult = {
   output: string;
 };
 
+
+
+function shouldValidateContracts(phaseId: string): boolean {
+  return [
+    "health",
+    "auth",
+    "rbac",
+    "team",
+    "task",
+    "comments",
+    "activity",
+    "dashboard",
+    "api",
+    "backend",
+    "packaging",
+    "deployment"
+  ].some((token) => phaseId.includes(token));
+}
+
+function isPlanningApproved(projectName: string): boolean {
+  const approvalPath = path.resolve(
+    process.cwd(),
+    "artifacts/autonomous-runs",
+    projectName.toLowerCase().replace(/[^a-z0-9]+/g, ""),
+    "approval.json"
+  );
+
+  if (!fs.existsSync(approvalPath)) {
+    return false;
+  }
+
+  const approval = JSON.parse(fs.readFileSync(approvalPath, "utf8"));
+  return approval.approved === true;
+}
+
 function dagPath(projectName: string): string {
   return path.resolve(
     process.cwd(),
@@ -59,6 +94,13 @@ export async function runProjectPhase(
   }
 
   const unmetDependencies = node.dependsOn.filter((dependencyId) => {
+    if (
+      dependencyId === "planning-approval" &&
+      isPlanningApproved(projectName)
+    ) {
+      return false;
+    }
+
     const dependency = dag.nodes.find((item) => item.id === dependencyId);
     return dependency?.status !== "PASSED";
   });
@@ -105,7 +147,13 @@ export async function runProjectPhase(
         "Prior Phase Memory:",
         phaseMemory,
         "",
-        "Execute this phase conceptually and produce concrete implementation instructions and artifacts.",
+        "Execute this phase by producing concrete file artifacts.",
+        "Do not only describe the work.",
+        "You must return one or more fenced file blocks using exactly:",
+        "```file:relative/path",
+        "file content",
+        "```",
+        "",
         "Return concise Markdown with:",
         "- files to create/update",
         "- backend work",
@@ -136,6 +184,8 @@ export async function runProjectPhase(
       projectName.toLowerCase().replace(/[^a-z0-9]+/g, "")
     );
 
+    fs.mkdirSync(path.join(workspaceRoot, "workers"), { recursive: true });
+
     const checkpoint = createPhaseCheckpoint({
       projectName,
       phaseId: node.id,
@@ -143,6 +193,13 @@ export async function runProjectPhase(
     });
 
     const extractedArtifacts = extractPhaseArtifacts(result.stdout || "");
+
+    if (extractedArtifacts.length === 0) {
+      throw new Error(
+        `Phase ${node.id} produced no file artifacts.`
+      );
+    }
+
     const artifactWrite = writePhaseArtifacts(workspaceRoot, extractedArtifacts);
     const buildConvergence = runSelfHealingBuildLoop(workspaceRoot);
 
@@ -168,7 +225,15 @@ export async function runProjectPhase(
       );
     }
 
-    let contractDrift = detectContractDrift(projectName, workspaceRoot);
+    let contractDrift = shouldValidateContracts(node.id)
+      ? detectContractDrift(projectName, workspaceRoot, node.id)
+      : {
+          success: true,
+          backendApis: [],
+          plannedApis: [],
+          missingBackendApis: [],
+          extraBackendApis: []
+        };
 
     if (!contractDrift.success) {
       const repair = await repairContractDrift({
@@ -200,7 +265,7 @@ export async function runProjectPhase(
         );
       }
 
-      contractDrift = detectContractDrift(projectName, workspaceRoot);
+      contractDrift = detectContractDrift(projectName, workspaceRoot, node.id);
     }
 
     if (!contractDrift.success) {
@@ -290,6 +355,8 @@ export async function runProjectPhase(
       "runtime/workspaces",
       projectName.toLowerCase().replace(/[^a-z0-9]+/g, "")
     );
+
+    fs.mkdirSync(path.join(workspaceRoot, "workers"), { recursive: true });
 
     const checkpointRoot = path.resolve(
       process.cwd(),

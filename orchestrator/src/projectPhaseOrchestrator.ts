@@ -1,3 +1,22 @@
+
+function isPlanningApproved(projectName: string): boolean {
+  const approvalPath = path.resolve(
+    process.cwd(),
+    "artifacts/autonomous-runs",
+    projectName.toLowerCase().replace(/[^a-z0-9]+/g, ""),
+    "approval.json"
+  );
+
+  if (!fs.existsSync(approvalPath)) {
+    return false;
+  }
+
+  const approval = JSON.parse(fs.readFileSync(approvalPath, "utf8"));
+  return approval.approved === true;
+}
+
+import fs from "node:fs";
+import path from "node:path";
 import { loadProjectPhaseDag } from "./projectPhaseDag.js";
 import { runProjectPhaseWithRetry } from "./projectPhaseRetryRunner.js";
 

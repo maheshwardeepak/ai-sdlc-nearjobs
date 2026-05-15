@@ -115,6 +115,73 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "self-repair-status": {
+    if (!arg) {
+      throw new Error("Usage: self-repair-status <ProjectName>");
+    }
+
+    const projectSlug = arg.toLowerCase().replace(/[^a-z0-9]+/g, "").trim();
+    const historyPath = `artifacts/autonomous-runs/${projectSlug}/self-repair-history.json`;
+
+    if (!fs.existsSync(historyPath)) {
+      console.log(JSON.stringify({
+        success: true,
+        project: arg,
+        repairs: 0,
+        history: []
+      }, null, 2));
+      break;
+    }
+
+    const history = JSON.parse(fs.readFileSync(historyPath, "utf8"));
+
+    console.log(JSON.stringify({
+      success: true,
+      project: arg,
+      repairs: history.length,
+      successfulRepairs: history.filter((item: any) => item.success).length,
+      failedRepairs: history.filter((item: any) => !item.success).length,
+      history
+    }, null, 2));
+
+    break;
+  }
+
+
+  case "run-next-project-phase": {
+    if (!arg) {
+      throw new Error("Usage: run-next-project-phase <ProjectName>");
+    }
+
+    assertProjectPlanApproved(arg);
+    assertCurrentStackProven();
+
+    const status = getProjectPhaseStatus(arg);
+
+    if (!status.success || !status.nextPhase) {
+      console.log(JSON.stringify({
+        success: false,
+        message: "No runnable next phase found.",
+        status
+      }, null, 2));
+      break;
+    }
+
+    const result = await runProjectPhase(
+      arg,
+      status.nextPhase.id
+    );
+
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+
   case "compact-project-memory": {
     if (!arg) {
       throw new Error("Usage: compact-project-memory <ProjectName>");

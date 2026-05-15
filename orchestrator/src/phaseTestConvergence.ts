@@ -81,7 +81,7 @@ export function runPhaseTestConvergence(workspaceRoot: string): PhaseTestConverg
   }
 
   return {
-    success: attempted.every((item) => item.success),
+    success: attempted.length === 0 ? true : attempted.every((item) => item.success),
     attempted
   };
 }

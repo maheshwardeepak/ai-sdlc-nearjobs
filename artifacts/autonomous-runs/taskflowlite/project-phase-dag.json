@@ -1,0 +1,192 @@
+{
+  "project": "TaskFlowLite",
+  "projectSlug": "taskflowlite",
+  "createdAt": "2026-05-15T06:35:30.842Z",
+  "nodes": [
+    {
+      "id": "planning-approval",
+      "name": "Plan Review & Approval",
+      "goal": "Present full execution plan for one-time human approval before autonomous execution.",
+      "status": "PENDING",
+      "dependsOn": [],
+      "autonomous": false,
+      "requiresHumanApproval": true
+    },
+    {
+      "id": "project-scaffolding",
+      "name": "Project Scaffolding & Tooling",
+      "goal": "Initialize Spring Boot Maven backend, Vite React TypeScript frontend with pnpm, PostgreSQL config, and shared lint/format tooling.",
+      "status": "PASSED",
+      "dependsOn": [
+        "planning-approval"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "database-and-entities",
+      "name": "Database Schema & JPA Entities",
+      "goal": "Define PostgreSQL schema and JPA entities for User, Team, TeamMember, Task, Comment, ActivityLog with migrations.",
+      "status": "PASSED",
+      "dependsOn": [
+        "project-scaffolding"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "health-endpoint",
+      "name": "Backend Health Endpoint",
+      "goal": "Implement /api/health endpoint and basic actuator configuration.",
+      "status": "PASSED",
+      "dependsOn": [
+        "database-and-entities"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "auth-security-jwt",
+      "name": "Authentication & JWT Security",
+      "goal": "Implement registration, login, password hashing (BCrypt), JWT issuance/validation, and Spring Security filter chain protecting APIs.",
+      "status": "PENDING",
+      "dependsOn": [
+        "health-endpoint"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "rbac-and-profile",
+      "name": "RBAC & User Profile",
+      "goal": "Implement ADMIN/MANAGER/MEMBER roles, method-level authorization, and authenticated /users/me profile endpoint.",
+      "status": "PENDING",
+      "dependsOn": [
+        "auth-security-jwt"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "team-management",
+      "name": "Team Management & Membership",
+      "goal": "Implement team CRUD, member invitation/addition/removal, and team membership authorization.",
+      "status": "PENDING",
+      "dependsOn": [
+        "rbac-and-profile"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "task-crud",
+      "name": "Task CRUD & Statuses",
+      "goal": "Implement task create/read/update/delete with title, description, priority, due date, and TODO/IN_PROGRESS/DONE statuses protected by auth.",
+      "status": "PENDING",
+      "dependsOn": [
+        "team-management"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "task-assignment-workload",
+      "name": "Task Assignment, Reassignment & Workload",
+      "goal": "Enable assigning/reassigning tasks to team members, filtering by assignee, unassigned tasks view, and workload metrics endpoint.",
+      "status": "PENDING",
+      "dependsOn": [
+        "task-crud"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "comments",
+      "name": "Task Comments",
+      "goal": "Implement comment creation, listing, edit/delete by author, with author and timestamp metadata.",
+      "status": "PENDING",
+      "dependsOn": [
+        "task-assignment-workload"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "activity-audit-log",
+      "name": "Activity Audit Log",
+      "goal": "Capture and expose activity events for task creation, status, priority, due date, assignee changes, and comment create/delete.",
+      "status": "PENDING",
+      "dependsOn": [
+        "comments"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "dashboard-analytics",
+      "name": "Dashboard & Analytics APIs",
+      "goal": "Provide global and team-level dashboards with task counts by status and aggregates.",
+      "status": "PENDING",
+      "dependsOn": [
+        "activity-audit-log"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "frontend-auth-shell",
+      "name": "Frontend Auth Shell & Routing",
+      "goal": "Build login/register screens, JWT storage, axios interceptors, protected routes, and global layout.",
+      "status": "PENDING",
+      "dependsOn": [
+        "dashboard-analytics"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "frontend-task-board",
+      "name": "Frontend Task Board & Detail",
+      "goal": "Implement responsive task board, create/edit modal, task detail drawer with comments and activity timeline, filters by assignee and unassigned.",
+      "status": "PENDING",
+      "dependsOn": [
+        "frontend-auth-shell"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "frontend-teams-dashboard",
+      "name": "Frontend Teams, Workload & Dashboard",
+      "goal": "Implement teams list, team detail with member management and workload, global dashboard, and profile screen.",
+      "status": "PENDING",
+      "dependsOn": [
+        "frontend-task-board"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "testing-qa",
+      "name": "Automated Testing",
+      "goal": "Add backend unit/integration tests (JUnit, Spring Boot Test) and frontend tests (Vitest/RTL) covering auth, RBAC, tasks, comments, audit.",
+      "status": "PENDING",
+      "dependsOn": [
+        "frontend-teams-dashboard"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "packaging-deployment",
+      "name": "Packaging, Docker & Deployment Readiness",
+      "goal": "Containerize backend and frontend, provide docker-compose with PostgreSQL, environment configs, and README runbook.",
+      "status": "PENDING",
+      "dependsOn": [
+        "testing-qa"
+      ],
+      "autonomous": true,
+      "requiresHumanApproval": false
+    }
+  ]
+}

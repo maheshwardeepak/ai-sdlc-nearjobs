@@ -56,6 +56,13 @@ export function getProjectPhaseStatus(projectName: string) {
     if (node.requiresHumanApproval) return false;
 
     return node.dependsOn.every((dependencyId: string) => {
+      if (
+        dependencyId === "planning-approval" &&
+        approval.approved === true
+      ) {
+        return true;
+      }
+
       const dependency = dag.nodes.find((item: any) => item.id === dependencyId);
       return dependency?.status === "PASSED";
     });

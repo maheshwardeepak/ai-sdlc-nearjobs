@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { filterApisForPhase } from "./phaseContractScope.js";
 
 export type ContractDriftResult = {
   success: boolean;
@@ -58,10 +59,33 @@ function plannedApiKeys(projectName: string): string[] {
     : [];
 }
 
+function extractPath(raw: string): string {
+  const match = raw.match(/["']([^"']+)["']/);
+  return match?.[1] || "";
+}
+
+function joinApiPath(prefix: string, route: string): string {
+  const combined = `/${[prefix, route]
+    .filter(Boolean)
+    .map((part) => part.replace(/^\/+|\/+$/g, ""))
+    .filter(Boolean)
+    .join("/")}`;
+
+  return combined === "/" ? "" : combined;
+}
+
+function annotationPath(line: string): string {
+  const match = line.match(/["']([^"']*)["']/);
+  return match?.[1] || "";
+}
+
 function backendApiKeys(workspaceRoot: string): string[] {
   const javaFiles = collectFiles(
     workspaceRoot,
-    (file) => file.endsWith(".java")
+    (file) =>
+      file.endsWith(".java") &&
+      !file.includes("/target/") &&
+      !file.includes("/node_modules/")
   );
 
   const keys = new Set<string>();
@@ -77,14 +101,21 @@ function backendApiKeys(workspaceRoot: string): string[] {
   for (const file of javaFiles) {
     const text = fs.readFileSync(file, "utf8");
 
-    for (const [annotation, method] of Object.entries(methodMap)) {
-      const regex = new RegExp(`@${annotation}\\\\(([^)]*)\\\\)`, "g");
+    const requestLine = text
+      .split(/\r?\n/)
+      .find((line) => line.includes("@RequestMapping"));
 
-      for (const match of text.matchAll(regex)) {
-        const raw = match[1] || "";
-        const pathMatch = raw.match(/["']([^"']+)["']/);
-        if (pathMatch?.[1]) {
-          keys.add(`${method} ${pathMatch[1]}`);
+    const classPrefix = requestLine ? annotationPath(requestLine) : "";
+
+    for (const line of text.split(/\r?\n/)) {
+      for (const [annotation, method] of Object.entries(methodMap)) {
+        if (!line.includes(`@${annotation}`)) continue;
+
+        const route = annotationPath(line);
+        const fullPath = joinApiPath(classPrefix, route);
+
+        if (fullPath) {
+          keys.add(`${method} ${fullPath}`);
         }
       }
     }
@@ -95,9 +126,13 @@ function backendApiKeys(workspaceRoot: string): string[] {
 
 export function detectContractDrift(
   projectName: string,
-  workspaceRoot: string
+  workspaceRoot: string,
+  phaseId?: string
 ): ContractDriftResult {
-  const plannedApis = plannedApiKeys(projectName).sort();
+  const allPlannedApis = plannedApiKeys(projectName).sort();
+  const plannedApis = phaseId
+    ? filterApisForPhase(phaseId, allPlannedApis).sort()
+    : allPlannedApis;
   const backendApis = backendApiKeys(workspaceRoot).sort();
 
   const missingBackendApis = plannedApis.filter(

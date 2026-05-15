@@ -22,6 +22,18 @@ function slugify(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "").trim();
 }
 
+function saveProjectPhaseDag(projectName: string, dag: ProjectPhaseDag): void {
+  const projectSlug = slugify(projectName);
+  const dagPath = path.resolve(
+    process.cwd(),
+    "artifacts/autonomous-runs",
+    projectSlug,
+    "project-phase-dag.json"
+  );
+
+  fs.writeFileSync(dagPath, JSON.stringify(dag, null, 2));
+}
+
 export function createProjectPhaseDag(projectName: string): ProjectPhaseDag {
   const projectSlug = slugify(projectName);
   const runDir = path.resolve(process.cwd(), "artifacts/autonomous-runs", projectSlug);
@@ -72,4 +84,21 @@ export function loadProjectPhaseDag(projectName: string): ProjectPhaseDag {
   }
 
   return JSON.parse(fs.readFileSync(dagPath, "utf8")) as ProjectPhaseDag;
+}
+
+
+export function markPlanningPhaseApproved(projectName: string): void {
+  const dag = loadProjectPhaseDag(projectName);
+
+  const planningNode = dag.nodes.find(
+    (node) => node.id === "planning-approval"
+  );
+
+  if (!planningNode) {
+    return;
+  }
+
+  planningNode.status = "PASSED";
+
+  saveProjectPhaseDag(projectName, dag);
 }
