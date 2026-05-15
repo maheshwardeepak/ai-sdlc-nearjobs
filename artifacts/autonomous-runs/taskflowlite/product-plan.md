@@ -58,19 +58,18 @@ Build a lightweight task workflow app for small teams.
 - Database: PostgreSQL
 
 ## Product Summary
-TaskFlowLite is a lightweight team task workflow application enabling small teams to manage tasks across TODO/IN_PROGRESS/DONE statuses with JWT-secured authentication, role-based access (ADMIN/MANAGER/MEMBER), team collaboration, task assignment, threaded comments, and full activity audit logging. Built on Spring Boot + PostgreSQL backend with a React + TypeScript (Vite) frontend.
+TaskFlowLite is a lightweight task workflow application for small teams built with Spring Boot (Java/Maven) backend, React+TypeScript (Vite/pnpm) frontend, and PostgreSQL persistence. It supports task CRUD with statuses/priorities/due dates, JWT authentication with RBAC (ADMIN, MANAGER, MEMBER), team collaboration with task assignment, threaded comments, activity audit logs, and dashboards showing task counts and workload.
 
 ## Domain Modules
 - Authentication & Security
-- User & Profile Management
-- Role-Based Access Control
-- Team Management & Collaboration
+- User Profile & RBAC
+- Team Management
 - Task Management
 - Task Assignment & Workload
-- Task Comments
-- Activity Audit Logging
-- Dashboard & Reporting
-- System Health & Observability
+- Comments
+- Activity Audit Log
+- Dashboard & Analytics
+- Health & Observability
 
 ## Product Scope
 - Generate a production-ready full-stack application from the supplied requirements.

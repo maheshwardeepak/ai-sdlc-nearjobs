@@ -1,22 +1,23 @@
 # Acceptance Criteria: TaskFlowLite
 
-- GET /api/health returns 200 with status payload without authentication.
-- Users can register and log in; passwords are stored as BCrypt hashes; login returns a valid JWT.
-- GET /api/auth/me returns the authenticated user profile and 401 when no/invalid JWT is supplied.
-- All task, comment, team, and assignment endpoints reject unauthenticated requests with 401.
-- ADMIN, MANAGER, and MEMBER roles are enforced; only ADMIN can modify user roles.
-- Tasks support title, description, priority, due date, and statuses TODO/IN_PROGRESS/DONE with full CRUD.
+- Users can register and log in; JWT is returned and required for all protected APIs.
+- Passwords are stored as BCrypt hashes; no plain text passwords in DB or logs.
+- GET /api/health returns 200 with status UP.
+- GET /api/users/me returns the authenticated user's profile.
+- RBAC enforces ADMIN/MANAGER/MEMBER permissions; unauthorized actions return 403.
+- Tasks support title, description, priority, due date, and statuses TODO/IN_PROGRESS/DONE.
 - Only authenticated users can create, update, comment on, or assign tasks.
-- Teams can be created and members added/removed; tasks can be assigned and reassigned to team members.
-- Board can be filtered by assignee and can display unassigned tasks.
-- Per-member workload and team-level dashboard endpoints return accurate aggregates.
-- Users can add comments and edit/delete only their own comments; comments display author and timestamp.
-- Activity log records task creation, status/priority/due-date/assignee changes, and comment create/delete events.
-- Task detail view shows comments and activity timeline.
-- Global dashboard shows task counts grouped by TODO/IN_PROGRESS/DONE.
-- Frontend is responsive across desktop and mobile breakpoints.
-- PostgreSQL schema is provisioned via migrations and data persists across restarts.
-- Backend and frontend build successfully and run via documented commands.
+- Teams can be created and members can be added, removed, and listed.
+- Tasks can be assigned and reassigned to team members; unassigned tasks are filterable.
+- Board can be filtered by assignee and shows unassigned tasks view.
+- Workload endpoint returns per-member open task counts for a team.
+- Comments can be added, edited, and deleted by their author, with author and timestamp shown.
+- Activity log records task creation, status/priority/due date/assignee changes, and comment create/delete events.
+- Task detail view displays comments and an activity timeline.
+- Global dashboard shows task counts by status; team dashboard shows team-scoped counts.
+- Frontend is responsive on mobile and desktop breakpoints.
+- PostgreSQL persists all data via migrations; app starts cleanly via docker-compose.
+- Backend and frontend pass automated test suites in CI-ready scripts.
 - Application builds without manual edits.
 - Self-healing build succeeds.
 - Docker runtime starts successfully.

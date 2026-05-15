@@ -30,7 +30,12 @@ export function runEnterpriseReadinessCheck(): EnterpriseReadinessCheck {
     "orchestrator/src/contractDriftDetector.ts",
     "orchestrator/src/phaseSecurityComplianceGate.ts",
     "orchestrator/src/dependencyReconciler.ts",
-    "orchestrator/src/factoryFinalProof.ts"
+    "orchestrator/src/factoryFinalProof.ts",
+    "orchestrator/src/stackProofMatrix.ts",
+    "orchestrator/src/provenStackGuard.ts",
+    "orchestrator/src/projectMemoryCompactor.ts",
+    "orchestrator/src/contractDriftRepair.ts",
+    "orchestrator/src/frontendBackendContractValidator.ts"
   ];
 
   const readiness = runFactoryReadinessCheck();

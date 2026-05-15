@@ -1,0 +1,48 @@
+{
+  "changed": true,
+  "addedPhases": [
+    "Plan Review & Approval",
+    "Project Scaffolding & Tooling",
+    "Database Schema & JPA Entities",
+    "Backend Health Endpoint",
+    "Authentication & JWT Security",
+    "RBAC & User Profile",
+    "Team Management & Membership",
+    "Task CRUD & Statuses",
+    "Task Assignment, Reassignment & Workload",
+    "Activity Audit Log",
+    "Dashboard & Analytics APIs",
+    "Frontend Teams, Workload & Dashboard",
+    "Automated Testing",
+    "Packaging, Docker & Deployment Readiness"
+  ],
+  "removedPhases": [
+    "Project Foundation & Tooling",
+    "Database Schema & Migrations",
+    "Authentication, JWT & Password Security",
+    "Role-Based Access Control",
+    "Task Management Core",
+    "Team Management & Collaboration",
+    "Activity Audit Logging",
+    "Dashboards & Reporting",
+    "Frontend Teams & Dashboards",
+    "Testing & Quality Assurance",
+    "Packaging & Delivery"
+  ],
+  "addedApis": [
+    "GET /api/users/me",
+    "PATCH /api/users/me",
+    "GET /api/dashboard"
+  ],
+  "removedApis": [
+    "GET /api/auth/me",
+    "GET /api/dashboard/summary"
+  ],
+  "addedEntities": [
+    "TeamMember"
+  ],
+  "removedEntities": [
+    "TeamMembership"
+  ],
+  "summary": "# Plan Diff\n\nChanged: true\n\n## Added Phases\n- Plan Review & Approval\n- Project Scaffolding & Tooling\n- Database Schema & JPA Entities\n- Backend Health Endpoint\n- Authentication & JWT Security\n- RBAC & User Profile\n- Team Management & Membership\n- Task CRUD & Statuses\n- Task Assignment, Reassignment & Workload\n- Activity Audit Log\n- Dashboard & Analytics APIs\n- Frontend Teams, Workload & Dashboard\n- Automated Testing\n- Packaging, Docker & Deployment Readiness\n\n## Removed Phases\n- Project Foundation & Tooling\n- Database Schema & Migrations\n- Authentication, JWT & Password Security\n- Role-Based Access Control\n- Task Management Core\n- Team Management & Collaboration\n- Activity Audit Logging\n- Dashboards & Reporting\n- Frontend Teams & Dashboards\n- Testing & Quality Assurance\n- Packaging & Delivery\n\n## Added APIs\n- GET /api/users/me\n- PATCH /api/users/me\n- GET /api/dashboard\n\n## Removed APIs\n- GET /api/auth/me\n- GET /api/dashboard/summary\n\n## Added Entities\n- TeamMember\n\n## Removed Entities\n- TeamMembership"
+}

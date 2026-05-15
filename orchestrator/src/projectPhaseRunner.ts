@@ -8,6 +8,7 @@ import { runPhaseTestConvergence } from "./phaseTestConvergence.js";
 import { runPhaseRuntimeConvergence } from "./phaseRuntimeConvergence.js";
 import { createPhaseCheckpoint, restorePhaseCheckpoint } from "./phaseCheckpoint.js";
 import { detectContractDrift } from "./contractDriftDetector.js";
+import { repairContractDrift } from "./contractDriftRepair.js";
 import { runPhaseSecurityComplianceGate } from "./phaseSecurityComplianceGate.js";
 import {
   loadProjectPhaseDag,
@@ -20,6 +21,7 @@ import {
 import {
   updateProjectSyncMemory
 } from "./projectSyncMemory.js";
+import { compactProjectMemory } from "./projectMemoryCompactor.js";
 
 export type PhaseRunnerResult = {
   success: boolean;
@@ -166,7 +168,40 @@ export async function runProjectPhase(
       );
     }
 
-    const contractDrift = detectContractDrift(projectName, workspaceRoot);
+    let contractDrift = detectContractDrift(projectName, workspaceRoot);
+
+    if (!contractDrift.success) {
+      const repair = await repairContractDrift({
+        projectName,
+        workspaceRoot,
+        drift: contractDrift
+      });
+
+      if (!repair.success || !repair.stdout) {
+        throw new Error(
+          `Contract drift repair failed for ${node.id}: ${JSON.stringify({ contractDrift, repair }, null, 2)}`
+        );
+      }
+
+      const repairArtifacts = extractPhaseArtifacts(repair.stdout);
+      const repairWrite = writePhaseArtifacts(workspaceRoot, repairArtifacts);
+
+      if (!repairWrite.success) {
+        throw new Error(
+          `Contract drift repair artifact write failed for ${node.id}: ${JSON.stringify(repairWrite, null, 2)}`
+        );
+      }
+
+      const postRepairBuild = runSelfHealingBuildLoop(workspaceRoot);
+
+      if (!postRepairBuild.success) {
+        throw new Error(
+          `Contract drift repair build failed for ${node.id}: ${JSON.stringify(postRepairBuild, null, 2)}`
+        );
+      }
+
+      contractDrift = detectContractDrift(projectName, workspaceRoot);
+    }
 
     if (!contractDrift.success) {
       throw new Error(
@@ -240,6 +275,8 @@ export async function runProjectPhase(
       },
       nextAction: "Proceed to next autonomous phase"
     });
+
+    compactProjectMemory(projectName);
 
     return {
       success: true,

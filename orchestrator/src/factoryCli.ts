@@ -95,6 +95,7 @@ import { runAllProjectPhases } from "./projectPhaseOrchestrator.js";
 import { summarizeProjectPhaseMemory } from "./projectPhaseMemory.js";
 import { getProjectPhaseStatus } from "./projectPhaseStatus.js";
 import { loadProjectSyncMemory } from "./projectSyncMemory.js";
+import { compactProjectMemory } from "./projectMemoryCompactor.js";
 import { createProjectPlan, approveProjectPlan, assertProjectPlanApproved } from "./projectPlanningEngine.js";
 
 
@@ -114,6 +115,17 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "compact-project-memory": {
+    if (!arg) {
+      throw new Error("Usage: compact-project-memory <ProjectName>");
+    }
+
+    const result = compactProjectMemory(arg);
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+
   case "stack-proof-matrix": {
     const matrix = loadStackProofMatrix();
 

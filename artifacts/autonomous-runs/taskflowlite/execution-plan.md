@@ -7,87 +7,105 @@
 - No additional approval is required between phases unless the project plan changes.
 
 ## Autonomous Phases
-1. Project Foundation & Tooling
-   - ID: foundation-setup
-   - Goal: Initialize Spring Boot Maven backend and Vite React TS frontend with PostgreSQL config, base configs, linting, and health endpoint.
-   - Autonomous: true
+1. Plan Review & Approval
+   - ID: planning-approval
+   - Goal: Present full execution plan for one-time human approval before autonomous execution.
+   - Autonomous: false
    - Requires human approval: true
 
-2. Database Schema & Migrations
-   - ID: database-schema
-   - Goal: Define PostgreSQL schema and JPA entities for User, Team, TeamMembership, Task, Comment, ActivityLog with Flyway migrations.
+2. Project Scaffolding & Tooling
+   - ID: project-scaffolding
+   - Goal: Initialize Spring Boot Maven backend, Vite React TypeScript frontend with pnpm, PostgreSQL config, and shared lint/format tooling.
    - Autonomous: true
    - Requires human approval: false
 
-3. Authentication, JWT & Password Security
+3. Database Schema & JPA Entities
+   - ID: database-and-entities
+   - Goal: Define PostgreSQL schema and JPA entities for User, Team, TeamMember, Task, Comment, ActivityLog with migrations.
+   - Autonomous: true
+   - Requires human approval: false
+
+4. Backend Health Endpoint
+   - ID: health-endpoint
+   - Goal: Implement /api/health endpoint and basic actuator configuration.
+   - Autonomous: true
+   - Requires human approval: false
+
+5. Authentication & JWT Security
    - ID: auth-security-jwt
-   - Goal: Implement registration, login, BCrypt password hashing, JWT issuance/validation, Spring Security filter chain, and /auth/me profile endpoint.
+   - Goal: Implement registration, login, password hashing (BCrypt), JWT issuance/validation, and Spring Security filter chain protecting APIs.
    - Autonomous: true
    - Requires human approval: false
 
-4. Role-Based Access Control
-   - ID: rbac-authorization
-   - Goal: Implement ADMIN/MANAGER/MEMBER roles, method-level security, and endpoint authorization rules across the API.
+6. RBAC & User Profile
+   - ID: rbac-and-profile
+   - Goal: Implement ADMIN/MANAGER/MEMBER roles, method-level authorization, and authenticated /users/me profile endpoint.
    - Autonomous: true
    - Requires human approval: false
 
-5. Task Management Core
-   - ID: task-management-core
-   - Goal: Implement CRUD for tasks with title, description, priority, due date, and TODO/IN_PROGRESS/DONE statuses with validation.
+7. Team Management & Membership
+   - ID: team-management
+   - Goal: Implement team CRUD, member invitation/addition/removal, and team membership authorization.
    - Autonomous: true
    - Requires human approval: false
 
-6. Team Management & Collaboration
-   - ID: team-collaboration
-   - Goal: Implement team creation, member invitation/removal, task assignment/reassignment, workload view, and assignee/unassigned filters.
+8. Task CRUD & Statuses
+   - ID: task-crud
+   - Goal: Implement task create/read/update/delete with title, description, priority, due date, and TODO/IN_PROGRESS/DONE statuses protected by auth.
    - Autonomous: true
    - Requires human approval: false
 
-7. Task Comments
-   - ID: task-comments
-   - Goal: Implement add/edit/delete own comments with author and timestamp metadata exposed via API.
+9. Task Assignment, Reassignment & Workload
+   - ID: task-assignment-workload
+   - Goal: Enable assigning/reassigning tasks to team members, filtering by assignee, unassigned tasks view, and workload metrics endpoint.
    - Autonomous: true
    - Requires human approval: false
 
-8. Activity Audit Logging
+10. Task Comments
+   - ID: comments
+   - Goal: Implement comment creation, listing, edit/delete by author, with author and timestamp metadata.
+   - Autonomous: true
+   - Requires human approval: false
+
+11. Activity Audit Log
    - ID: activity-audit-log
-   - Goal: Capture activity events for task creation, status/priority/due-date/assignee changes, and comment create/delete; expose timeline API.
+   - Goal: Capture and expose activity events for task creation, status, priority, due date, assignee changes, and comment create/delete.
    - Autonomous: true
    - Requires human approval: false
 
-9. Dashboards & Reporting
-   - ID: dashboard-metrics
-   - Goal: Provide global and team-level dashboards with task counts by status and workload aggregations.
+12. Dashboard & Analytics APIs
+   - ID: dashboard-analytics
+   - Goal: Provide global and team-level dashboards with task counts by status and aggregates.
    - Autonomous: true
    - Requires human approval: false
 
-10. Frontend Auth Shell & Routing
+13. Frontend Auth Shell & Routing
    - ID: frontend-auth-shell
-   - Goal: Build React app skeleton with login/register pages, JWT storage, auth context, protected routes, and responsive layout.
+   - Goal: Build login/register screens, JWT storage, axios interceptors, protected routes, and global layout.
    - Autonomous: true
    - Requires human approval: false
 
-11. Frontend Task Board & Detail
+14. Frontend Task Board & Detail
    - ID: frontend-task-board
-   - Goal: Build Kanban board, task create/edit modal, task detail drawer with comments and activity timeline tabs, and filters by assignee/unassigned.
+   - Goal: Implement responsive task board, create/edit modal, task detail drawer with comments and activity timeline, filters by assignee and unassigned.
    - Autonomous: true
    - Requires human approval: false
 
-12. Frontend Teams & Dashboards
+15. Frontend Teams, Workload & Dashboard
    - ID: frontend-teams-dashboard
-   - Goal: Build teams list, team detail with member management, workload view, and global/team dashboards.
+   - Goal: Implement teams list, team detail with member management and workload, global dashboard, and profile screen.
    - Autonomous: true
    - Requires human approval: false
 
-13. Testing & Quality Assurance
-   - ID: testing-quality
-   - Goal: Add backend unit/integration tests (JUnit, Testcontainers) and frontend component tests; verify acceptance criteria.
+16. Automated Testing
+   - ID: testing-qa
+   - Goal: Add backend unit/integration tests (JUnit, Spring Boot Test) and frontend tests (Vitest/RTL) covering auth, RBAC, tasks, comments, audit.
    - Autonomous: true
    - Requires human approval: false
 
-14. Packaging & Delivery
-   - ID: packaging-delivery
-   - Goal: Produce build artifacts, Dockerfiles, env configuration, and README with run instructions for backend and frontend.
+17. Packaging, Docker & Deployment Readiness
+   - ID: packaging-deployment
+   - Goal: Containerize backend and frontend, provide docker-compose with PostgreSQL, environment configs, and README runbook.
    - Autonomous: true
    - Requires human approval: false
 

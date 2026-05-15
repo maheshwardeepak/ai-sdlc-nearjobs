@@ -1,99 +1,120 @@
 [
   {
-    "id": "foundation-setup",
-    "name": "Project Foundation & Tooling",
-    "goal": "Initialize Spring Boot Maven backend and Vite React TS frontend with PostgreSQL config, base configs, linting, and health endpoint.",
-    "autonomous": true,
+    "id": "planning-approval",
+    "name": "Plan Review & Approval",
+    "goal": "Present full execution plan for one-time human approval before autonomous execution.",
+    "autonomous": false,
     "requiresHumanApproval": true
   },
   {
-    "id": "database-schema",
-    "name": "Database Schema & Migrations",
-    "goal": "Define PostgreSQL schema and JPA entities for User, Team, TeamMembership, Task, Comment, ActivityLog with Flyway migrations.",
+    "id": "project-scaffolding",
+    "name": "Project Scaffolding & Tooling",
+    "goal": "Initialize Spring Boot Maven backend, Vite React TypeScript frontend with pnpm, PostgreSQL config, and shared lint/format tooling.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "database-and-entities",
+    "name": "Database Schema & JPA Entities",
+    "goal": "Define PostgreSQL schema and JPA entities for User, Team, TeamMember, Task, Comment, ActivityLog with migrations.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "health-endpoint",
+    "name": "Backend Health Endpoint",
+    "goal": "Implement /api/health endpoint and basic actuator configuration.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
     "id": "auth-security-jwt",
-    "name": "Authentication, JWT & Password Security",
-    "goal": "Implement registration, login, BCrypt password hashing, JWT issuance/validation, Spring Security filter chain, and /auth/me profile endpoint.",
+    "name": "Authentication & JWT Security",
+    "goal": "Implement registration, login, password hashing (BCrypt), JWT issuance/validation, and Spring Security filter chain protecting APIs.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
-    "id": "rbac-authorization",
-    "name": "Role-Based Access Control",
-    "goal": "Implement ADMIN/MANAGER/MEMBER roles, method-level security, and endpoint authorization rules across the API.",
+    "id": "rbac-and-profile",
+    "name": "RBAC & User Profile",
+    "goal": "Implement ADMIN/MANAGER/MEMBER roles, method-level authorization, and authenticated /users/me profile endpoint.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
-    "id": "task-management-core",
-    "name": "Task Management Core",
-    "goal": "Implement CRUD for tasks with title, description, priority, due date, and TODO/IN_PROGRESS/DONE statuses with validation.",
+    "id": "team-management",
+    "name": "Team Management & Membership",
+    "goal": "Implement team CRUD, member invitation/addition/removal, and team membership authorization.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
-    "id": "team-collaboration",
-    "name": "Team Management & Collaboration",
-    "goal": "Implement team creation, member invitation/removal, task assignment/reassignment, workload view, and assignee/unassigned filters.",
+    "id": "task-crud",
+    "name": "Task CRUD & Statuses",
+    "goal": "Implement task create/read/update/delete with title, description, priority, due date, and TODO/IN_PROGRESS/DONE statuses protected by auth.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
-    "id": "task-comments",
+    "id": "task-assignment-workload",
+    "name": "Task Assignment, Reassignment & Workload",
+    "goal": "Enable assigning/reassigning tasks to team members, filtering by assignee, unassigned tasks view, and workload metrics endpoint.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "comments",
     "name": "Task Comments",
-    "goal": "Implement add/edit/delete own comments with author and timestamp metadata exposed via API.",
+    "goal": "Implement comment creation, listing, edit/delete by author, with author and timestamp metadata.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
     "id": "activity-audit-log",
-    "name": "Activity Audit Logging",
-    "goal": "Capture activity events for task creation, status/priority/due-date/assignee changes, and comment create/delete; expose timeline API.",
+    "name": "Activity Audit Log",
+    "goal": "Capture and expose activity events for task creation, status, priority, due date, assignee changes, and comment create/delete.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
-    "id": "dashboard-metrics",
-    "name": "Dashboards & Reporting",
-    "goal": "Provide global and team-level dashboards with task counts by status and workload aggregations.",
+    "id": "dashboard-analytics",
+    "name": "Dashboard & Analytics APIs",
+    "goal": "Provide global and team-level dashboards with task counts by status and aggregates.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
     "id": "frontend-auth-shell",
     "name": "Frontend Auth Shell & Routing",
-    "goal": "Build React app skeleton with login/register pages, JWT storage, auth context, protected routes, and responsive layout.",
+    "goal": "Build login/register screens, JWT storage, axios interceptors, protected routes, and global layout.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
     "id": "frontend-task-board",
     "name": "Frontend Task Board & Detail",
-    "goal": "Build Kanban board, task create/edit modal, task detail drawer with comments and activity timeline tabs, and filters by assignee/unassigned.",
+    "goal": "Implement responsive task board, create/edit modal, task detail drawer with comments and activity timeline, filters by assignee and unassigned.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
     "id": "frontend-teams-dashboard",
-    "name": "Frontend Teams & Dashboards",
-    "goal": "Build teams list, team detail with member management, workload view, and global/team dashboards.",
+    "name": "Frontend Teams, Workload & Dashboard",
+    "goal": "Implement teams list, team detail with member management and workload, global dashboard, and profile screen.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
-    "id": "testing-quality",
-    "name": "Testing & Quality Assurance",
-    "goal": "Add backend unit/integration tests (JUnit, Testcontainers) and frontend component tests; verify acceptance criteria.",
+    "id": "testing-qa",
+    "name": "Automated Testing",
+    "goal": "Add backend unit/integration tests (JUnit, Spring Boot Test) and frontend tests (Vitest/RTL) covering auth, RBAC, tasks, comments, audit.",
     "autonomous": true,
     "requiresHumanApproval": false
   },
   {
-    "id": "packaging-delivery",
-    "name": "Packaging & Delivery",
-    "goal": "Produce build artifacts, Dockerfiles, env configuration, and README with run instructions for backend and frontend.",
+    "id": "packaging-deployment",
+    "name": "Packaging, Docker & Deployment Readiness",
+    "goal": "Containerize backend and frontend, provide docker-compose with PostgreSQL, environment configs, and README runbook.",
     "autonomous": true,
     "requiresHumanApproval": false
   }
