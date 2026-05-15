@@ -1,0 +1,28 @@
+# API Contracts: TaskFlowLite
+
+- GET /api/health: Backend health check endpoint
+- POST /api/auth/register: Register a new user with hashed password
+- POST /api/auth/login: Authenticate user and return JWT
+- GET /api/auth/me: Get current authenticated user profile
+- GET /api/users: List users (ADMIN only)
+- PATCH /api/users/{id}/role: Update user role (ADMIN only)
+- POST /api/teams: Create a new team
+- GET /api/teams: List teams for current user
+- GET /api/teams/{id}: Get team details
+- POST /api/teams/{id}/members: Invite/add a member to team
+- DELETE /api/teams/{id}/members/{userId}: Remove member from team
+- GET /api/teams/{id}/workload: Get per-member workload for team
+- GET /api/teams/{id}/dashboard: Team-level dashboard metrics
+- POST /api/tasks: Create a new task
+- GET /api/tasks: List tasks with filters (status, assignee, unassigned, teamId)
+- GET /api/tasks/{id}: Get task details including comments and activity
+- PUT /api/tasks/{id}: Update task fields
+- PATCH /api/tasks/{id}/status: Update task status
+- PATCH /api/tasks/{id}/assignee: Assign or reassign a task
+- DELETE /api/tasks/{id}: Delete a task
+- GET /api/dashboard/summary: Global dashboard counts by status
+- POST /api/tasks/{id}/comments: Add comment to a task
+- GET /api/tasks/{id}/comments: List comments on a task
+- PUT /api/comments/{id}: Edit own comment
+- DELETE /api/comments/{id}: Delete own comment
+- GET /api/tasks/{id}/activity: Get activity timeline for a task

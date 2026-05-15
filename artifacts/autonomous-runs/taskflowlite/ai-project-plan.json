@@ -1,0 +1,419 @@
+{
+  "productSummary": "TaskFlowLite is a lightweight team task workflow application enabling small teams to manage tasks across TODO/IN_PROGRESS/DONE statuses with JWT-secured authentication, role-based access (ADMIN/MANAGER/MEMBER), team collaboration, task assignment, threaded comments, and full activity audit logging. Built on Spring Boot + PostgreSQL backend with a React + TypeScript (Vite) frontend.",
+  "domainModules": [
+    "Authentication & Security",
+    "User & Profile Management",
+    "Role-Based Access Control",
+    "Team Management & Collaboration",
+    "Task Management",
+    "Task Assignment & Workload",
+    "Task Comments",
+    "Activity Audit Logging",
+    "Dashboard & Reporting",
+    "System Health & Observability"
+  ],
+  "entities": [
+    {
+      "name": "User",
+      "fields": [
+        "id",
+        "email",
+        "username",
+        "passwordHash",
+        "role",
+        "createdAt",
+        "updatedAt"
+      ],
+      "relationships": [
+        "has many TeamMembership",
+        "has many Task (as assignee)",
+        "has many Comment",
+        "has many ActivityLog"
+      ]
+    },
+    {
+      "name": "Team",
+      "fields": [
+        "id",
+        "name",
+        "description",
+        "ownerId",
+        "createdAt"
+      ],
+      "relationships": [
+        "has many TeamMembership",
+        "has many Task"
+      ]
+    },
+    {
+      "name": "TeamMembership",
+      "fields": [
+        "id",
+        "teamId",
+        "userId",
+        "role",
+        "joinedAt"
+      ],
+      "relationships": [
+        "belongs to Team",
+        "belongs to User"
+      ]
+    },
+    {
+      "name": "Task",
+      "fields": [
+        "id",
+        "title",
+        "description",
+        "status",
+        "priority",
+        "dueDate",
+        "teamId",
+        "assigneeId",
+        "createdById",
+        "createdAt",
+        "updatedAt"
+      ],
+      "relationships": [
+        "belongs to Team",
+        "belongs to User (assignee)",
+        "belongs to User (creator)",
+        "has many Comment",
+        "has many ActivityLog"
+      ]
+    },
+    {
+      "name": "Comment",
+      "fields": [
+        "id",
+        "taskId",
+        "authorId",
+        "content",
+        "createdAt",
+        "updatedAt"
+      ],
+      "relationships": [
+        "belongs to Task",
+        "belongs to User (author)"
+      ]
+    },
+    {
+      "name": "ActivityLog",
+      "fields": [
+        "id",
+        "taskId",
+        "actorId",
+        "action",
+        "fieldName",
+        "oldValue",
+        "newValue",
+        "createdAt"
+      ],
+      "relationships": [
+        "belongs to Task",
+        "belongs to User (actor)"
+      ]
+    }
+  ],
+  "apiContracts": [
+    {
+      "method": "GET",
+      "path": "/api/health",
+      "purpose": "Backend health check endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "purpose": "Register a new user with hashed password"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "purpose": "Authenticate user and return JWT"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "purpose": "Get current authenticated user profile"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users",
+      "purpose": "List users (ADMIN only)"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/users/{id}/role",
+      "purpose": "Update user role (ADMIN only)"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "purpose": "Create a new team"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "purpose": "List teams for current user"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams/{id}",
+      "purpose": "Get team details"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams/{id}/members",
+      "purpose": "Invite/add a member to team"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/teams/{id}/members/{userId}",
+      "purpose": "Remove member from team"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams/{id}/workload",
+      "purpose": "Get per-member workload for team"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams/{id}/dashboard",
+      "purpose": "Team-level dashboard metrics"
+    },
+    {
+      "method": "POST",
+      "path": "/api/tasks",
+      "purpose": "Create a new task"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks",
+      "purpose": "List tasks with filters (status, assignee, unassigned, teamId)"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks/{id}",
+      "purpose": "Get task details including comments and activity"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/tasks/{id}",
+      "purpose": "Update task fields"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/tasks/{id}/status",
+      "purpose": "Update task status"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/tasks/{id}/assignee",
+      "purpose": "Assign or reassign a task"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/tasks/{id}",
+      "purpose": "Delete a task"
+    },
+    {
+      "method": "GET",
+      "path": "/api/dashboard/summary",
+      "purpose": "Global dashboard counts by status"
+    },
+    {
+      "method": "POST",
+      "path": "/api/tasks/{id}/comments",
+      "purpose": "Add comment to a task"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks/{id}/comments",
+      "purpose": "List comments on a task"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/comments/{id}",
+      "purpose": "Edit own comment"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/comments/{id}",
+      "purpose": "Delete own comment"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks/{id}/activity",
+      "purpose": "Get activity timeline for a task"
+    }
+  ],
+  "uiScreens": [
+    {
+      "name": "Login",
+      "purpose": "Authenticate existing users via JWT"
+    },
+    {
+      "name": "Register",
+      "purpose": "Create new user account"
+    },
+    {
+      "name": "Dashboard",
+      "purpose": "Show task counts by status and personal overview"
+    },
+    {
+      "name": "Task Board",
+      "purpose": "Kanban-style board with TODO/IN_PROGRESS/DONE columns and filters"
+    },
+    {
+      "name": "Task Detail Drawer",
+      "purpose": "View/edit task with comments and activity timeline tabs"
+    },
+    {
+      "name": "Task Create/Edit Modal",
+      "purpose": "Form to create or edit task fields"
+    },
+    {
+      "name": "Teams List",
+      "purpose": "List user's teams and create new team"
+    },
+    {
+      "name": "Team Detail",
+      "purpose": "Show team members, workload, and team dashboard"
+    },
+    {
+      "name": "Team Members Management",
+      "purpose": "Invite/add/remove team members"
+    },
+    {
+      "name": "User Profile",
+      "purpose": "Display authenticated user info"
+    },
+    {
+      "name": "Admin Users",
+      "purpose": "Manage user roles (ADMIN only)"
+    },
+    {
+      "name": "Navigation Shell",
+      "purpose": "Responsive layout with sidebar/topbar and auth guard"
+    }
+  ],
+  "phases": [
+    {
+      "id": "foundation-setup",
+      "name": "Project Foundation & Tooling",
+      "goal": "Initialize Spring Boot Maven backend and Vite React TS frontend with PostgreSQL config, base configs, linting, and health endpoint.",
+      "autonomous": true,
+      "requiresHumanApproval": true
+    },
+    {
+      "id": "database-schema",
+      "name": "Database Schema & Migrations",
+      "goal": "Define PostgreSQL schema and JPA entities for User, Team, TeamMembership, Task, Comment, ActivityLog with Flyway migrations.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "auth-security-jwt",
+      "name": "Authentication, JWT & Password Security",
+      "goal": "Implement registration, login, BCrypt password hashing, JWT issuance/validation, Spring Security filter chain, and /auth/me profile endpoint.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "rbac-authorization",
+      "name": "Role-Based Access Control",
+      "goal": "Implement ADMIN/MANAGER/MEMBER roles, method-level security, and endpoint authorization rules across the API.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "task-management-core",
+      "name": "Task Management Core",
+      "goal": "Implement CRUD for tasks with title, description, priority, due date, and TODO/IN_PROGRESS/DONE statuses with validation.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "team-collaboration",
+      "name": "Team Management & Collaboration",
+      "goal": "Implement team creation, member invitation/removal, task assignment/reassignment, workload view, and assignee/unassigned filters.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "task-comments",
+      "name": "Task Comments",
+      "goal": "Implement add/edit/delete own comments with author and timestamp metadata exposed via API.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "activity-audit-log",
+      "name": "Activity Audit Logging",
+      "goal": "Capture activity events for task creation, status/priority/due-date/assignee changes, and comment create/delete; expose timeline API.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "dashboard-metrics",
+      "name": "Dashboards & Reporting",
+      "goal": "Provide global and team-level dashboards with task counts by status and workload aggregations.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "frontend-auth-shell",
+      "name": "Frontend Auth Shell & Routing",
+      "goal": "Build React app skeleton with login/register pages, JWT storage, auth context, protected routes, and responsive layout.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "frontend-task-board",
+      "name": "Frontend Task Board & Detail",
+      "goal": "Build Kanban board, task create/edit modal, task detail drawer with comments and activity timeline tabs, and filters by assignee/unassigned.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "frontend-teams-dashboard",
+      "name": "Frontend Teams & Dashboards",
+      "goal": "Build teams list, team detail with member management, workload view, and global/team dashboards.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "testing-quality",
+      "name": "Testing & Quality Assurance",
+      "goal": "Add backend unit/integration tests (JUnit, Testcontainers) and frontend component tests; verify acceptance criteria.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    },
+    {
+      "id": "packaging-delivery",
+      "name": "Packaging & Delivery",
+      "goal": "Produce build artifacts, Dockerfiles, env configuration, and README with run instructions for backend and frontend.",
+      "autonomous": true,
+      "requiresHumanApproval": false
+    }
+  ],
+  "acceptanceCriteria": [
+    "GET /api/health returns 200 with status payload without authentication.",
+    "Users can register and log in; passwords are stored as BCrypt hashes; login returns a valid JWT.",
+    "GET /api/auth/me returns the authenticated user profile and 401 when no/invalid JWT is supplied.",
+    "All task, comment, team, and assignment endpoints reject unauthenticated requests with 401.",
+    "ADMIN, MANAGER, and MEMBER roles are enforced; only ADMIN can modify user roles.",
+    "Tasks support title, description, priority, due date, and statuses TODO/IN_PROGRESS/DONE with full CRUD.",
+    "Only authenticated users can create, update, comment on, or assign tasks.",
+    "Teams can be created and members added/removed; tasks can be assigned and reassigned to team members.",
+    "Board can be filtered by assignee and can display unassigned tasks.",
+    "Per-member workload and team-level dashboard endpoints return accurate aggregates.",
+    "Users can add comments and edit/delete only their own comments; comments display author and timestamp.",
+    "Activity log records task creation, status/priority/due-date/assignee changes, and comment create/delete events.",
+    "Task detail view shows comments and activity timeline.",
+    "Global dashboard shows task counts grouped by TODO/IN_PROGRESS/DONE.",
+    "Frontend is responsive across desktop and mobile breakpoints.",
+    "PostgreSQL schema is provisioned via migrations and data persists across restarts.",
+    "Backend and frontend build successfully and run via documented commands."
+  ]
+}

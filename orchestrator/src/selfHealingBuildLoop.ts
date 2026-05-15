@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
 import { stabilizeGeneratedApp } from "./generatedAppStabilizer.js";
+import { buildDependencyRepairPlan } from "./dependencyReconciler.js";
 
 export type BuildFailureClass =
   | "missing-dependency"
@@ -120,7 +121,7 @@ function findGeneratedRoots(workspaceRoot: string): Array<{ role: string; root: 
 
 function commandForRoot(role: string, root: string): string {
   if (role === "frontend") {
-    return "pnpm add -D vitest jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/node @types/react @types/react-dom --ignore-workspace && pnpm install --frozen-lockfile=false && pnpm run build";
+    return "pnpm install --frozen-lockfile=false && pnpm run build";
   }
 
   if (fs.existsSync(path.join(root, "pom.xml"))) {
@@ -143,7 +144,7 @@ function commandForRoot(role: string, root: string): string {
     return "dotnet publish -c Release";
   }
 
-  return "pnpm add -D vitest jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/node @types/react @types/react-dom --ignore-workspace && pnpm install --frozen-lockfile=false && pnpm run build";
+  return "pnpm install --frozen-lockfile=false && pnpm run build";
 }
 
 export function runSelfHealingBuildLoop(
@@ -174,6 +175,29 @@ export function runSelfHealingBuildLoop(
 
       if (result.success) {
         break;
+      }
+
+      const dependencyRepair = buildDependencyRepairPlan(
+        root.root,
+        result.output
+      );
+
+      if (dependencyRepair) {
+        const repairResult = run(
+          `${dependencyRepair.installCommand} && pnpm install --frozen-lockfile=false`,
+          root.root
+        );
+
+        attempts.push({
+          attempt,
+          command: dependencyRepair.installCommand,
+          cwd: root.root,
+          success: repairResult.success,
+          output: repairResult.output,
+          failureClasses: repairResult.success
+            ? []
+            : classifyBuildOutput(repairResult.output)
+        });
       }
     }
   }

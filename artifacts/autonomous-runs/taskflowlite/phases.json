@@ -1,0 +1,100 @@
+[
+  {
+    "id": "foundation-setup",
+    "name": "Project Foundation & Tooling",
+    "goal": "Initialize Spring Boot Maven backend and Vite React TS frontend with PostgreSQL config, base configs, linting, and health endpoint.",
+    "autonomous": true,
+    "requiresHumanApproval": true
+  },
+  {
+    "id": "database-schema",
+    "name": "Database Schema & Migrations",
+    "goal": "Define PostgreSQL schema and JPA entities for User, Team, TeamMembership, Task, Comment, ActivityLog with Flyway migrations.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "auth-security-jwt",
+    "name": "Authentication, JWT & Password Security",
+    "goal": "Implement registration, login, BCrypt password hashing, JWT issuance/validation, Spring Security filter chain, and /auth/me profile endpoint.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "rbac-authorization",
+    "name": "Role-Based Access Control",
+    "goal": "Implement ADMIN/MANAGER/MEMBER roles, method-level security, and endpoint authorization rules across the API.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "task-management-core",
+    "name": "Task Management Core",
+    "goal": "Implement CRUD for tasks with title, description, priority, due date, and TODO/IN_PROGRESS/DONE statuses with validation.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "team-collaboration",
+    "name": "Team Management & Collaboration",
+    "goal": "Implement team creation, member invitation/removal, task assignment/reassignment, workload view, and assignee/unassigned filters.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "task-comments",
+    "name": "Task Comments",
+    "goal": "Implement add/edit/delete own comments with author and timestamp metadata exposed via API.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "activity-audit-log",
+    "name": "Activity Audit Logging",
+    "goal": "Capture activity events for task creation, status/priority/due-date/assignee changes, and comment create/delete; expose timeline API.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "dashboard-metrics",
+    "name": "Dashboards & Reporting",
+    "goal": "Provide global and team-level dashboards with task counts by status and workload aggregations.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "frontend-auth-shell",
+    "name": "Frontend Auth Shell & Routing",
+    "goal": "Build React app skeleton with login/register pages, JWT storage, auth context, protected routes, and responsive layout.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "frontend-task-board",
+    "name": "Frontend Task Board & Detail",
+    "goal": "Build Kanban board, task create/edit modal, task detail drawer with comments and activity timeline tabs, and filters by assignee/unassigned.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "frontend-teams-dashboard",
+    "name": "Frontend Teams & Dashboards",
+    "goal": "Build teams list, team detail with member management, workload view, and global/team dashboards.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "testing-quality",
+    "name": "Testing & Quality Assurance",
+    "goal": "Add backend unit/integration tests (JUnit, Testcontainers) and frontend component tests; verify acceptance criteria.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  },
+  {
+    "id": "packaging-delivery",
+    "name": "Packaging & Delivery",
+    "goal": "Produce build artifacts, Dockerfiles, env configuration, and README with run instructions for backend and frontend.",
+    "autonomous": true,
+    "requiresHumanApproval": false
+  }
+]

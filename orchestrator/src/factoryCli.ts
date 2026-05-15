@@ -82,10 +82,18 @@ import { generateStackInfra, generateStackInfraForWorkspace } from "./stackInfra
 import { runSelfHealingBuildLoop } from "./selfHealingBuildLoop.js";
 import { runFactoryReadinessCheck } from "./factoryReadinessCheck.js";
 import { runFactoryFinalProof } from "./factoryFinalProof.js";
+import { runEnterpriseReadinessCheck } from "./enterpriseReadinessCheck.js";
 import { verifyDockerRuntime } from "./dockerRuntimeVerifier.js";
 import { verifyRuntimeHealth } from "./runtimeHealthVerifier.js";
 import { executeRepairStrategies } from "./runtimeRepairExecutor.js";
 import { validateRuntimeContracts } from "./runtimeContractValidator.js";
+import { createProjectPhaseDag, loadProjectPhaseDag } from "./projectPhaseDag.js";
+import { runProjectPhase } from "./projectPhaseRunner.js";
+import { runAllProjectPhases } from "./projectPhaseOrchestrator.js";
+import { summarizeProjectPhaseMemory } from "./projectPhaseMemory.js";
+import { getProjectPhaseStatus } from "./projectPhaseStatus.js";
+import { loadProjectSyncMemory } from "./projectSyncMemory.js";
+import { createProjectPlan, approveProjectPlan, assertProjectPlanApproved } from "./projectPlanningEngine.js";
 
 
 import { loadState, saveState } from "./state.js";
@@ -104,6 +112,279 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "enterprise-readiness-check": {
+    const result = runEnterpriseReadinessCheck();
+
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+
+  case "project-sync-status": {
+    if (!arg) {
+      throw new Error("Usage: project-sync-status <ProjectName>");
+    }
+
+    const memory = loadProjectSyncMemory(arg);
+
+    if (!memory) {
+      console.log(JSON.stringify({
+        success: false,
+        project: arg,
+        message: "No project sync memory exists yet. It will be created after the first phase runs."
+      }, null, 2));
+      break;
+    }
+
+    console.log(JSON.stringify({
+      success: true,
+      memory
+    }, null, 2));
+
+    break;
+  }
+
+
+  case "project-phase-status": {
+    if (!arg) {
+      throw new Error("Usage: project-phase-status <ProjectName>");
+    }
+
+    const result = getProjectPhaseStatus(arg);
+
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+
+  case "show-phase-memory": {
+    if (!arg) {
+      throw new Error("Usage: show-phase-memory <ProjectName>");
+    }
+
+    console.log(summarizeProjectPhaseMemory(arg));
+    break;
+  }
+
+  case "show-phase-output": {
+    const projectName = process.argv[3];
+    const phaseId = process.argv[4];
+
+    if (!projectName || !phaseId) {
+      throw new Error("Usage: show-phase-output <ProjectName> <PhaseId>");
+    }
+
+    const projectSlug = projectName.toLowerCase().replace(/[^a-z0-9]+/g, "").trim();
+    const outputPath = `artifacts/autonomous-runs/${projectSlug}/phase-outputs/${phaseId}.md`;
+
+    if (!fs.existsSync(outputPath)) {
+      console.log(JSON.stringify({
+        success: false,
+        message: "Phase output does not exist yet.",
+        outputPath
+      }, null, 2));
+      break;
+    }
+
+    console.log(fs.readFileSync(outputPath, "utf8"));
+    break;
+  }
+
+
+  case "run-project-phases": {
+    if (!arg) {
+      throw new Error("Usage: run-project-phases <ProjectName>");
+    }
+
+    assertProjectPlanApproved(arg);
+
+    const result = await runAllProjectPhases(arg);
+
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.success) {
+      process.exit(1);
+    }
+
+    break;
+  }
+
+
+  case "run-project-phase": {
+    const projectName = process.argv[3];
+    const phaseId = process.argv[4];
+
+    if (!projectName || !phaseId) {
+      throw new Error(
+        "Usage: run-project-phase <ProjectName> <PhaseId>"
+      );
+    }
+
+    const result = await runProjectPhase(
+      projectName,
+      phaseId
+    );
+
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+
+  case "create-project-phase-dag": {
+    if (!arg) {
+      throw new Error("Usage: create-project-phase-dag <ProjectName>");
+    }
+
+    assertProjectPlanApproved(arg);
+
+    const dag = createProjectPhaseDag(arg);
+
+    console.log(JSON.stringify(dag, null, 2));
+    break;
+  }
+
+  case "show-project-phase-dag": {
+    if (!arg) {
+      throw new Error("Usage: show-project-phase-dag <ProjectName>");
+    }
+
+    const dag = loadProjectPhaseDag(arg);
+
+    console.log(JSON.stringify(dag, null, 2));
+    break;
+  }
+
+
+  case "project-plan-status": {
+    if (!arg) {
+      throw new Error("Usage: project-plan-status <ProjectName>");
+    }
+
+    const projectSlug = arg.toLowerCase().replace(/[^a-z0-9]+/g, "").trim();
+    const runDir = `artifacts/autonomous-runs/${projectSlug}`;
+    const approvalPath = `${runDir}/approval.json`;
+    const versionPath = `${runDir}/plan-version.json`;
+    const diffPath = `${runDir}/plan-diff.md`;
+    const aiPlanPath = `${runDir}/ai-project-plan.json`;
+
+    const result = {
+      success: fs.existsSync(approvalPath),
+      project: arg,
+      runDir,
+      approval: fs.existsSync(approvalPath)
+        ? JSON.parse(fs.readFileSync(approvalPath, "utf8"))
+        : null,
+      version: fs.existsSync(versionPath)
+        ? JSON.parse(fs.readFileSync(versionPath, "utf8"))
+        : null,
+      hasAiPlan: fs.existsSync(aiPlanPath),
+      hasPlanDiff: fs.existsSync(diffPath),
+      status: fs.existsSync(approvalPath)
+        ? (
+            JSON.parse(fs.readFileSync(approvalPath, "utf8")).approved
+              ? "APPROVED"
+              : "WAITING_FOR_PLAN_APPROVAL"
+          )
+        : "PLAN_NOT_CREATED",
+      nextCommand: fs.existsSync(approvalPath)
+        ? (
+            fs.existsSync(diffPath)
+              ? `pnpm exec tsx orchestrator/src/factoryCli.ts show-plan-diff ${arg}`
+              : `Review plan files in ${runDir}, then run: pnpm exec tsx orchestrator/src/factoryCli.ts approve-project-plan ${arg}`
+          )
+        : `pnpm exec tsx orchestrator/src/factoryCli.ts create-project-plan ${arg} <requirementsPath>`
+    };
+
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+
+  case "show-plan-diff": {
+    if (!arg) {
+      throw new Error("Usage: show-plan-diff <ProjectName>");
+    }
+
+    const projectSlug = arg.toLowerCase().replace(/[^a-z0-9]+/g, "").trim();
+    const diffPath = `artifacts/autonomous-runs/${projectSlug}/plan-diff.md`;
+
+    if (!fs.existsSync(diffPath)) {
+      console.log(JSON.stringify({
+        success: false,
+        message: "No plan diff exists yet. It will be created automatically the next time create-project-plan runs.",
+        diffPath
+      }, null, 2));
+      break;
+    }
+
+    console.log(fs.readFileSync(diffPath, "utf8"));
+
+    break;
+  }
+
+
+  case "create-project-plan": {
+    const [projectName, ...pathParts] = process.argv.slice(3);
+    const requirementsPath = pathParts.join(" ");
+
+    if (!projectName || !requirementsPath) {
+      throw new Error("Usage: create-project-plan <ProjectName> <requirementsPath>");
+    }
+
+    requireConfirmedTechnologyStackForCommand("create-project-plan");
+
+    const readiness = runFactoryReadinessCheck();
+
+    if (!readiness.success) {
+      console.log(JSON.stringify({
+        success: false,
+        stage: "factory-readiness-check",
+        readiness
+      }, null, 2));
+      process.exit(1);
+    }
+
+    const result = await createProjectPlan(projectName, requirementsPath);
+
+    console.log("========================================");
+    console.log("AUTONOMOUS PROJECT PLAN");
+    console.log("========================================");
+    console.log(result.summary);
+    console.log("========================================");
+    console.log("PLAN FILES");
+    console.log("========================================");
+    for (const file of result.files) {
+      console.log(file);
+    }
+    console.log("========================================");
+    console.log("NEXT COMMAND");
+    console.log("========================================");
+    console.log(`pnpm exec tsx orchestrator/src/factoryCli.ts approve-project-plan ${projectName}`);
+
+    break;
+  }
+
+  case "approve-project-plan": {
+    if (!arg) {
+      throw new Error("Usage: approve-project-plan <ProjectName>");
+    }
+
+    const approval = approveProjectPlan(arg);
+
+    console.log("Project plan approved.");
+    console.log(JSON.stringify(approval, null, 2));
+    console.log("Next command:");
+    console.log(`pnpm exec tsx orchestrator/src/factoryCli.ts start-autonomous-project ${arg}`);
+
+    break;
+  }
+
+
   case "factory-final-proof": {
     if (!arg) {
       throw new Error("Usage: factory-final-proof <workspaceRoot>");
@@ -1026,6 +1307,7 @@ switch (command) {
     }
 
     requireConfirmedTechnologyStackForCommand("run-autonomous-project");
+    assertProjectPlanApproved(arg);
 
     console.log("========================================");
     console.log("AUTONOMOUS AI SDLC FACTORY RUN STARTED");
