@@ -1,0 +1,15 @@
+{
+  "validatorId": "shell-worker-output-exists",
+  "validatorName": "Validate shell worker output",
+  "type": "shell",
+  "command": "test -f outputs/shell-worker.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest",
+  "startedAt": "2026-05-19T05:38:54.518Z",
+  "completedAt": "2026-05-19T05:38:54.521Z",
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/shell-worker-with-retry/2026-05-19T05-38-54-518Z-shell-worker-output-exists.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/shell-worker-with-retry/2026-05-19T05-38-54-518Z-shell-worker-output-exists.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/shell-worker-with-retry/2026-05-19T05-38-54-518Z-shell-worker-output-exists.stderr.log"
+}

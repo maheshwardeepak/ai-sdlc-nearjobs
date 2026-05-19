@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "project": "repairnoprogress",
+  "projectSlug": "repairnoprogress",
+  "loadedAt": "2026-05-19T05:35:47.232Z",
+  "updatedAt": "2026-05-19T05:35:51.738Z",
+  "phases": {
+    "no-progress-validation": {
+      "id": "no-progress-validation",
+      "status": "FAILED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:35:51.632Z",
+      "failedAt": "2026-05-19T05:35:51.738Z",
+      "repairingAt": "2026-05-19T05:35:51.686Z",
+      "lastExitCode": 1,
+      "lastError": "Repair stopped for phase no-progress-validation: NO_PROGRESS_REPAIR.",
+      "lastStdout": "",
+      "lastStderr": "Repair stopped for phase no-progress-validation: NO_PROGRESS_REPAIR.",
+      "lastValidation": {
+        "success": false,
+        "ranAt": "2026-05-19T05:35:51.738Z",
+        "results": [
+          {
+            "validatorId": "missing-output",
+            "type": "shell",
+            "exitCode": 1,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairnoprogress/logs/no-progress-validation/2026-05-19T05-35-51-735Z-missing-output.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairnoprogress/logs/no-progress-validation/2026-05-19T05-35-51-735Z-missing-output.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairnoprogress/logs/no-progress-validation/2026-05-19T05-35-51-735Z-missing-output.stderr.log"
+          }
+        ]
+      }
+    }
+  }
+}

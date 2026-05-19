@@ -2,58 +2,16 @@ spring:
   application:
     name: taskflow-backend
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/taskflow}
-    username: ${DATABASE_USER:taskflow}
-    password: ${DATABASE_PASSWORD:***
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/taskflow}
+    username: ${DB_USER:taskflow}
+    password: ${DB_PASSWORD:***
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: validate
     open-in-view: false
     properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-
-server:
-  port: ${SERVER_PORT:8080}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
-  endpoint:
-    health:
-      show-details: when-authorized
-
-taskflow:
-  jwt:
-    secret: ${JWT_SECRET:change…ion}
-    expiration-ms: 86400000
-
-// ===== AI MERGE APPEND =====
-
-spring:
-  application:
-    name: taskflowlite-backend
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/taskflowlite}
-    username: ${SPRING_DATASOURCE_USERNAME:taskflow}
-    password: ${SPRING_DATASOURCE_PASSWORD:***
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    open-in-view: false
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     enabled: true
     baseline-on-migrate: true
@@ -73,50 +31,10 @@ management:
 
 app:
   jwt:
-    secret: ${APP_JWT_SECRET:change…its}
-    expiration-ms: ${APP_JWT_EXPIRATION_MS:86400000}
+    secret: ${JWT_SECRET:change…890}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:60}
 
 logging:
   level:
-    com.taskflowlite: INFO
-
-// ===== AI MERGE APPEND =====
-
-spring:
-  application:
-    name: taskflowlite-backend
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/taskflowlite}
-    username: ${SPRING_DATASOURCE_USERNAME:taskflowlite}
-    password: ${SPRING_DATASOURCE_PASSWORD:***
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    open-in-view: false
-    properties:
-      hibernate:
-        jdbc:
-          time_zone: UTC
-        format_sql: false
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-
-server:
-  port: ${SERVER_PORT:8080}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
-  endpoint:
-    health:
-      show-details: when-authorized
-
-logging:
-  level:
-    org.hibernate.SQL: INFO
-    org.flywaydb: INFO
+    root: INFO
+    com.taskflowlite: DEBUG

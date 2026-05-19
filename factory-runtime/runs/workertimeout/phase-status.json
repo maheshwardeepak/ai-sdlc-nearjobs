@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "project": "workertimeout",
+  "projectSlug": "workertimeout",
+  "loadedAt": "2026-05-19T05:39:12.386Z",
+  "updatedAt": "2026-05-19T05:39:16.598Z",
+  "phases": {
+    "timeout-worker": {
+      "id": "timeout-worker",
+      "status": "FAILED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:39:16.491Z",
+      "failedAt": "2026-05-19T05:39:16.598Z",
+      "lastExitCode": 124,
+      "lastError": "Worker stderr: /Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout/worker-logs/timeout-worker/2026-05-19T05-39-16-491Z-attempt-1.stderr.log",
+      "lastStdout": "Worker stdout: /Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout/worker-logs/timeout-worker/2026-05-19T05-39-16-491Z-attempt-1.stdout.log",
+      "lastStderr": "Worker stderr: /Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout/worker-logs/timeout-worker/2026-05-19T05-39-16-491Z-attempt-1.stderr.log",
+      "lastWorker": {
+        "success": false,
+        "exitCode": 124,
+        "stdoutPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout/worker-logs/timeout-worker/2026-05-19T05-39-16-491Z-attempt-1.stdout.log",
+        "stderrPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout/worker-logs/timeout-worker/2026-05-19T05-39-16-491Z-attempt-1.stderr.log",
+        "errorSignature": "ee06bcb8b093f4785723b387278ffb588226b6a928591f4ef2dac71a48b5a930",
+        "attempts": 1,
+        "timedOut": true,
+        "workerType": "shell"
+      }
+    }
+  }
+}

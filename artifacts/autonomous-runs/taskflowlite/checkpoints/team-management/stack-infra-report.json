@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "stack": {
+    "backend": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "runtime": "JVM",
+      "packageManager": "maven"
+    },
+    "frontend": {
+      "language": "TypeScript",
+      "framework": "React",
+      "runtime": "Vite",
+      "packageManager": "pnpm"
+    },
+    "database": {
+      "engine": "PostgreSQL"
+    },
+    "confirmed": true,
+    "createdAt": "2026-05-13T13:58:25.108Z"
+  },
+  "generatedFiles": [
+    "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/Dockerfile",
+    "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/Dockerfile",
+    "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/docker-compose.yml",
+    "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/build-commands.json"
+  ],
+  "createdAt": "2026-05-15T11:30:24.163Z"
+}

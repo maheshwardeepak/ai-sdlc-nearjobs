@@ -87,12 +87,43 @@ export async function repairPhaseFailure(input: {
     };
   }
 
-  const writer = writePhaseArtifacts(process.cwd(), artifacts);
+  const normalizedArtifacts = artifacts.map((artifact) => {
+    let normalizedPath = artifact.path
+      .replace(/^\/Users\/[^/]+\/ai-sdlc-factory\//, "")
+      .replace(/^backend\//, "backend/")
+      .replace(/^frontend\//, "frontend/");
+
+    return {
+      ...artifact,
+      path: normalizedPath
+    };
+  });
+
+  const orchestratorArtifacts = normalizedArtifacts.filter((artifact) =>
+    artifact.path.startsWith("orchestrator/")
+  );
+
+  const appArtifacts = normalizedArtifacts.filter((artifact) =>
+    !artifact.path.startsWith("orchestrator/")
+  );
+
+  const orchestratorWrite = writePhaseArtifacts(
+    process.cwd(),
+    orchestratorArtifacts
+  );
+
+  const appWrite = writePhaseArtifacts(
+    input.workspaceRoot,
+    appArtifacts
+  );
 
   return {
-    success: writer.success,
+    success: orchestratorWrite.success && appWrite.success,
     outputFile: result.outputFile,
-    writtenFiles: writer.writtenFiles,
+    writtenFiles: [
+      ...orchestratorWrite.writtenFiles,
+      ...appWrite.writtenFiles
+    ],
     stdout: result.stdout,
     stderr: result.stderr
   };

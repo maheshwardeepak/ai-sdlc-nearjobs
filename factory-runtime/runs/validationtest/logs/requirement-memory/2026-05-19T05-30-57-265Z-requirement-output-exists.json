@@ -1,0 +1,15 @@
+{
+  "validatorId": "requirement-output-exists",
+  "validatorName": "Validate requirement memory output",
+  "type": "shell",
+  "command": "test -f outputs/01-requirement-memory.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest",
+  "startedAt": "2026-05-19T05:30:57.265Z",
+  "completedAt": "2026-05-19T05:30:57.268Z",
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/requirement-memory/2026-05-19T05-30-57-265Z-requirement-output-exists.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/requirement-memory/2026-05-19T05-30-57-265Z-requirement-output-exists.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/requirement-memory/2026-05-19T05-30-57-265Z-requirement-output-exists.stderr.log"
+}

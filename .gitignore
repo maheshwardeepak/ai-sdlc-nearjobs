@@ -54,3 +54,6 @@ artifacts/plans/*.json
 
 # Generated stack infrastructure artifacts
 artifacts/infra/
+.env
+*.env
+runtime/port-registry.json

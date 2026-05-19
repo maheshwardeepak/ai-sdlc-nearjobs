@@ -100,6 +100,8 @@ import { createProjectPlan, approveProjectPlan, assertProjectPlanApproved } from
 
 
 import { loadState, saveState } from "./state.js";
+import { openProjectUrls } from "./projectUrlOpener.js";
+import { runProjectPhaseWithRetry } from "./projectPhaseRetryRunner.js";
 
 function requireConfirmedTechnologyStackForCommand(commandName: string): void {
   const stackValidation = validateTechnologyStackContract();
@@ -115,6 +117,17 @@ const command = process.argv[2];
 const arg = process.argv.slice(3).join(" ");
 
 switch (command) {
+  case "open-project-urls": {
+    const result = openProjectUrls({
+      frontendUrl: "http://localhost:5173",
+      backendUrl: "http://localhost:8080/api/health"
+    });
+
+    console.log(JSON.stringify(result, null, 2));
+    break;
+  }
+
+
   case "self-repair-status": {
     if (!arg) {
       throw new Error("Usage: self-repair-status <ProjectName>");
@@ -167,7 +180,7 @@ switch (command) {
       break;
     }
 
-    const result = await runProjectPhase(
+    const result = await runProjectPhaseWithRetry(
       arg,
       status.nextPhase.id
     );

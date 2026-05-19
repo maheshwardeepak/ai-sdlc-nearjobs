@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "project": "testproject",
+  "projectSlug": "testproject",
+  "status": "DAG_COMPLETE_RUNTIME_PENDING",
+  "createdAt": "2026-05-19T05:21:59.828Z",
+  "updatedAt": "2026-05-19T05:27:04.193Z",
+  "plan": {
+    "id": "initial-plan",
+    "createdAt": "2026-05-19T05:21:59.828Z",
+    "approvedAt": "2026-05-19T05:22:04.020Z",
+    "approvedBy": "human"
+  },
+  "policy": {
+    "humanGate": "planning",
+    "postPlanMode": "autonomous"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "project": "testproject",
+  "phases": [
+    {
+      "id": "requirement-memory",
+      "name": "Persist requirement memory placeholder",
+      "dependsOn": [],
+      "command": "node -e \"const fs = require('fs'); fs.mkdirSync('outputs', { recursive: true }); fs.writeFileSync('outputs/01-requirement-memory.txt', 'requirement memory complete\\n'); console.log('requirement-memory passed');\"",
+      "validators": [
+        {
+          "id": "requirement-output-exists",
+          "name": "Validate requirement memory output",
+          "type": "shell",
+          "command": "test -f outputs/01-requirement-memory.txt"
+        }
+      ]
+    },
+    {
+      "id": "architecture-contract",
+      "name": "Create architecture contract placeholder",
+      "dependsOn": ["requirement-memory"],
+      "command": "node -e \"const fs = require('fs'); fs.mkdirSync('outputs', { recursive: true }); fs.writeFileSync('outputs/02-architecture-contract.txt', 'architecture contract complete\\n'); console.log('architecture-contract passed');\"",
+      "validators": [
+        {
+          "id": "architecture-output-exists",
+          "name": "Validate architecture contract output",
+          "type": "shell",
+          "command": "test -f outputs/02-architecture-contract.txt"
+        }
+      ]
+    },
+    {
+      "id": "phase-dag-proof",
+      "name": "Record DAG execution proof",
+      "dependsOn": ["architecture-contract"],
+      "command": "node -e \"const fs = require('fs'); fs.mkdirSync('outputs', { recursive: true }); fs.writeFileSync('outputs/03-phase-dag-proof.txt', 'dag execution complete\\n'); console.log('phase-dag-proof passed');\"",
+      "validators": [
+        {
+          "id": "dag-proof-output-exists",
+          "name": "Validate DAG proof output",
+          "type": "shell",
+          "command": "test -f outputs/03-phase-dag-proof.txt"
+        }
+      ]
+    }
+  ]
+}

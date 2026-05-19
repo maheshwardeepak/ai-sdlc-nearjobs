@@ -1,0 +1,20 @@
+{
+  "backend": {
+    "path": "backend",
+    "build": "maven",
+    "pom": "backend/pom.xml",
+    "mainClass": "com.taskflowlite.TaskFlowLiteApplication",
+    "port": 8080,
+    "healthEndpoint": "/api/health"
+  },
+  "frontend": {
+    "path": "frontend",
+    "build": "vite",
+    "packageManager": "pnpm",
+    "port": 3000
+  },
+  "database": {
+    "type": "postgresql",
+    "version": "16"
+  }
+}

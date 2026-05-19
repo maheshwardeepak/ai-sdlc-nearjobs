@@ -1,0 +1,361 @@
+[
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "frontend-auth-shell",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/__tests__/auth.test.tsx",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/auth/authStorage.ts",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/auth/AuthContext.tsx",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/auth/ProtectedRoute.tsx",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/lib/api.ts",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/pages/LoginPage.tsx",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/pages/RegisterPage.tsx",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/pages/DashboardPage.tsx",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/layout/AppLayout.tsx",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/App.tsx"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-frontend-auth-shell-1778838940591.md",
+    "createdAt": "2026-05-15T09:56:31.628Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "testing-qa",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/frontend/src/test/auth.test.tsx"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-testing-qa-1778839534194.md",
+    "createdAt": "2026-05-15T10:05:53.101Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "testing-qa",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/backend/src/test/resources/application-test.properties"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-testing-qa-1778839647401.md",
+    "createdAt": "2026-05-15T10:07:41.016Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/backend/src/main/resources/application-prod.yml",
+      "/Users/nanofactory/ai-sdlc-factory/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/backend/pom.xml.marker",
+      "/Users/nanofactory/ai-sdlc-factory/.taskflowlite-app.json"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778839826925.md",
+    "createdAt": "2026-05-15T10:11:29.544Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/backend/src/main/resources/application-docker.yml",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/backend/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/.dockerignore"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778839989651.md",
+    "createdAt": "2026-05-15T10:14:25.794Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/backend/src/main/resources/application-prod.yml",
+      "/Users/nanofactory/ai-sdlc-factory/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/.dockerignore"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778840164759.md",
+    "createdAt": "2026-05-15T10:17:02.048Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application-prod.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/.mvn/wrapper/maven-wrapper.properties"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778843359204.md",
+    "createdAt": "2026-05-15T11:10:27.501Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application-prod.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/pom.xml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/PROJECT_LAYOUT.md"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778843523107.md",
+    "createdAt": "2026-05-15T11:13:14.008Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application-prod.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/TaskFlowLiteApplication.java"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778843680114.md",
+    "createdAt": "2026-05-15T11:15:46.918Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application-prod.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/Application.java"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778844105837.md",
+    "createdAt": "2026-05-15T11:22:36.183Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application-prod.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/DEPLOYMENT.md"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778844249359.md",
+    "createdAt": "2026-05-15T11:25:22.509Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application-prod.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/Dockerfile",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/.dockerignore",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/frontend/nginx.conf",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/docker-compose.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/.env.example",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/README.md",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/.mvn/wrapper/maven-wrapper.properties",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/DEPLOYMENT.md"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-packaging-deployment-1778844416601.md",
+    "createdAt": "2026-05-15T11:27:59.802Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "team-management",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/CreateTeamRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/UpdateTeamRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/TeamResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/AddMemberRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/TeamMemberResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/repository/TeamRepository.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/repository/TeamMemberRepository.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/ForbiddenException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/ValidationException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/security/TeamSecurity.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/service/TeamService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/controller/TeamController.java"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-team-management-1778847320175.md",
+    "createdAt": "2026-05-15T12:16:36.525Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "team-management",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/ForbiddenException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/ValidationException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/GlobalExceptionHandler.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/NotFoundException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/ConflictException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/CreateTeamRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/UpdateTeamRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/AddMemberRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/TeamResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/TeamMemberResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/repository/TeamRepository.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/repository/TeamMemberRepository.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/security/TeamSecurity.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/service/TeamService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/controller/TeamController.java"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-team-management-1778847859947.md",
+    "createdAt": "2026-05-15T12:25:53.542Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "team-management",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/ForbiddenException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/ValidationException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/CreateTeamRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/UpdateTeamRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/AddMemberRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/TeamResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/dto/TeamMemberResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/repository/TeamRepository.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/repository/TeamMemberRepository.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/security/TeamSecurity.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/service/TeamService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/team/controller/TeamController.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/GlobalExceptionHandler.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/domain/repository/UserRepository.java"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-team-management-1778848542266.md",
+    "createdAt": "2026-05-15T12:37:08.924Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "auth-security-jwt",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/AuthException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/JwtProperties.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/JwtService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/RegisterRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/LoginRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/AuthResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/service/AuthService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/controller/AuthController.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/AuthenticatedUser.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/JwtAuthenticationFilter.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/RestAuthenticationEntryPoint.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/RestAccessDeniedHandler.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/SecurityConfig.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/AuthExceptionHandler.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/test/java/com/taskflowlite/auth/AuthFlowTest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/user/UserMeController.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/pom.xml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application-test.yml"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-auth-security-jwt-1778849914657.md",
+    "createdAt": "2026-05-15T13:00:34.218Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "auth-security-jwt",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/service/AuthService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/security/JwtService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/security/JwtAuthenticationFilter.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/AuthResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/RegisterRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/LoginRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/web/AuthController.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/security/SecurityConfig.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/JwtAuthenticationFilter.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/AuthExceptionHandler.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/exception/AuthExceptionHandler.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/NotFoundException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/ConflictException.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/common/exception/GlobalExceptionHandler.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/domain/repository/UserRepository.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application.yml",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/resources/application-test.yml"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-auth-security-jwt-1778850446956.md",
+    "createdAt": "2026-05-15T13:09:00.226Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "auth-security-jwt",
+    "success": true,
+    "writtenFiles": [
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/service/AuthService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/RegisterRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/LoginRequest.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/dto/AuthResponse.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/security/JwtService.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/security/JwtAuthenticationFilter.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/JwtAuthenticationFilter.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/security/SecurityConfig.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/user/UserMeController.java",
+      "/Users/nanofactory/ai-sdlc-factory/runtime/workspaces/taskflowlite/backend/src/main/java/com/taskflowlite/auth/controller/AuthController.java"
+    ],
+    "outputFile": "/Users/nanofactory/ai-sdlc-factory/runtime/openclaw/phase-repair-taskflowlite-auth-security-jwt-1778851190689.md",
+    "createdAt": "2026-05-15T13:21:00.699Z"
+  }
+]

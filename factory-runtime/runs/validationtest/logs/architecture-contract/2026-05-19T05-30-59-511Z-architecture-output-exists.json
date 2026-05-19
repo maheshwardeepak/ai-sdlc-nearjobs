@@ -1,0 +1,15 @@
+{
+  "validatorId": "architecture-output-exists",
+  "validatorName": "Validate architecture contract output",
+  "type": "shell",
+  "command": "test -f outputs/02-architecture-contract.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest",
+  "startedAt": "2026-05-19T05:30:59.511Z",
+  "completedAt": "2026-05-19T05:30:59.515Z",
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/architecture-contract/2026-05-19T05-30-59-511Z-architecture-output-exists.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/architecture-contract/2026-05-19T05-30-59-511Z-architecture-output-exists.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/architecture-contract/2026-05-19T05-30-59-511Z-architecture-output-exists.stderr.log"
+}

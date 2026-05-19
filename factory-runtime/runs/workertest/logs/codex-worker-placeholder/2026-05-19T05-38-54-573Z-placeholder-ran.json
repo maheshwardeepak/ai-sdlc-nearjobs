@@ -1,0 +1,15 @@
+{
+  "validatorId": "placeholder-ran",
+  "validatorName": "Validate placeholder phase reached",
+  "type": "shell",
+  "command": "test -f outputs/shell-worker.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest",
+  "startedAt": "2026-05-19T05:38:54.573Z",
+  "completedAt": "2026-05-19T05:38:54.577Z",
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/codex-worker-placeholder/2026-05-19T05-38-54-573Z-placeholder-ran.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/codex-worker-placeholder/2026-05-19T05-38-54-573Z-placeholder-ran.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/codex-worker-placeholder/2026-05-19T05-38-54-573Z-placeholder-ran.stderr.log"
+}

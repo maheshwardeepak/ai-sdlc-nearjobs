@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "project": "validationfailtest",
+  "projectSlug": "validationfailtest",
+  "loadedAt": "2026-05-19T05:31:18.964Z",
+  "updatedAt": "2026-05-19T05:31:23.680Z",
+  "phases": {
+    "phase-command-passes-validation-fails": {
+      "id": "phase-command-passes-validation-fails",
+      "status": "FAILED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:31:23.626Z",
+      "failedAt": "2026-05-19T05:31:23.680Z",
+      "lastExitCode": 1,
+      "lastError": "Validation failed for phase phase-command-passes-validation-fails.",
+      "lastStdout": "",
+      "lastStderr": "Validation failed for phase phase-command-passes-validation-fails.",
+      "lastValidation": {
+        "success": false,
+        "ranAt": "2026-05-19T05:31:23.680Z",
+        "results": [
+          {
+            "validatorId": "intentional-missing-output",
+            "type": "shell",
+            "exitCode": 1,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationfailtest/logs/phase-command-passes-validation-fails/2026-05-19T05-31-23-676Z-intentional-missing-output.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationfailtest/logs/phase-command-passes-validation-fails/2026-05-19T05-31-23-676Z-intentional-missing-output.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationfailtest/logs/phase-command-passes-validation-fails/2026-05-19T05-31-23-676Z-intentional-missing-output.stderr.log"
+          }
+        ]
+      }
+    }
+  }
+}

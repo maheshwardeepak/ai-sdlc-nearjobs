@@ -10,5 +10,11 @@
     "frontend": 5173,
     "postgres": 5434,
     "redis": 6381
+  },
+  "taskflowlite": {
+    "backend": 3002,
+    "frontend": 5175,
+    "postgres": 5435,
+    "redis": 6379
   }
 }

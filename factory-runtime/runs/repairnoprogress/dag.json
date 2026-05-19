@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "project": "repairnoprogress",
+  "phases": [
+    {
+      "id": "no-progress-validation",
+      "name": "Repair makes no validation progress",
+      "dependsOn": [],
+      "command": "node -e \"console.log('phase command passed');\"",
+      "validators": [
+        {
+          "id": "missing-output",
+          "name": "Validate missing output",
+          "type": "shell",
+          "command": "test -f outputs/still-missing.txt"
+        }
+      ],
+      "repairs": [
+        {
+          "id": "no-progress-repair",
+          "name": "No progress repair",
+          "command": "node -e \"console.log('repair ran but did not create output');\""
+        }
+      ]
+    }
+  ]
+}

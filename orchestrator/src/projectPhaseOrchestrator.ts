@@ -19,6 +19,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { loadProjectPhaseDag } from "./projectPhaseDag.js";
 import { runProjectPhaseWithRetry } from "./projectPhaseRetryRunner.js";
+import { logPhaseEvent } from "./projectPhaseLogger.js";
 
 export type ProjectPhaseOrchestrationResult = {
   success: boolean;
@@ -32,6 +33,12 @@ export async function runAllProjectPhases(
   const dag = loadProjectPhaseDag(projectName);
   const results: Array<Awaited<ReturnType<typeof runProjectPhaseWithRetry>>> = [];
 
+  logPhaseEvent({
+    type: "AUTONOMOUS_PHASE_RUN_START",
+    project: projectName,
+    message: `Starting autonomous phase run with ${dag.nodes.length} phases`
+  });
+
   for (const node of dag.nodes) {
     if (node.requiresHumanApproval) {
       continue;
@@ -41,8 +48,27 @@ export async function runAllProjectPhases(
       continue;
     }
 
+    logPhaseEvent({
+      type: "PHASE_START",
+      project: projectName,
+      phaseId: node.id,
+      phaseName: node.name,
+      message: `Running phase ${node.id}`
+    });
+
     const result = await runProjectPhaseWithRetry(projectName, node.id);
     results.push(result);
+
+    logPhaseEvent({
+      type: result.success ? "PHASE_PASSED" : "PHASE_FAILED",
+      project: projectName,
+      phaseId: node.id,
+      phaseName: node.name,
+      message: result.success
+        ? `Phase ${node.id} passed`
+        : `Phase ${node.id} failed`,
+      data: result
+    });
 
     if (!result.success) {
       return {
@@ -52,6 +78,12 @@ export async function runAllProjectPhases(
       };
     }
   }
+
+  logPhaseEvent({
+    type: "AUTONOMOUS_PHASE_RUN_COMPLETE",
+    project: projectName,
+    message: "All runnable phases completed successfully"
+  });
 
   return {
     success: true,

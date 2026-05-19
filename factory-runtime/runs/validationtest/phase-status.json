@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "project": "validationtest",
+  "projectSlug": "validationtest",
+  "loadedAt": "2026-05-19T05:30:54.776Z",
+  "updatedAt": "2026-05-19T05:30:59.573Z",
+  "phases": {
+    "requirement-memory": {
+      "id": "requirement-memory",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:30:57.213Z",
+      "completedAt": "2026-05-19T05:30:57.268Z",
+      "lastExitCode": 0,
+      "lastStdout": "requirement-memory passed\n",
+      "lastStderr": "",
+      "lastValidation": {
+        "success": true,
+        "ranAt": "2026-05-19T05:30:57.268Z",
+        "results": [
+          {
+            "validatorId": "requirement-output-exists",
+            "type": "shell",
+            "exitCode": 0,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/requirement-memory/2026-05-19T05-30-57-265Z-requirement-output-exists.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/requirement-memory/2026-05-19T05-30-57-265Z-requirement-output-exists.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/requirement-memory/2026-05-19T05-30-57-265Z-requirement-output-exists.stderr.log"
+          }
+        ]
+      }
+    },
+    "architecture-contract": {
+      "id": "architecture-contract",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:30:59.447Z",
+      "completedAt": "2026-05-19T05:30:59.516Z",
+      "lastExitCode": 0,
+      "lastStdout": "architecture-contract passed\n",
+      "lastStderr": "",
+      "lastValidation": {
+        "success": true,
+        "ranAt": "2026-05-19T05:30:59.516Z",
+        "results": [
+          {
+            "validatorId": "architecture-output-exists",
+            "type": "shell",
+            "exitCode": 0,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/architecture-contract/2026-05-19T05-30-59-511Z-architecture-output-exists.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/architecture-contract/2026-05-19T05-30-59-511Z-architecture-output-exists.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/architecture-contract/2026-05-19T05-30-59-511Z-architecture-output-exists.stderr.log"
+          }
+        ]
+      }
+    },
+    "phase-dag-proof": {
+      "id": "phase-dag-proof",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:30:59.516Z",
+      "completedAt": "2026-05-19T05:30:59.573Z",
+      "lastExitCode": 0,
+      "lastStdout": "phase-dag-proof passed\n",
+      "lastStderr": "",
+      "lastValidation": {
+        "success": true,
+        "ranAt": "2026-05-19T05:30:59.573Z",
+        "results": [
+          {
+            "validatorId": "dag-proof-output-exists",
+            "type": "shell",
+            "exitCode": 0,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/phase-dag-proof/2026-05-19T05-30-59-570Z-dag-proof-output-exists.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/phase-dag-proof/2026-05-19T05-30-59-570Z-dag-proof-output-exists.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/phase-dag-proof/2026-05-19T05-30-59-570Z-dag-proof-output-exists.stderr.log"
+          }
+        ]
+      }
+    }
+  }
+}

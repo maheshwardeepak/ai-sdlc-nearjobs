@@ -49,7 +49,7 @@
       "id": "auth-security-jwt",
       "name": "Authentication & JWT Security",
       "goal": "Implement registration, login, password hashing (BCrypt), JWT issuance/validation, and Spring Security filter chain protecting APIs.",
-      "status": "PENDING",
+      "status": "FAILED",
       "dependsOn": [
         "health-endpoint"
       ],

@@ -1,0 +1,32 @@
+**/node_modules
+**/target
+**/dist
+**/.git
+**/.idea
+**/*.log
+
+// ===== AI MERGE APPEND =====
+
+**/node_modules
+**/target
+**/dist
+**/.git
+**/.gitignore
+**/.idea
+**/.vscode
+**/*.log
+**/coverage
+.env
+.env.local
+
+// ===== AI MERGE APPEND =====
+
+.git
+.gitignore
+.idea
+.vscode
+node_modules
+target
+dist
+*.log
+.env

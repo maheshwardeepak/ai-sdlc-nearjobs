@@ -1,16 +1,7 @@
 node_modules
 dist
-.vite
-.env
-.env.local
-*.log
-
-// ===== AI MERGE APPEND =====
-
-node_modules
-dist
-.env
-.env.local
-*.log
+dist-ssr
+.DS_Store
+*.local
 .vite
 coverage

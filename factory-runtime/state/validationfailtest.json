@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "project": "validationfailtest",
+  "projectSlug": "validationfailtest",
+  "status": "PHASE_FAILED_REPAIRING",
+  "createdAt": "2026-05-19T05:31:13.924Z",
+  "updatedAt": "2026-05-19T05:31:23.680Z",
+  "plan": {
+    "id": "initial-plan",
+    "createdAt": "2026-05-19T05:31:13.924Z",
+    "approvedAt": "2026-05-19T05:31:16.253Z",
+    "approvedBy": "human"
+  },
+  "policy": {
+    "humanGate": "planning",
+    "postPlanMode": "autonomous"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "validatorId": "continued-output-exists",
+  "validatorName": "Validate continuation output",
+  "type": "shell",
+  "command": "test -f outputs/continued.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest",
+  "startedAt": "2026-05-19T05:35:34.602Z",
+  "completedAt": "2026-05-19T05:35:34.605Z",
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/post-repair-continuation/2026-05-19T05-35-34-602Z-continued-output-exists.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/post-repair-continuation/2026-05-19T05-35-34-602Z-continued-output-exists.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/post-repair-continuation/2026-05-19T05-35-34-602Z-continued-output-exists.stderr.log"
+}

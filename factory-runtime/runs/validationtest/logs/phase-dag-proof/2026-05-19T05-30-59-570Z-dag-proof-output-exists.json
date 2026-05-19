@@ -1,0 +1,15 @@
+{
+  "validatorId": "dag-proof-output-exists",
+  "validatorName": "Validate DAG proof output",
+  "type": "shell",
+  "command": "test -f outputs/03-phase-dag-proof.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest",
+  "startedAt": "2026-05-19T05:30:59.570Z",
+  "completedAt": "2026-05-19T05:30:59.573Z",
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/phase-dag-proof/2026-05-19T05-30-59-570Z-dag-proof-output-exists.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/phase-dag-proof/2026-05-19T05-30-59-570Z-dag-proof-output-exists.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationtest/logs/phase-dag-proof/2026-05-19T05-30-59-570Z-dag-proof-output-exists.stderr.log"
+}

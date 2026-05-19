@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "project": "workertimeout",
+  "phases": [
+    {
+      "id": "timeout-worker",
+      "name": "Worker timeout smoke phase",
+      "dependsOn": [],
+      "worker": {
+        "type": "shell",
+        "command": "node -e \"setTimeout(() => console.log('too late'), 1000);\"",
+        "timeoutMs": 100,
+        "retries": 0
+      },
+      "validators": []
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "validatorId": "missing-output",
+  "validatorName": "Validate missing output",
+  "type": "shell",
+  "command": "test -f outputs/still-missing.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairnoprogress",
+  "startedAt": "2026-05-19T05:35:51.735Z",
+  "completedAt": "2026-05-19T05:35:51.738Z",
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairnoprogress/logs/no-progress-validation/2026-05-19T05-35-51-735Z-missing-output.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairnoprogress/logs/no-progress-validation/2026-05-19T05-35-51-735Z-missing-output.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairnoprogress/logs/no-progress-validation/2026-05-19T05-35-51-735Z-missing-output.stderr.log"
+}

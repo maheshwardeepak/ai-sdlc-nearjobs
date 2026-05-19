@@ -1,0 +1,9 @@
+{
+  "commands": [
+    "cd backend && mvn -q package",
+    "cd frontend && pnpm install && pnpm run build",
+    "docker compose build",
+    "docker compose up -d",
+    "docker compose ps"
+  ]
+}

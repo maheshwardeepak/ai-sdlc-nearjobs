@@ -1,0 +1,149 @@
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 90;
+}
+
+.drawer {
+  background: white;
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: -4px 0 16px rgba(0,0,0,0.1);
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.drawer-header h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  flex: 1;
+  word-break: break-word;
+}
+
+.drawer-loading {
+  padding: 1rem;
+  color: #6b7280;
+}
+
+.drawer-meta {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.meta-label {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.meta-row select {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.meta-description {
+  margin-top: 0.5rem;
+}
+
+.meta-description p {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: #374151;
+  white-space: pre-wrap;
+}
+
+.status-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-TODO { background: #e0e7ff; color: #3730a3; }
+.status-IN_PROGRESS { background: #fef3c7; color: #92400e; }
+.status-DONE { background: #d1fae5; color: #065f46; }
+
+.drawer-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.btn-danger {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #dc2626;
+  background: white;
+  color: #dc2626;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-danger:hover {
+  background: #fee2e2;
+}
+
+.drawer-tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  font-weight: 500;
+}
+
+.drawer-tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .drawer {
+    max-width: 100%;
+  }
+}

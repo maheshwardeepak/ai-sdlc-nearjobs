@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "project": "testproject",
+  "projectSlug": "testproject",
+  "loadedAt": "2026-05-19T05:26:59.665Z",
+  "updatedAt": "2026-05-19T05:27:04.192Z",
+  "phases": {
+    "requirement-memory": {
+      "id": "requirement-memory",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:27:01.792Z",
+      "completedAt": "2026-05-19T05:27:01.843Z",
+      "lastExitCode": 0,
+      "lastStdout": "requirement-memory passed\n",
+      "lastStderr": ""
+    },
+    "architecture-contract": {
+      "id": "architecture-contract",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:27:04.089Z",
+      "completedAt": "2026-05-19T05:27:04.142Z",
+      "lastExitCode": 0,
+      "lastStdout": "architecture-contract passed\n",
+      "lastStderr": ""
+    },
+    "phase-dag-proof": {
+      "id": "phase-dag-proof",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:27:04.142Z",
+      "completedAt": "2026-05-19T05:27:04.192Z",
+      "lastExitCode": 0,
+      "lastStdout": "phase-dag-proof passed\n",
+      "lastStderr": ""
+    }
+  }
+}

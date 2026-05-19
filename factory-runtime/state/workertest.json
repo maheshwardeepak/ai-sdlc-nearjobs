@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "project": "workertest",
+  "projectSlug": "workertest",
+  "status": "DAG_COMPLETE_RUNTIME_PENDING",
+  "createdAt": "2026-05-19T05:38:45.499Z",
+  "updatedAt": "2026-05-19T05:38:54.577Z",
+  "plan": {
+    "id": "initial-plan",
+    "createdAt": "2026-05-19T05:38:45.499Z",
+    "approvedAt": "2026-05-19T05:38:48.159Z",
+    "approvedBy": "human"
+  },
+  "policy": {
+    "humanGate": "planning",
+    "postPlanMode": "autonomous"
+  }
+}

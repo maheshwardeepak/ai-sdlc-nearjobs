@@ -50,8 +50,9 @@ export function getProjectPhaseStatus(projectName: string) {
 
   const dag = JSON.parse(fs.readFileSync(dagPath, "utf8"));
   const memory = loadProjectPhaseMemory(projectName);
+  const runnableNodes = dag.nodes.filter((node: any) => node.autonomous !== false);
 
-  const nextPhase = dag.nodes.find((node: any) => {
+  const nextPhase = runnableNodes.find((node: any) => {
     if (node.status === "PASSED") return false;
     if (node.requiresHumanApproval) return false;
 
@@ -71,12 +72,14 @@ export function getProjectPhaseStatus(projectName: string) {
   return {
     success: true,
     project: projectName,
-    status: "READY_OR_RUNNING",
-    totalPhases: dag.nodes.length,
-    passed: dag.nodes.filter((node: any) => node.status === "PASSED").length,
-    failed: dag.nodes.filter((node: any) => node.status === "FAILED").length,
-    pending: dag.nodes.filter((node: any) => node.status === "PENDING").length,
-    running: dag.nodes.filter((node: any) => node.status === "RUNNING").length,
+    status: runnableNodes.every((node: any) => node.status === "PASSED")
+      ? "COMPLETE"
+      : "READY_OR_RUNNING",
+    totalPhases: runnableNodes.length,
+    passed: runnableNodes.filter((node: any) => node.status === "PASSED").length,
+    failed: runnableNodes.filter((node: any) => node.status === "FAILED").length,
+    pending: runnableNodes.filter((node: any) => node.status === "PENDING").length,
+    running: runnableNodes.filter((node: any) => node.status === "RUNNING").length,
     nextPhase: nextPhase || null,
     memoryEntries: memory.length
   };

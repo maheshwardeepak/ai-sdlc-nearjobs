@@ -35,14 +35,40 @@ export function writePhaseArtifacts(
 
     fs.mkdirSync(path.dirname(target), { recursive: true });
 
-    const existing = loadExistingFile(target);
+    const replaceOnlyExtensions = [
+      ".java",
+      ".xml",
+      ".yml",
+      ".yaml",
+      ".json",
+      ".env",
+      ".properties",
+      ".sql",
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx"
+    ];
 
-    const merge = semanticMergeFile(
-      existing,
-      artifact.content
-    );
+    const baseName = path.basename(target);
 
-    fs.writeFileSync(target, merge.content);
+    const shouldReplace =
+      replaceOnlyExtensions.some((ext) => target.endsWith(ext)) ||
+      baseName === "Dockerfile" ||
+      baseName.startsWith(".env");
+
+    if (shouldReplace) {
+      fs.writeFileSync(target, artifact.content);
+    } else {
+      const existing = loadExistingFile(target);
+
+      const merge = semanticMergeFile(
+        existing,
+        artifact.content
+      );
+
+      fs.writeFileSync(target, merge.content);
+    }
 
     writtenFiles.push(target);
   }

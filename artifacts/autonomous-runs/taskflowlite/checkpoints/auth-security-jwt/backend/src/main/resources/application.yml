@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: taskflow-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/taskflowlite}
+    username: ${SPRING_DATASOURCE_USERNAME:taskflow}
+    password: ${SPRING_DATASOURCE_PASSWORD:***
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET:dev-se…-me}
+    expiration-seconds: ${APP_JWT_EXPIRATION_SECONDS:86400}

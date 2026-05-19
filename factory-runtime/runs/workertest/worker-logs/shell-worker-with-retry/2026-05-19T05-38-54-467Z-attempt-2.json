@@ -1,0 +1,17 @@
+{
+  "attempt": 2,
+  "workerType": "shell",
+  "command": "node -e \"const fs = require('fs'); fs.mkdirSync('outputs', { recursive: true }); const marker = 'outputs/retry-marker.txt'; if (!fs.existsSync(marker)) { fs.writeFileSync(marker, 'first attempt failed\\n'); console.error('intentional first-attempt worker failure'); process.exit(7); } fs.writeFileSync('outputs/shell-worker.txt', 'shell worker complete\\n'); console.log('shell worker passed on retry');\"",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest",
+  "timeoutMs": 5000,
+  "startedAt": "2026-05-19T05:38:54.467Z",
+  "completedAt": "2026-05-19T05:38:54.517Z",
+  "exitCode": 0,
+  "timedOut": false,
+  "stdout": "shell worker passed on retry\n",
+  "stderr": "",
+  "stdoutPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/shell-worker-with-retry/2026-05-19T05-38-54-467Z-attempt-2.stdout.log",
+  "stderrPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/shell-worker-with-retry/2026-05-19T05-38-54-467Z-attempt-2.stderr.log",
+  "resultPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/shell-worker-with-retry/2026-05-19T05-38-54-467Z-attempt-2.json",
+  "errorSignature": "0903e15604230d986fe75e86b96ef96b7c8decb83411f7c14c2eef7cb926ae55"
+}

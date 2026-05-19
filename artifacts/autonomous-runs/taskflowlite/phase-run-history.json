@@ -1,0 +1,149 @@
+[
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "auth-security-jwt",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T09:41:48.387Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "rbac-and-profile",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T09:43:13.398Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "team-management",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T09:45:15.356Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "task-crud",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T09:47:21.762Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "task-assignment-workload",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T09:49:20.907Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "comments",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T09:50:42.937Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "activity-audit-log",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T09:52:24.107Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "dashboard-analytics",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T09:53:49.426Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "frontend-auth-shell",
+    "success": true,
+    "attempts": 2,
+    "createdAt": "2026-05-15T09:58:13.034Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "frontend-task-board",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T10:01:08.642Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "frontend-teams-dashboard",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T10:03:00.283Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "testing-qa",
+    "success": true,
+    "attempts": 3,
+    "createdAt": "2026-05-15T10:08:54.972Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": false,
+    "attempts": 3,
+    "createdAt": "2026-05-15T10:17:03.278Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": false,
+    "attempts": 3,
+    "createdAt": "2026-05-15T11:15:48.149Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": false,
+    "attempts": 3,
+    "createdAt": "2026-05-15T11:28:01.047Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "packaging-deployment",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T11:30:24.194Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "team-management",
+    "success": false,
+    "attempts": 3,
+    "createdAt": "2026-05-15T12:37:10.163Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "project-scaffolding",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T12:50:52.788Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "database-and-entities",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T12:52:30.965Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "health-endpoint",
+    "success": true,
+    "attempts": 1,
+    "createdAt": "2026-05-15T12:53:12.748Z"
+  },
+  {
+    "project": "TaskFlowLite",
+    "phaseId": "auth-security-jwt",
+    "success": false,
+    "attempts": 3,
+    "createdAt": "2026-05-15T13:21:01.930Z"
+  }
+]

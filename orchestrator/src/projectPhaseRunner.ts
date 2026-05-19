@@ -22,6 +22,8 @@ import {
   updateProjectSyncMemory
 } from "./projectSyncMemory.js";
 import { compactProjectMemory } from "./projectMemoryCompactor.js";
+import { ensurePackagingWorkspace } from "./packagingWorkspacePreflight.js";
+import { runBackendCompileConvergence } from "./backendCompileConvergence.js";
 
 export type PhaseRunnerResult = {
   success: boolean;
@@ -201,6 +203,30 @@ export async function runProjectPhase(
     }
 
     const artifactWrite = writePhaseArtifacts(workspaceRoot, extractedArtifacts);
+
+    if (node.id === "packaging-deployment") {
+      const packagingPreflight = ensurePackagingWorkspace(projectName, workspaceRoot);
+
+      if (!packagingPreflight.success) {
+        throw new Error(
+          `Packaging workspace preflight failed: ${JSON.stringify(packagingPreflight, null, 2)}`
+        );
+      }
+    }
+
+    const backendCompile = await runBackendCompileConvergence({
+      projectName,
+      phaseId: node.id,
+      phaseName: node.name,
+      workspaceRoot
+    });
+
+    if (!backendCompile.success) {
+      throw new Error(
+        `Backend compile convergence failed for ${node.id}: ${JSON.stringify(backendCompile, null, 2)}`
+      );
+    }
+
     const buildConvergence = runSelfHealingBuildLoop(workspaceRoot);
 
     if (!buildConvergence.success) {

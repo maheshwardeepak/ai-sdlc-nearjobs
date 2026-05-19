@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "project": "workertest",
+  "projectSlug": "workertest",
+  "loadedAt": "2026-05-19T05:38:50.768Z",
+  "updatedAt": "2026-05-19T05:38:54.577Z",
+  "phases": {
+    "shell-worker-with-retry": {
+      "id": "shell-worker-with-retry",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:38:54.414Z",
+      "completedAt": "2026-05-19T05:38:54.521Z",
+      "lastExitCode": 0,
+      "lastStdout": "Worker stdout: /Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/shell-worker-with-retry/2026-05-19T05-38-54-467Z-attempt-2.stdout.log",
+      "lastStderr": "Worker stderr: /Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/shell-worker-with-retry/2026-05-19T05-38-54-467Z-attempt-2.stderr.log",
+      "lastWorker": {
+        "success": true,
+        "exitCode": 0,
+        "stdoutPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/shell-worker-with-retry/2026-05-19T05-38-54-467Z-attempt-2.stdout.log",
+        "stderrPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/shell-worker-with-retry/2026-05-19T05-38-54-467Z-attempt-2.stderr.log",
+        "errorSignature": "0903e15604230d986fe75e86b96ef96b7c8decb83411f7c14c2eef7cb926ae55",
+        "attempts": 2,
+        "timedOut": false,
+        "workerType": "shell"
+      },
+      "lastValidation": {
+        "success": true,
+        "ranAt": "2026-05-19T05:38:54.521Z",
+        "results": [
+          {
+            "validatorId": "shell-worker-output-exists",
+            "type": "shell",
+            "exitCode": 0,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/shell-worker-with-retry/2026-05-19T05-38-54-518Z-shell-worker-output-exists.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/shell-worker-with-retry/2026-05-19T05-38-54-518Z-shell-worker-output-exists.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/shell-worker-with-retry/2026-05-19T05-38-54-518Z-shell-worker-output-exists.stderr.log"
+          }
+        ]
+      }
+    },
+    "codex-worker-placeholder": {
+      "id": "codex-worker-placeholder",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:38:54.521Z",
+      "completedAt": "2026-05-19T05:38:54.577Z",
+      "lastExitCode": 0,
+      "lastStdout": "Worker stdout: /Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/codex-worker-placeholder/2026-05-19T05-38-54-522Z-attempt-1.stdout.log",
+      "lastStderr": "Worker stderr: /Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/codex-worker-placeholder/2026-05-19T05-38-54-522Z-attempt-1.stderr.log",
+      "lastWorker": {
+        "success": true,
+        "exitCode": 0,
+        "stdoutPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/codex-worker-placeholder/2026-05-19T05-38-54-522Z-attempt-1.stdout.log",
+        "stderrPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/worker-logs/codex-worker-placeholder/2026-05-19T05-38-54-522Z-attempt-1.stderr.log",
+        "errorSignature": "c67ab395e46c47bb81a1abcfe69a889727a9521fede4d670ad2954080d314af8",
+        "attempts": 1,
+        "timedOut": false,
+        "workerType": "codex-placeholder"
+      },
+      "lastValidation": {
+        "success": true,
+        "ranAt": "2026-05-19T05:38:54.577Z",
+        "results": [
+          {
+            "validatorId": "placeholder-ran",
+            "type": "shell",
+            "exitCode": 0,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/codex-worker-placeholder/2026-05-19T05-38-54-573Z-placeholder-ran.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/codex-worker-placeholder/2026-05-19T05-38-54-573Z-placeholder-ran.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertest/logs/codex-worker-placeholder/2026-05-19T05-38-54-573Z-placeholder-ran.stderr.log"
+          }
+        ]
+      }
+    }
+  }
+}

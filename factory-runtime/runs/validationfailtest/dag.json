@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "project": "validationfailtest",
+  "phases": [
+    {
+      "id": "phase-command-passes-validation-fails",
+      "name": "Phase command passes but validation fails",
+      "dependsOn": [],
+      "command": "node -e \"console.log('phase command passed');\"",
+      "validators": [
+        {
+          "id": "intentional-missing-output",
+          "name": "Intentional missing output validation",
+          "type": "shell",
+          "command": "test -f outputs/does-not-exist.txt"
+        }
+      ]
+    }
+  ]
+}

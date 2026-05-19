@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "project": "workertest",
+  "phases": [
+    {
+      "id": "shell-worker-with-retry",
+      "name": "Shell worker succeeds after retry",
+      "dependsOn": [],
+      "worker": {
+        "type": "shell",
+        "command": "node -e \"const fs = require('fs'); fs.mkdirSync('outputs', { recursive: true }); const marker = 'outputs/retry-marker.txt'; if (!fs.existsSync(marker)) { fs.writeFileSync(marker, 'first attempt failed\\n'); console.error('intentional first-attempt worker failure'); process.exit(7); } fs.writeFileSync('outputs/shell-worker.txt', 'shell worker complete\\n'); console.log('shell worker passed on retry');\"",
+        "timeoutMs": 5000,
+        "retries": 1
+      },
+      "validators": [
+        {
+          "id": "shell-worker-output-exists",
+          "name": "Validate shell worker output",
+          "type": "shell",
+          "command": "test -f outputs/shell-worker.txt"
+        }
+      ]
+    },
+    {
+      "id": "codex-worker-placeholder",
+      "name": "Codex worker placeholder phase",
+      "dependsOn": ["shell-worker-with-retry"],
+      "worker": {
+        "type": "codex-placeholder",
+        "prompt": "Generate future phase implementation through Codex worker placeholder.",
+        "timeoutMs": 5000,
+        "retries": 0
+      },
+      "validators": [
+        {
+          "id": "placeholder-ran",
+          "name": "Validate placeholder phase reached",
+          "type": "shell",
+          "command": "test -f outputs/shell-worker.txt"
+        }
+      ]
+    }
+  ]
+}

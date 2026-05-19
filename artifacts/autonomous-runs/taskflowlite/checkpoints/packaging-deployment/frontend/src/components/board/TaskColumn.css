@@ -1,0 +1,44 @@
+.task-column {
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.task-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.task-column-header h2 {
+  margin: 0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #374151;
+}
+
+.task-column-count {
+  background: white;
+  border-radius: 999px;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.task-column-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-column-empty {
+  color: #9ca3af;
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 1rem 0;
+}

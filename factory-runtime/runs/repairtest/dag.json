@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "project": "repairtest",
+  "phases": [
+    {
+      "id": "repairable-validation",
+      "name": "Repair missing validation artifact",
+      "dependsOn": [],
+      "command": "node -e \"console.log('phase command passed before artifact exists');\"",
+      "validators": [
+        {
+          "id": "artifact-exists",
+          "name": "Validate repaired artifact",
+          "type": "shell",
+          "command": "test -f outputs/repaired.txt"
+        }
+      ],
+      "repairs": [
+        {
+          "id": "create-repaired-artifact",
+          "name": "Create repaired artifact",
+          "command": "node -e \"const fs = require('fs'); fs.mkdirSync('outputs', { recursive: true }); fs.writeFileSync('outputs/repaired.txt', 'repaired\\n'); console.log('repair created artifact');\""
+        }
+      ]
+    },
+    {
+      "id": "post-repair-continuation",
+      "name": "Continue after repair",
+      "dependsOn": ["repairable-validation"],
+      "command": "node -e \"const fs = require('fs'); fs.writeFileSync('outputs/continued.txt', 'continued\\n'); console.log('continued after repair');\"",
+      "validators": [
+        {
+          "id": "continued-output-exists",
+          "name": "Validate continuation output",
+          "type": "shell",
+          "command": "test -f outputs/continued.txt"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "project": "workertimeout",
+  "projectSlug": "workertimeout",
+  "status": "PHASE_FAILED_REPAIRING",
+  "createdAt": "2026-05-19T05:39:09.665Z",
+  "updatedAt": "2026-05-19T05:39:16.598Z",
+  "plan": {
+    "id": "initial-plan",
+    "createdAt": "2026-05-19T05:39:09.665Z",
+    "approvedAt": "2026-05-19T05:39:12.328Z",
+    "approvedBy": "human"
+  },
+  "policy": {
+    "humanGate": "planning",
+    "postPlanMode": "autonomous"
+  }
+}

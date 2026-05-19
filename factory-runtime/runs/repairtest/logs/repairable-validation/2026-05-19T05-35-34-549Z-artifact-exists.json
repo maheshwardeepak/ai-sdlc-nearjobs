@@ -1,0 +1,15 @@
+{
+  "validatorId": "artifact-exists",
+  "validatorName": "Validate repaired artifact",
+  "type": "shell",
+  "command": "test -f outputs/repaired.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest",
+  "startedAt": "2026-05-19T05:35:34.549Z",
+  "completedAt": "2026-05-19T05:35:34.552Z",
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/repairable-validation/2026-05-19T05-35-34-549Z-artifact-exists.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/repairable-validation/2026-05-19T05-35-34-549Z-artifact-exists.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/repairable-validation/2026-05-19T05-35-34-549Z-artifact-exists.stderr.log"
+}

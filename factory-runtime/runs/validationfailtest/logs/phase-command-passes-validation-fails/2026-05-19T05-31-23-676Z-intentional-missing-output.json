@@ -1,0 +1,15 @@
+{
+  "validatorId": "intentional-missing-output",
+  "validatorName": "Intentional missing output validation",
+  "type": "shell",
+  "command": "test -f outputs/does-not-exist.txt",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationfailtest",
+  "startedAt": "2026-05-19T05:31:23.676Z",
+  "completedAt": "2026-05-19T05:31:23.680Z",
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "",
+  "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationfailtest/logs/phase-command-passes-validation-fails/2026-05-19T05-31-23-676Z-intentional-missing-output.json",
+  "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationfailtest/logs/phase-command-passes-validation-fails/2026-05-19T05-31-23-676Z-intentional-missing-output.stdout.log",
+  "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/validationfailtest/logs/phase-command-passes-validation-fails/2026-05-19T05-31-23-676Z-intentional-missing-output.stderr.log"
+}

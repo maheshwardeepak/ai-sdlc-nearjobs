@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "project": "repairtest",
+  "projectSlug": "repairtest",
+  "loadedAt": "2026-05-19T05:35:31.764Z",
+  "updatedAt": "2026-05-19T05:35:34.605Z",
+  "phases": {
+    "repairable-validation": {
+      "id": "repairable-validation",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:35:34.445Z",
+      "completedAt": "2026-05-19T05:35:34.552Z",
+      "repairingAt": "2026-05-19T05:35:34.499Z",
+      "lastExitCode": 0,
+      "lastStdout": "phase command passed before artifact exists\n",
+      "lastStderr": "",
+      "lastValidation": {
+        "success": true,
+        "ranAt": "2026-05-19T05:35:34.552Z",
+        "results": [
+          {
+            "validatorId": "artifact-exists",
+            "type": "shell",
+            "exitCode": 0,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/repairable-validation/2026-05-19T05-35-34-549Z-artifact-exists.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/repairable-validation/2026-05-19T05-35-34-549Z-artifact-exists.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/repairable-validation/2026-05-19T05-35-34-549Z-artifact-exists.stderr.log"
+          }
+        ]
+      }
+    },
+    "post-repair-continuation": {
+      "id": "post-repair-continuation",
+      "status": "PASSED",
+      "attempts": 1,
+      "startedAt": "2026-05-19T05:35:34.552Z",
+      "completedAt": "2026-05-19T05:35:34.605Z",
+      "lastExitCode": 0,
+      "lastStdout": "continued after repair\n",
+      "lastStderr": "",
+      "lastValidation": {
+        "success": true,
+        "ranAt": "2026-05-19T05:35:34.605Z",
+        "results": [
+          {
+            "validatorId": "continued-output-exists",
+            "type": "shell",
+            "exitCode": 0,
+            "resultLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/post-repair-continuation/2026-05-19T05-35-34-602Z-continued-output-exists.json",
+            "stdoutLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/post-repair-continuation/2026-05-19T05-35-34-602Z-continued-output-exists.stdout.log",
+            "stderrLogPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/repairtest/logs/post-repair-continuation/2026-05-19T05-35-34-602Z-continued-output-exists.stderr.log"
+          }
+        ]
+      }
+    }
+  }
+}

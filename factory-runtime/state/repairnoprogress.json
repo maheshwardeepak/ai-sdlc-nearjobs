@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "project": "repairnoprogress",
+  "projectSlug": "repairnoprogress",
+  "status": "RUNTIME_FAILED",
+  "createdAt": "2026-05-19T05:35:37.408Z",
+  "updatedAt": "2026-05-19T05:35:51.739Z",
+  "plan": {
+    "id": "initial-plan",
+    "createdAt": "2026-05-19T05:35:37.408Z",
+    "approvedAt": "2026-05-19T05:35:39.887Z",
+    "approvedBy": "human"
+  },
+  "policy": {
+    "humanGate": "planning",
+    "postPlanMode": "autonomous"
+  }
+}

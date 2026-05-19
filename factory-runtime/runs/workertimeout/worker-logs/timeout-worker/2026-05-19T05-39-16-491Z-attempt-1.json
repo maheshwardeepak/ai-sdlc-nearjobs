@@ -1,0 +1,17 @@
+{
+  "attempt": 1,
+  "workerType": "shell",
+  "command": "node -e \"setTimeout(() => console.log('too late'), 1000);\"",
+  "cwd": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout",
+  "timeoutMs": 100,
+  "startedAt": "2026-05-19T05:39:16.491Z",
+  "completedAt": "2026-05-19T05:39:16.597Z",
+  "exitCode": 124,
+  "timedOut": true,
+  "stdout": "",
+  "stderr": "",
+  "stdoutPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout/worker-logs/timeout-worker/2026-05-19T05-39-16-491Z-attempt-1.stdout.log",
+  "stderrPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout/worker-logs/timeout-worker/2026-05-19T05-39-16-491Z-attempt-1.stderr.log",
+  "resultPath": "/Users/nanofactory/ai-sdlc-factory/factory-runtime/runs/workertimeout/worker-logs/timeout-worker/2026-05-19T05-39-16-491Z-attempt-1.json",
+  "errorSignature": "ee06bcb8b093f4785723b387278ffb588226b6a928591f4ef2dac71a48b5a930"
+}

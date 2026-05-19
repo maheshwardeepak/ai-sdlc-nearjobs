@@ -496,7 +496,24 @@ export async function generateStackInfra(outputRoot = "artifacts/infra"): Promis
   return output;
 }
 
-function findWorkerAppRoot(workspaceRoot: string, appName: "backend" | "frontend"): string | null {
+function findWorkerAppRoot(
+  workspaceRoot: string,
+  type: "backend" | "frontend"
+): string | null {
+  const directRoot = path.join(workspaceRoot, type);
+
+  if (fs.existsSync(directRoot)) {
+    const valid =
+      type === "backend"
+        ? fs.existsSync(path.join(directRoot, "pom.xml")) ||
+          fs.existsSync(path.join(directRoot, "build.gradle"))
+        : fs.existsSync(path.join(directRoot, "package.json"));
+
+    if (valid) {
+      return directRoot;
+    }
+  }
+
   const workersRoot = path.join(workspaceRoot, "workers");
 
   if (!fs.existsSync(workersRoot)) {
@@ -506,20 +523,15 @@ function findWorkerAppRoot(workspaceRoot: string, appName: "backend" | "frontend
   for (const worker of fs.readdirSync(workersRoot, { withFileTypes: true })) {
     if (!worker.isDirectory()) continue;
 
-    const appRoot = path.join(workersRoot, worker.name, appName);
+    const appRoot = path.join(workersRoot, worker.name, type);
 
-    const markers = [
-      "package.json",
-      "pom.xml",
-      "build.gradle",
-      "go.mod",
-      "pyproject.toml",
-      "Cargo.toml"
-    ];
+    if (!fs.existsSync(appRoot)) continue;
 
-    const found = markers.some((marker) =>
-      fs.existsSync(path.join(appRoot, marker))
-    );
+    const found =
+      type === "backend"
+        ? fs.existsSync(path.join(appRoot, "pom.xml")) ||
+          fs.existsSync(path.join(appRoot, "build.gradle"))
+        : fs.existsSync(path.join(appRoot, "package.json"));
 
     if (found) {
       return appRoot;

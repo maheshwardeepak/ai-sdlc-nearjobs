@@ -1,0 +1,471 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: taskflow-postgres
+    environment:
+      POSTGRES_DB: taskflow
+      POSTGRES_USER: taskflow
+      POSTGRES_PASSWORD: ***
+    ports:
+      - "5432:5432"
+    volumes:
+      - taskflow_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taskflow -d taskflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  taskflow_pgdata:
+
+// ===== AI MERGE APPEND =====
+
+version: '3.9'
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: taskflowlite-postgres
+    environment:
+      POSTGRES_DB: taskflowlite
+      POSTGRES_USER: taskflow
+      POSTGRES_PASSWORD: ***
+    ports:
+      - '5432:5432'
+    volumes:
+      - taskflowlite_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U taskflow -d taskflowlite']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  taskflowlite_pg_data:
+
+// ===== AI MERGE APPEND =====
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: taskflowlite-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-taskflowlite}
+      POSTGRES_USER: ${POSTGRES_USER:-taskflow}
+      POSTGRES_PASSWORD: ${POST…low}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taskflow} -d ${POSTGRES_DB:-taskflowlite}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - taskflownet
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: taskflowlite-backend:latest
+    container_name: taskflowlite-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-taskflowlite}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-taskflow}
+      SPRING_DATASOURCE_PASSWORD: ${POST…low}
+      APP_JWT_SECRET: ${APP_…ret}
+      APP_JWT_EXPIRATION_MS: ${APP_JWT_EXPIRATION_MS:-86400000}
+      APP_JWT_ISSUER: ${APP_JWT_ISSUER:-taskflowlite}
+      SERVER_PORT: "8080"
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - taskflownet
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: /api
+    image: taskflowlite-frontend:latest
+    container_name: taskflowlite-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+    networks:
+      - taskflownet
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  taskflownet:
+    driver: bridge
+
+// ===== AI MERGE APPEND =====
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: taskflowlite-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-taskflow}
+      POSTGRES_PASSWORD: ${POST…low}
+      POSTGRES_DB: ${POSTGRES_DB:-taskflowlite}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taskflow} -d ${POSTGRES_DB:-taskflowlite}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - taskflow-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: taskflowlite-backend:latest
+    container_name: taskflowlite-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-taskflowlite}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-taskflow}
+      SPRING_DATASOURCE_PASSWORD: ${POST…low}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
+      APP_JWT_SECRET: ${APP_…ing}
+      APP_JWT_EXPIRATION_MS: ${APP_JWT_EXPIRATION_MS:-86400000}
+      SERVER_PORT: "8080"
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - taskflow-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: /api
+    image: taskflowlite-frontend:latest
+    container_name: taskflowlite-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+    networks:
+      - taskflow-net
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  taskflow-net:
+    driver: bridge
+
+// ===== AI MERGE APPEND =====
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: taskflowlite-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-taskflowlite}
+      POSTGRES_USER: ${POSTGRES_USER:-taskflowlite}
+      POSTGRES_PASSWORD: ${POST…ite}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taskflowlite} -d ${POSTGRES_DB:-taskflowlite}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - taskflowlite
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: taskflowlite/backend:latest
+    container_name: taskflowlite-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-taskflowlite}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-taskflowlite}
+      SPRING_DATASOURCE_PASSWORD: ${POST…ite}
+      APP_JWT_SECRET: ${APP_…ing}
+      APP_JWT_EXPIRATION_MS: ${APP_JWT_EXPIRATION_MS:-86400000}
+      APP_JWT_ISSUER: ${APP_JWT_ISSUER:-taskflowlite}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - taskflowlite
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: /api
+    image: taskflowlite/frontend:latest
+    container_name: taskflowlite-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    networks:
+      - taskflowlite
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  taskflowlite:
+    driver: bridge
+
+// ===== AI MERGE APPEND =====
+
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: taskflowlite-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-taskflowlite}
+      POSTGRES_USER: ${POSTGRES_USER:-taskflowlite}
+      POSTGRES_PASSWORD: ${POST…ite}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taskflowlite} -d ${POSTGRES_DB:-taskflowlite}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: taskflowlite-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-taskflowlite}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-taskflowlite}
+      SPRING_DATASOURCE_PASSWORD: ${POST…ite}
+      JWT_SECRET: ${JWT_…min}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-86400000}
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: taskflowlite-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  postgres_data:
+    driver: local
+
+// ===== AI MERGE APPEND =====
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: taskflowlite-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-taskflowlite}
+      POSTGRES_USER: ${POSTGRES_USER:-taskflowlite}
+      POSTGRES_PASSWORD: ${POST…ite}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taskflowlite} -d ${POSTGRES_DB:-taskflowlite}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - taskflowlite-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: taskflowlite-backend:latest
+    container_name: taskflowlite-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-taskflowlite}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-taskflowlite}
+      SPRING_DATASOURCE_PASSWORD: ${POST…ite}
+      JWT_SECRET: ${JWT_…890}
+      JWT_ISSUER: ${JWT_ISSUER:-taskflowlite}
+      JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES:-1440}
+      SERVER_PORT: 8080
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - taskflowlite-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: /api
+    image: taskflowlite-frontend:latest
+    container_name: taskflowlite-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    networks:
+      - taskflowlite-net
+
+volumes:
+  postgres-data:
+    driver: local
+
+networks:
+  taskflowlite-net:
+    driver: bridge
+
+// ===== AI MERGE APPEND =====
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: taskflowlite-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-taskflowlite}
+      POSTGRES_USER: ${POSTGRES_USER:-taskflowlite}
+      POSTGRES_PASSWORD: ${POST…ite}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - taskflowlite-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taskflowlite} -d ${POSTGRES_DB:-taskflowlite}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: taskflowlite-backend:latest
+    container_name: taskflowlite-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-taskflowlite}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-taskflowlite}
+      SPRING_DATASOURCE_PASSWORD: ${POST…ite}
+      JWT_SECRET: ${JWT_…ret}
+      JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES:-60}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: /api
+    image: taskflowlite-frontend:latest
+    container_name: taskflowlite-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+
+volumes:
+  taskflowlite-db-data:
+    driver: local
